@@ -9,7 +9,7 @@ const windowWidth = Dimensions.get('window').width;
 const BOTTOM = 51
 
 export default () => {
-    let engine = Matter.engine.create({ enableSleeping: false })
+    let engine = Matter.Engine.create({ enableSleeping: false })
 
     let world = engine.world;
 

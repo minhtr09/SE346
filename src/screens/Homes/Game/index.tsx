@@ -22,7 +22,7 @@ const Game = () => {
 
    return (
     <GameEngine
-    systems={[Physics]}
+      systems={[Physics]}
       ref={gameEngineRef}
       running={running}
       entities={entities()}
