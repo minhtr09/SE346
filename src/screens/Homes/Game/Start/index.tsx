@@ -1,10 +1,9 @@
 import { View, Image, TouchableWithoutFeedback, TouchableOpacity, Text } from "react-native";
 import React, { useRef, useState, useEffect } from "react";
-import { WalletConnectModal, useWalletConnectModal } from '@walletconnect/modal-react-native'
 import LOGO from "../../../../assets/images/logo.png";
 import PLAY from "../../../../assets/images/play.png";
 import MESSAGE from "../../../../assets/images/message.png";
-
+import BACKGROUND from '../../../../assets/images/background.png'
 import { styles } from "./styles";
 
 
@@ -26,32 +25,19 @@ const providerMetadata = {
 
 const Start = ({ handleOnStartGame }) => {
     const [isGameOver, setIsGameOver] = useState(false);
-    const { isOpen, open, close, provider, isConnected, address } = useWalletConnectModal();
-    const handleWalletConnectButton = async () => {
-        if (isConnected) {
-            return provider?.disconnect();
-        }
-        return open();
-    }
 
 
     return (
         <View style={styles.container}>
-            <Image source={MESSAGE} style={styles.logo} />
-            {isConnected ? (
-                <TouchableWithoutFeedback onPress={handleOnStartGame}>
-                    <Image source={PLAY} style={styles.playButton} />
-                </TouchableWithoutFeedback>
-            ) : (
-                <TouchableOpacity style={styles.connectButton} onPress={handleWalletConnectButton}>
-                    <Text style={styles.monospaceText}>Connect Wallet</Text>
-                </TouchableOpacity>
-            )}
+            <Image source={LOGO} style={styles.logo} />
+            <TouchableWithoutFeedback onPress={handleOnStartGame} >
+                <Image source={PLAY} style={styles.playButton}></Image>
+            </TouchableWithoutFeedback>
 
-            <WalletConnectModal projectId={projectId} providerMetadata={providerMetadata} />
 
         </View>
     );
 };
+
 
 export { Start };

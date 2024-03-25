@@ -14,16 +14,17 @@ const Game = () => {
     // TODO:
   };
 
-  // return <Start handleOnStartGame={handleOnStartGame} />;
+   return <Start handleOnStartGame={handleOnStartGame} />;
 
-  return (
+ /* return (
     <GameEngine
       ref={gameEngineRef}
       running={running}
       entities={entities()}
       style={styles.engineContainer}
     />
-  );
+  
+  );*/
 };
 
 export { Game };
