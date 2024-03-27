@@ -10,17 +10,17 @@ const Game = () => {
   const [running, setIsRunning] = useState(false);
 
   const gameEngineRef = useRef();
-  useEffect(()=>{
+  useEffect(() => {
     setIsRunning(true);
-  },[]);
+  }, []);
 
   const handleOnStartGame = () => {
     // TODO:
   };
 
-   //return <Start handleOnStartGame={handleOnStartGame} />;
+  //return <Start handleOnStartGame={handleOnStartGame} />;
 
-   return (
+  return (
     <GameEngine
       systems={[Physics]}
       ref={gameEngineRef}
@@ -28,7 +28,7 @@ const Game = () => {
       entities={entities()}
       style={styles.engineContainer}
     />
-  
+
   );
 };
 

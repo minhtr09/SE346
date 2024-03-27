@@ -1,5 +1,5 @@
 import { View, Image, TouchableWithoutFeedback, TouchableOpacity, Text } from "react-native";
-import React, { useRef, useState, useEffect } from "react";
+import React, { useRef, useState, useEffect } from 'react';
 import LOGO from "../../../../assets/images/logo.png";
 import PLAY from "../../../../assets/images/play.png";
 import MESSAGE from "../../../../assets/images/message.png";
