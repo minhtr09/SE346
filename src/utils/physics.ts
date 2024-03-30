@@ -18,15 +18,15 @@ export const Physics = (entities,{touches,time,dispatch})=>
 
     for(let index = 1;index<=2;index++)
     {
-        if(entities['ObstacleTop${index}'].Body.bounds.max.x<=0){
+        if(entities['ObstacleTop${index}'].body.bounds.max.x<=0){
             const pipeSizePos = getPipeSizePostPair(windowWidth*0.9);
 
-            Matter.Body.setPosition(entities['ObstacleTop${index}'].Body,pipeSizePos.pipeTop.pos)
-            Matter.Body.setPosition(entities['ObstacleBottom${index}'].Body,pipeSizePos.pipeBottom.pos)
+            Matter.Body.setPosition(entities['ObstacleTop${index}'].body,pipeSizePos.pipeTop.pos)
+            Matter.Body.setPosition(entities['ObstacleBottom${index}'].body,pipeSizePos.pipeBottom.pos)
 
         }
-        Matter.Body.translate(entities['ObstacleTop${index}'].Body,{x:-3,y:0})
-        Matter.Body.translate(entities['ObstacleBottom${index}'].Body,{x:-3,y:0})
+        Matter.Body.translate(entities['ObstacleTop${index}'].body,{x:-3,y:0})
+        Matter.Body.translate(entities['ObstacleBottom${index}'].body,{x:-3,y:0})
     }
 
 
