@@ -3,7 +3,7 @@ import { getPipeSizePostPair } from './random'
 import { Dimensions } from 'react-native'
 import entities from '../entities';
 
-const windowhHeight = Dimensions.get(  'window').height;
+const windowHeight = Dimensions.get(  'window').height;
 const windowWidth = Dimensions.get('window').width;
 
 export const Physics = (entities,{touches,time,dispatch})=>
