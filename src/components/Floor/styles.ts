@@ -1,12 +1,12 @@
 import { StyleSheet } from 'react-native'
 
 export const styles = ({xBody, yBody, widthBody, heightBody, color}) => StyleSheet.create({
-    floor: {
+    bird: {
         position: 'absolute',
         left: xBody,
         top: yBody,
         width: widthBody,
         height: heightBody,
-        backgroundColor: color
+        backgroundColor: color,
     }
 })
