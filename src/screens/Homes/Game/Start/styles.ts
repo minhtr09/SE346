@@ -2,9 +2,14 @@ import { StyleSheet } from "react-native";
 
 export const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    // flex: 1,
+    // justifyContent: "center",
+    // alignItems: "center",
+    height: "100%",
+    display: "flex",
     justifyContent: "center",
     alignItems: "center",
+    alignContent: "center",
   },
   logo: {
     width: 230,
@@ -17,7 +22,6 @@ export const styles = StyleSheet.create({
   },
   connectButton: {
     marginTop: 32,
-
     backgroundColor: "#54cd64",
     flexDirection: "row", // Use 'row' for horizontal arrangement
     justifyContent: "center",
@@ -41,5 +45,45 @@ export const styles = StyleSheet.create({
     fontWeight: "bold", // System monospace font
     fontSize: 16, // Set your desired font size
     color: "white", // Set your desired text color (optional)
+  },
+  ownedNFT: {
+    backgroundColor: "#eee",
+    width: "100%",
+    height: undefined,
+    marginTop: 20,
+    borderRadius: 8,
+    padding: 20,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  ownedNFTImage: {
+    width: "100%",
+    height: undefined,
+    borderRadius: 8,
+  },
+  card: {
+    backgroundColor: "#fff",
+    borderRadius: 8,
+    padding: 15,
+    margin: 5,
+    marginBottom: 20,
+    elevation: 3,
+    width: "100%",
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.3,
+    shadowRadius: 2,
+  },
+  connectedView: {
+    height: "100%",
+    display: "flex",
+    justifyContent: "flex-start",
+    alignItems: "flex-start",
+    alignContent: "center",
+    padding: 20,
+  },
+  scrollView: {
+    width: "100%",
+    alignItems: "center", // Center elements horizontally
   },
 });

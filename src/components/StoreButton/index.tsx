@@ -8,16 +8,13 @@ import PLAY from "../../assets/images/play.png";
 
 // Component
 // ========================================================
-export default function Connect() {
+export default function StoreButton() {
 
-    const { open } = useWeb3Modal()
-    const handleConnect = () => {
-        open();
-    }
+
     return (
         <View >
-            <TouchableOpacity style={styles.connectButton} onPress={handleConnect}>
-                <Text style={styles.monospaceText}>Connect Wallet</Text>
+            <TouchableOpacity style={styles.connectButton} >
+                <Text style={styles.monospaceText}>Store</Text>
             </TouchableOpacity>
         </View>
     );

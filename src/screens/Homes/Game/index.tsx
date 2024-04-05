@@ -1,11 +1,6 @@
-import { Start } from "./Start";
+import Start from "./Start";
 
-const Game = () => {
-    const handleOnStartGame = () => {
-        // TODO:
-    };
-
-    return <Start handleOnStartGame={handleOnStartGame} />;
+export default function Game() {
+    return <Start />;
 };
 
-export { Game };

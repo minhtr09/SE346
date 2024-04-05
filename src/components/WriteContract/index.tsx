@@ -19,7 +19,7 @@ export function WriteContract() {
         abi: crowdSaleAbi,
         functionName: 'buyTokenByMATIC',
         enabled: requestModalVisible,
-        value: parseEther('0.00001')
+        value: parseEther('0.00001'),
     });
 
     const { data, isLoading, isSuccess, isError, write } = useContractWrite(config)
