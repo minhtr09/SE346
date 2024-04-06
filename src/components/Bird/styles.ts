@@ -1,10 +1,10 @@
-import { StyleSheet } from "react-native";
+import { StyleSheet } from 'react-native'
 
 export const styles = ({xBody, yBody, widthBody, heightBody, color}) => StyleSheet.create({
     bird: {
         position: 'absolute',
         left: xBody,
-        right: yBody,
+        top: yBody,
         width: widthBody,
         height: heightBody,
         resizeMode: 'contain'

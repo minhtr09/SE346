@@ -1,9 +1,9 @@
 import { Image } from "react-native";
+import React from "react";
 import Matter from "matter-js";
+import { styles } from "./styles";
 
 import BIRD from "../../assets/images/bird.png";
-
-import { styles } from "./styles";
 
 const Bird = (props) => {
   const widthBody = props.body.bounds.max.x - props.body.bounds.min.x;

@@ -6,7 +6,7 @@ const windowWidth = Dimensions.get('window').width
 export const getRandom = (min, max) => {
     return Math.floor(Math.random() * (max - min + 1) + min)
 }
-export const getPipeSizePostPair = (addToPosX = 0) => {
+export const getPipeSizePosPair = (addToPosX = 0) => {
     let yPosTop = -getRandom(220, windowHeight - 900)
 
     const pipeTop = { pos: { x: windowWidth + addToPosX, y: yPosTop }, size: { height: 450, width: 55 } }

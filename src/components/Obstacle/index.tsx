@@ -1,13 +1,13 @@
 import { Image } from "react-native";
+import React from "react";
 import Matter from "matter-js";
+import { styles } from "./styles";
 
 import PIPE_GREEN from "../../assets/images/pipe-green.png";
 import PIPE_GREEN_INVERTED from "../../assets/images/pipe-green-inverted.png";
 
 import PIPE_ORANGE from "../../assets/images/pipe-orange.png";
 import PIPE_ORANGE_INVERTED from "../../assets/images/pipe-orange-inverted.png";
-
-import { styles } from "./styles";
 
 const Obstacle = (props) => {
   const widthBody = props.body.bounds.max.x - props.body.bounds.min.x;
@@ -35,8 +35,7 @@ const Obstacle = (props) => {
           heightBody,
           xBody,
           yBody,
-          color,
-        }).obstacle
+        }).bird
       }
     />
   );
@@ -48,7 +47,10 @@ export default (world, label, color, pos, size, isTop = false) => {
     pos.y,
     size.width,
     size.height,
-    { label, isStatic: true }
+    {
+      label,
+      isStatic: true,
+    }
   );
 
   Matter.World.add(world, [initialObstacle]);
