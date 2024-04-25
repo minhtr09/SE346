@@ -16,7 +16,7 @@ const GameOver = ({ handleBackToStart }) => {
     <View style={styles.container}>
       <Image source={GAME_OVER} style={styles.logoStyle} />
     </View>
-  );
+      );
 };
 
 export { GameOver };

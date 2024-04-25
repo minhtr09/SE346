@@ -6,10 +6,13 @@ import { styles } from "./styles";
 
 import { Start } from "./Start";
 import { GameOver } from "./GameOver";
+import { View } from "react-native";
+import { Text } from "react-native";
 
 const Game = () => {
   const [running, setIsRunning] = useState(false);
   const [isGameOver, setIsGameOver] = useState(false);
+  const [ currentPoints, setCurrentPoints ] = useState(0);
 
   const gameEngineRef = useRef();
 
@@ -32,6 +35,10 @@ const Game = () => {
     switch (e.type) {
       case "game_over":
         handleOnGameOver();
+        setCurrentPoints(0);
+        break;
+      case "new_point":
+        setCurrentPoints(currentPoints + 1);
         break;
     }
   };
@@ -47,14 +54,17 @@ const Game = () => {
   }
 
   return (
-    <GameEngine
-      systems={[Physics]}
-      running={running}
-      ref={gameEngineRef}
-      entities={entities()}
-      onEvent={handleOnEvent}
-      style={styles.engineContainer}
-    />
+    <View style={{flex: 1}}>
+      <Text style={{ textAlign: 'center', fontSize: 40, fontWeight: 'bold', margin: 20 }} >{currentPoints} </Text>
+      <GameEngine
+        systems={[Physics]}
+        running={running}
+        ref={gameEngineRef}
+        entities={entities()}
+        onEvent={handleOnEvent}
+        style={styles.engineContainer}
+      />
+    </View>
   );
 };
 
