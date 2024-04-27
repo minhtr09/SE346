@@ -14,7 +14,7 @@ import { useNavigation } from '@react-navigation/native'
 
 const Start = ({ handleOnStart }) => {
   const { isConnected, address } = useStateContext();
-  // const navigation= useNavigation()
+  // const navigation = useNavigation()
 
   const { open } = useWeb3Modal()
   const handleConnect = () => {
@@ -27,12 +27,6 @@ const Start = ({ handleOnStart }) => {
 
 
   return (
-    // <View style={styles.container}>
-    //   <Image source={LOGO} style={styles.logoStyle} />
-    //   <TouchableWithoutFeedback onPress={handleOnStart}>
-    //     <Image source={PLAY} style={styles.playStyle} />
-    //   </TouchableWithoutFeedback>
-    // </View>
 
     (<View style={styles.container}>
       <Image source={LOGO} style={styles.logo} />
