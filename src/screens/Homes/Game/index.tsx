@@ -12,7 +12,7 @@ import { Text } from "react-native";
 const Game = () => {
   const [running, setIsRunning] = useState(false);
   const [isGameOver, setIsGameOver] = useState(false);
-  const [ currentPoints, setCurrentPoints ] = useState(0);
+  const [currentPoints, setCurrentPoints] = useState(0);
 
   const gameEngineRef = useRef();
 
@@ -43,7 +43,7 @@ const Game = () => {
     }
   };
 
-  useEffect(() => {}, []);
+  useEffect(() => { }, []);
 
   if (!running && !isGameOver) {
     return <Start handleOnStart={handleOnStart} />;
@@ -54,7 +54,7 @@ const Game = () => {
   }
 
   return (
-    <View style={{flex: 1}}>
+    <View style={{ flex: 1 }}>
       <Text style={{ textAlign: 'center', fontSize: 40, fontWeight: 'bold', margin: 20 }} >{currentPoints} </Text>
       <GameEngine
         systems={[Physics]}
