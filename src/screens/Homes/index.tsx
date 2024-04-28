@@ -5,8 +5,9 @@ import BACKGROUND from "../../assets/images/background.png";
 
 import { styles } from "./styles";
 import Game from "./Game";
+import Button from "../../components/Button";
 
-const Home = () => {
+const Home = ({navigation}) => {
   return (
     <ImageBackground source={BACKGROUND} style={styles.container}>
       <Game />
