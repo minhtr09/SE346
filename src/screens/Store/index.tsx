@@ -1,10 +1,9 @@
 import React from 'react';
+import { Text } from 'react-native';
 
 const Store: React.FC = () => {
     return (
-        <div>
-            {/* Your content goes here */}
-        </div>
+      <Text>Store</Text>
     );
 };
 

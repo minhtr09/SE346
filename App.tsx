@@ -1,8 +1,9 @@
-import { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { StatusBar } from "expo-status-bar";
 import * as SplashScreen from "expo-splash-screen";
 import RootProvider from "./src/providers";
 import { NavigationContainer } from '@react-navigation/native';
+import { HeaderBackButton } from '@react-navigation/elements';
 
 import { Home } from "./src/screens/Homes";
 import { Store } from "./src/screens/Store";
@@ -35,8 +36,12 @@ export default function App() {
           <NavigationContainer>
             <StatusBar style="auto" hidden />
             <Stack.Navigator>
-              <Stack.Screen name="Home" component={Home} />
-              <Stack.Screen name="Details" component={DetailsScreen} />
+              <Stack.Screen name="Home" 
+              component={Home} 
+              options={{
+                headerShown: false
+              }} />
+              <Stack.Screen name="Store" component={Store}/>
             </Stack.Navigator>
           </NavigationContainer>
         </StateContextProvider>
