@@ -3,8 +3,8 @@ export const getCrowdSaleAddress = () =>
 export const getUsdtAddress = () =>
   "0xa602f8f82B00626B0bD6014F8aB5353E289e641c";
 export const getFloppyAddress = () =>
-  "0xCCec906001af3cF82ceb78E3f078eD04C3274C45";
+  "0xea64f6cF8a29FA439450dC65AFEe3DEE4Fe02062";
 export const getBirdAddress = () =>
-  "0x8991514B8F03eaC4b2cCAd1247d6e953E4CB6a68";
+  "0x26c25EFf885Ef34A33B265345cAAd6856E9a3cAA";
 export const getBirdMarketPlaceAddress = () =>
-  "0xE7821c706b1085183320b484f613cd2e7debb2AF";
+  "0xa66DB814adfEB07371417a9Dd9866cf26B218105";

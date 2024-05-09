@@ -16,7 +16,7 @@ export function ReadContract() {
 
     const { data, isError, isLoading, isSuccess } = useContractRead({
         //floppy address
-        address: '0xCCec906001af3cF82ceb78E3f078eD04C3274C45',
+        address: '0xea64f6cf8a29fa439450dc65afee3dee4fe02062',
         abi: floppyAbi,
         functionName: 'balanceOf',
         enabled: requestModalVisible,
@@ -27,7 +27,6 @@ export function ReadContract() {
     const onPress = () => {
         console.log(address);
         setRequetsModalVisible(true);
-        console.log(data.toString());
     };
 
     return isConnected ? (

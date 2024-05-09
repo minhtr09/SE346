@@ -14,193 +14,194 @@ import { getBirdAbi, getBirdMarketPlaceAbi, getFloppyAbi } from "../../../../con
 import React from "react";
 import NFTCard from "../../../../components/NFT";
 import { ListedNFT, NftData, NftProps } from "../../../../../type";
+import { getBirdAddress, getBirdMarketPlaceAddress } from "../../../../contracts/utils/getAddress";
 
 
 export default function Start() {
 
-    const birdAddress = "0x8991514B8F03eaC4b2cCAd1247d6e953E4CB6a68"
-    const birdABI = getBirdAbi()
-    const marketPlaceAddress = "0xE7821c706b1085183320b484f613cd2e7debb2AF"
-    const birdMarketPlaceABI = getBirdMarketPlaceAbi();
-    const { isConnected, address } = useAccount();
-    const [listedNfts, setListedNfts] = React.useState<NftData[]>([]);
-    const [userNfts, setUserNfts] = React.useState<NftData[]>([]);
+  const birdAddress = getBirdAddress()
+  const birdABI = getBirdAbi()
+  const marketPlaceAddress = getBirdMarketPlaceAddress();
+  const birdMarketPlaceABI = getBirdMarketPlaceAbi();
+  const { isConnected, address } = useAccount();
+  const [listedNfts, setListedNfts] = React.useState<NftData[]>([]);
+  const [userNfts, setUserNfts] = React.useState<NftData[]>([]);
 
-    const { open } = useWeb3Modal()
-    const handleConnect = () => {
-        open();
-    }
-    const { disconnect } = useDisconnect()
-    const handleDisconnect = () => {
-        disconnect();
-    }
-
-
-
-    // Prepare contract configurations
-    const birdContract = {
-        address: birdAddress,
-        abi: birdABI
-    }
-
-    const listedNftsUrisContractsConfig = () => {
-        const contracts = [];
-        (listedNFTsId as ListedNFT[])?.map((nft) => {
-            const contract = { ...birdContract, functionName: 'tokenURI', args: [nft?.tokenId] }
-            contracts.push(contract);
-        })
-
-        return contracts;
-    }
-    const userNftsContractsConfig = (userBalance: any) => {
-        const contracts = [];
-        userBalance = userBalance?.toString() as number;
-
-        for (let i = 0; i < userBalance; i++) {
-
-            const contract = { ...birdContract, functionName: 'tokenOfOwnerByIndex', args: [address, i] }
-            contracts.push(contract);
-        }
-        return contracts;
-    }
-    const userNftsUrisContractsConfig = () => {
-        const contracts = [];
-        allUserTokenId?.map((tokenId) => {
-            const contract = { ...birdContract, functionName: 'tokenURI', args: [tokenId?.result.toString()] }
-            contracts.push(contract);
-        })
-
-        return contracts;
-    }
-
-    //Hook read contract
-    const { data: listedNFTsId } = useContractRead({
-        address: marketPlaceAddress, // Bird Market Place address
-        abi: birdMarketPlaceABI,
-        functionName: 'getListedNfts',
-        enabled: true, onSuccess(data) {
-            console.log('Success', data)
-        },
-    });
-
-    const { data: userBalance } = useContractRead({
-        address: birdAddress, // Bird address
-        abi: birdABI,
-        functionName: 'balanceOf',
-        args: [address],
-        enabled: true, onSuccess(data) {
-            console.log('Success', data)
-        },
-    });
+  const { open } = useWeb3Modal()
+  const handleConnect = () => {
+    open();
+  }
+  const { disconnect } = useDisconnect()
+  const handleDisconnect = () => {
+    disconnect();
+  }
 
 
-    //get all listed NFTs in market place
-    const { data: listedNftsTokenURIs, isLoading: isListedNftsLoading, isSuccess: isListedNftsSuccess } = useContractReads({
-        contracts:
-            listedNftsUrisContractsConfig(),
+
+  // Prepare contract configurations
+  const birdContract = {
+    address: birdAddress,
+    abi: birdABI
+  }
+
+  const listedNftsUrisContractsConfig = () => {
+    const contracts = [];
+    (listedNFTsId as ListedNFT[])?.map((nft) => {
+      const contract = { ...birdContract, functionName: 'tokenURI', args: [nft?.tokenId] }
+      contracts.push(contract);
     })
 
-    //get user's nfts
-    const { data: allUserTokenId } = useContractReads({
-        contracts:
-            userNftsContractsConfig(userBalance),
-    })
+    return contracts;
+  }
+  const userNftsContractsConfig = (userBalance: any) => {
+    const contracts = [];
+    userBalance = userBalance?.toString() as number;
 
-    const { data: userNftsTokenURIs, isLoading: isUserNftsLoading, isSuccess: isFetchUserNftsSuccess } = useContractReads({
-        contracts:
-            userNftsUrisContractsConfig(),
-    })
+    for (let i = 0; i < userBalance; i++) {
 
-
-
-    const fetchListedNfts = async () => {
-        try {
-            const nftPromises = listedNftsTokenURIs?.map(async (uri) => {
-                const nftData = await fetch(uri?.result.toString());
-                const json = await nftData.json(); // Assuming response is JSON
-                return json
-            });
-
-            // 7. Set NFTs after all data is fetched
-            const fetchedListedNfts = await Promise.all(nftPromises);
-            setListedNfts(fetchedListedNfts);
-        } catch (error) {
-
-        }
+      const contract = { ...birdContract, functionName: 'tokenOfOwnerByIndex', args: [address, i] }
+      contracts.push(contract);
     }
-    React.useEffect(() => {
-        fetchListedNfts();
-    }, [listedNFTsId, listedNfts]);
+    return contracts;
+  }
+  const userNftsUrisContractsConfig = () => {
+    const contracts = [];
+    allUserTokenId?.map((tokenId) => {
+      const contract = { ...birdContract, functionName: 'tokenURI', args: [tokenId?.result.toString()] }
+      contracts.push(contract);
+    })
 
-    const fetchUserNfts = async () => {
-        try {
-            const nftPromises = userNftsTokenURIs?.map(async (uri) => {
-                const nftData = await fetch(uri?.result.toString());
-                const json = await nftData.json(); // Assuming response is JSON
-                return json
-            });
+    return contracts;
+  }
 
-            // 7. Set NFTs after all data is fetched
-            const fetchedUserNfts = await Promise.all(nftPromises);
-            setUserNfts(fetchedUserNfts);
-        } catch (error) {
-            console.error('Error fetching NFTs:', error);
-            // Handle fetching errors appropriately (e.g., display error message)
+  //Hook read contract
+  const { data: listedNFTsId } = useContractRead({
+    address: marketPlaceAddress, // Bird Market Place address
+    abi: birdMarketPlaceABI,
+    functionName: 'getListedNfts',
+    enabled: true, onSuccess(data) {
+      console.log('Success', data)
+    },
+  });
+
+  const { data: userBalance } = useContractRead({
+    address: birdAddress, // Bird address
+    abi: birdABI,
+    functionName: 'balanceOf',
+    args: [address],
+    enabled: true, onSuccess(data) {
+      console.log('Success', data)
+    },
+  });
+
+
+  //get all listed NFTs in market place
+  const { data: listedNftsTokenURIs, isLoading: isListedNftsLoading, isSuccess: isListedNftsSuccess } = useContractReads({
+    contracts:
+      listedNftsUrisContractsConfig(),
+  })
+
+  //get user's nfts
+  const { data: allUserTokenId } = useContractReads({
+    contracts:
+      userNftsContractsConfig(userBalance),
+  })
+
+  const { data: userNftsTokenURIs, isLoading: isUserNftsLoading, isSuccess: isFetchUserNftsSuccess } = useContractReads({
+    contracts:
+      userNftsUrisContractsConfig(),
+  })
+
+
+
+  const fetchListedNfts = async () => {
+    try {
+      const nftPromises = listedNftsTokenURIs?.map(async (uri) => {
+        const nftData = await fetch(uri?.result.toString());
+        const json = await nftData.json(); // Assuming response is JSON
+        return json
+      });
+
+      // 7. Set NFTs after all data is fetched
+      const fetchedListedNfts = await Promise.all(nftPromises);
+      setListedNfts(fetchedListedNfts);
+    } catch (error) {
+
+    }
+  }
+  React.useEffect(() => {
+    fetchListedNfts();
+  }, [listedNFTsId, listedNfts]);
+
+  const fetchUserNfts = async () => {
+    try {
+      const nftPromises = userNftsTokenURIs?.map(async (uri) => {
+        const nftData = await fetch(uri?.result.toString());
+        const json = await nftData.json(); // Assuming response is JSON
+        return json
+      });
+
+      // 7. Set NFTs after all data is fetched
+      const fetchedUserNfts = await Promise.all(nftPromises);
+      setUserNfts(fetchedUserNfts);
+    } catch (error) {
+      console.error('Error fetching NFTs:', error);
+      // Handle fetching errors appropriately (e.g., display error message)
+    }
+  };
+  React.useEffect(() => {
+    fetchUserNfts();
+  }, [userBalance, userNfts]);
+
+
+  return (
+    <>
+      {isConnected ? (<View style={styles.connectedView}>
+        <View style={styles.card}>
+          <Text>
+            NFT for sells:
+          </Text>
+          <ScrollView horizontal={true} showsHorizontalScrollIndicator={false} >
+            {isListedNftsSuccess && listedNfts && listedNfts.length > 0 ? (listedNfts?.map((nft, index) => {
+              return <NFTCard nft={nft} isLoading={isListedNftsLoading} id={listedNFTsId[index]?.tokenId} price={listedNFTsId[index]?.price.toString() as number} isTransfer={true} isList={false} />
+            })) : (
+              <Text>No Collectibles</Text>
+            )}
+          </ScrollView>
+        </View>
+        <View style={styles.card}>
+          <Text>
+            Owned NFT:
+          </Text>
+          <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
+            {isFetchUserNftsSuccess && userNfts && userNfts.length > 0 ? (userNfts?.map((nft, index) => {
+              return <NFTCard nft={nft} isLoading={isUserNftsLoading} id={allUserTokenId[index]?.result as number} price={0} isTransfer={false} isList={true} />
+            })) : (
+              <Text>No Collectibles</Text>
+            )}
+          </ScrollView>
+
+        </View>
+        {/* <Button text="Disconnect Wallet" onPress={handleDisconnect} /> */}
+        <ReadContract />
+
+      </View>) : (<View style={styles.container}>
+
+        <Image source={LOGO} style={styles.logo} />
+
+        <TouchableOpacity>
+          <Image source={PLAY} style={styles.playButton} />
+        </TouchableOpacity>
+        <StoreButton />
+        {
+          !isConnected &&
+          <Button text="Connect Wallet" onPress={handleConnect} />
         }
-    };
-    React.useEffect(() => {
-        fetchUserNfts();
-    }, [userBalance, userNfts]);
+      </View>)}
 
 
-    return (
-        <>
-            {isConnected ? (<View style={styles.connectedView}>
-                <View style={styles.card}>
-                    <Text>
-                        NFT for sells:
-                    </Text>
-                    <ScrollView horizontal={true} showsHorizontalScrollIndicator={false} >
-                        {isListedNftsSuccess && listedNfts && listedNfts.length > 0 ? (listedNfts?.map((nft, index) => {
-                            return <NFTCard nft={nft} isLoading={isListedNftsLoading} id={listedNFTsId[index]?.tokenId} price={listedNFTsId[index]?.price.toString() as number} isTransfer={true} isList={false} />
-                        })) : (
-                            <Text>No Collectibles</Text>
-                        )}
-                    </ScrollView>
-                </View>
-                <View style={styles.card}>
-                    <Text>
-                        Owned NFT:
-                    </Text>
-                    <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
-                        {isFetchUserNftsSuccess && userNfts && userNfts.length > 0 ? (userNfts?.map((nft, index) => {
-                            return <NFTCard nft={nft} isLoading={isUserNftsLoading} id={allUserTokenId[index]?.result as number} price={0} isTransfer={false} isList={true} />
-                        })) : (
-                            <Text>No Collectibles</Text>
-                        )}
-                    </ScrollView>
+    </>
 
-                </View>
-                {/* <Button text="Disconnect Wallet" onPress={handleDisconnect} /> */}
-                <WriteContract />
-
-            </View>) : (<View style={styles.container}>
-
-                <Image source={LOGO} style={styles.logo} />
-
-                <TouchableOpacity>
-                    <Image source={PLAY} style={styles.playButton} />
-                </TouchableOpacity>
-                <StoreButton />
-                {
-                    !isConnected &&
-                    <Button text="Connect Wallet" onPress={handleConnect} />
-                }
-            </View>)}
-
-
-        </>
-
-    );
+  );
 };
 
