@@ -20,6 +20,12 @@ export default () => {
     const pipeSizePosA = getPipeSizePosPair();
     const pipeSizePosB = getPipeSizePosPair( windowsWidth * 0.9);
 
+    // Calculate the y position of the bottom of the bottom obstacle
+    const obstacleBottomY = pipeSizePosA.pipeBottom.pos.y + pipeSizePosA.pipeBottom.size.height;
+
+// Set the y position of the floor to be the same as the bottom of the bottom obstacle
+    const floorY = obstacleBottomY;
+
     console.log(pipeSizePosA);
 
     return {
@@ -32,6 +38,6 @@ export default () => {
         ObstacleTop2: Obstacle(world, 'ObstacleTop2', 'green', pipeSizePosB.pipeTop.pos, pipeSizePosB.pipeTop.size, true),
         ObstacleBottom2: Obstacle(world, 'ObstacleBottom2', 'green', pipeSizePosB.pipeBottom.pos, pipeSizePosB.pipeBottom.size, false),
         
-        Floor: Floor(world, '#E1D694', {x: windowsWidth / 2, y: windowsHeight - 17}, {height: BOTTOM + 20,  width: windowsWidth})
+        Floor: Floor(world, '#E1D694', {x: windowsWidth / 2, y: floorY}, {height: BOTTOM + 20,  width: windowsWidth})
     }
 }
