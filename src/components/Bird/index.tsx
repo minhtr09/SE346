@@ -3,7 +3,11 @@ import React from "react";
 import Matter from "matter-js";
 import { styles } from "./styles";
 
-import BIRD from "../../assets/images/bird.png";
+import BLUE_BIRD from "../../assets/images/bluebird-midflap.png";
+import RED_BIRD from "../../assets/images/redbird-midflap.png";
+import YELLOW_BIRD from "../../assets/images/yellowbird-midflap.png";
+import BIRD from "../../assets/images/01.png";
+
 
 const Bird = (props) => {
   const widthBody = props.body.bounds.max.x - props.body.bounds.min.x;

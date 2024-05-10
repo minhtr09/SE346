@@ -68,18 +68,18 @@ const Game = () => {
 
   const renderImage = (Points) => {
     if (Points < 10) {
-      return <Image source={numberImages[Points]} style={{ width: 50, height: 60, alignSelf: 'center', marginTop: 10 }} />;
+      return <Image source={numberImages[Points]} style={{ width: 50, height: 70, alignSelf: 'center', marginTop: 20 }} />;
     } else {
-        const firstDigit = Math.floor(Points / 10);
-        const secondDigit = Points % 10;
-        return (
-          <View style={{ flexDirection: 'row', alignSelf: 'center', marginTop: 10 }}>
-            <Image source={numberImages[firstDigit]} style={{ width: 50, height: 60 }} />
-            <Image source={numberImages[secondDigit]} style={{ width: 50, height: 60 }} />
-          </View>
-        );
-      }
-    };
+      const firstDigit = Math.floor(Points / 10);
+      const secondDigit = Points % 10;
+      return (
+        <View style={{ flexDirection: 'row', alignSelf: 'center', marginTop: 20 }}>
+          <Image source={numberImages[firstDigit]} style={{ width: 50, height: 70 }} />
+          <Image source={numberImages[secondDigit]} style={{ width: 50, height: 70 }} />
+        </View>
+      );
+    }
+  };
 
 
   if (!running && !isGameOver) {

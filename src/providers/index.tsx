@@ -1,6 +1,6 @@
 import '@walletconnect/react-native-compat'
 import { WagmiConfig } from 'wagmi'
-import { polygonMumbai } from 'viem/chains'
+import { bscTestnet, polygonMumbai } from 'viem/chains'
 import { createWeb3Modal, defaultWagmiConfig, Web3Modal } from '@web3modal/wagmi-react-native'
 
 // 1. Get projectId at https://cloud.walletconnect.com
@@ -21,7 +21,7 @@ const metadata = {
     }
 }
 
-const chains = [polygonMumbai];
+const chains = [bscTestnet];
 
 const wagmiConfig = defaultWagmiConfig({ chains, projectId, metadata })
 

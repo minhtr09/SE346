@@ -25,10 +25,18 @@ type NftProps = {
   // onAction?: (action: ActionType) => void;
 };
 
+type ICOProps = {
+  amount: number;
+
+  // isUnList: boolean;
+  price: number;
+  // onAction?: (action: ActionType) => void;
+};
+
 interface ListedNFT {
   author: string; // Assuming 'author' is a string
   price: bigint; // Assuming 'price' is a bigint
   tokenId: number; // Assuming 'tokenId' is a bigint
 }
 
-export { NftAttribute, NftProps, NftData, ListedNFT };
+export { NftAttribute, NftProps, NftData, ListedNFT, ICOProps };
