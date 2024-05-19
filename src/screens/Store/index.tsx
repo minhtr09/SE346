@@ -9,6 +9,8 @@ import { getBirdAddress, getBirdMarketPlaceAddress, getFloppyAddress } from '../
 import { bscTestnet } from 'wagmi/chains'
 import NFTCard from '../../components/NFTCard';
 import ICOCard from '../../components/ICOCard';
+import { WriteContract } from '../../components/WriteContract';
+import Button from '../../components/Button';
 
 const Store: React.FC = () => {
   const { isConnected, address } = useAccount();
@@ -93,6 +95,7 @@ const Store: React.FC = () => {
     functionName: 'balanceOf',
     args: [address],
     enabled: true, onSuccess(data) {
+      console.log(data)
     },
   });
 
@@ -165,12 +168,12 @@ const Store: React.FC = () => {
         <View style={styles.connectedView}>
           <View style={styles.card}>
             <Text>
-              FLP Balances: {userTokenBalance?.toString()}
+              FLP Balances: {parseFloat((userTokenBalance as any).toString()) / 1e18}
             </Text>
             {/* <Text>
             BNB Balances: {userTokenBalance?.toString()}
           </Text> */}
-            {/* <ScrollView horizontal={true} showsHorizontalScrollIndicator={false} >
+            {/* <ScrollView horizontal={true} showsHorizontalScrollIßandicator={false} >
 
             <Text>No Collectibles</Text>
 
@@ -200,7 +203,7 @@ const Store: React.FC = () => {
             </ScrollView>
 
           </View>
-          {/* <Button text="Disconnect Wallet" onPress={handleDisconnect} /> */}
+          {/* <Button text="Disconnect Wallet" onPress={()=>{}} /> */}
           {/* <WriteContract /> */}
 
         </View>
