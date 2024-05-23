@@ -19,9 +19,7 @@ import Eight from "../../../assets/images/8.png";
 import Nine from "../../../assets/images/9.png";
 import Zero from "../../../assets/images/0.png";
 
-import { FIRESTORE_DB } from "../../../../firebaseConfig";
-import { addDoc, collection } from "firebase/firestore";
-
+import {addScoreToFirebase} from "../../../database/storeScore"
 
 const numberImages = {
   0: Zero,
@@ -59,20 +57,19 @@ const Game = () => {
   const handleOnGameOver = async () => {
     setIsRunning(false);
     setIsGameOver(true);
-    
-    // await addScoreToFirebase(currentPoints); // Add this line to save the score to Firestore
-    // setCurrentPoints(0); // Reset points after saving
+    setScoreSaved(true);
+    addScoreToFirebase(currentPoints); // bug: Saving to database does not stop when the game is over
+    setCurrentPoints(0);
   };
 
   const handleOnEvent = (e) => {
     switch (e.type) {
       case "game_over":
-          handleOnGameOver();
-          //setCurrentPoints(0);
+        handleOnGameOver();
+        //setCurrentPoints(0);
         break;
       case "new_point":
         setCurrentPoints(currentPoints + 1);
-        addScoreToFirebase(currentPoints);
         break;
     }
   };
@@ -89,20 +86,6 @@ const Game = () => {
           <Image source={numberImages[secondDigit]} style={{ width: 50, height: 70 }} />
         </View>
       );
-    }
-  };
-
-  // Add score to db
-  const addScoreToFirebase = async (score) => {
-    try {
-      const scoresCollection = collection(FIRESTORE_DB, "db_scores"); // Replace "scores" with your collection name
-      const newScoreDoc = await addDoc(scoresCollection, {
-        score, // Store the score in the document
-        // Can add other fields
-      });
-      console.log("Score added to Firestore with ID:", newScoreDoc.id);
-    } catch (error) {
-      console.error("Error adding score to Firestore:", error);
     }
   };
 
