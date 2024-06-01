@@ -12,14 +12,31 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { Start } from "./src/screens/Homes/Game/Start";
 import { Text } from "react-native";
 import { View } from "react-native";
+import {getAddress} from "./src/utils/address";
+
 export default function App() {
+  const [address, setAddress] = useState<string | null>(null);
+
+
   const SplashScreenHide = useCallback(async () => {
     await SplashScreen.hideAsync();
   }, []);
 
 
   // ...
+  useEffect(() => {
+    const initializeAddress = async () => {
+      try {
+        const deviceAddress = await getAddress();
+        setAddress(deviceAddress);
+      } catch (error) {
+        console.error('Error setting device address: ', error);
+      }
+    };
 
+    initializeAddress();
+  }, []);
+  
   function DetailsScreen() {
     return (
       <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
