@@ -15,27 +15,12 @@ import { View } from "react-native";
 import {getAddress} from "./src/utils/address";
 
 export default function App() {
-  const [address, setAddress] = useState<string | null>(null);
 
 
   const SplashScreenHide = useCallback(async () => {
     await SplashScreen.hideAsync();
   }, []);
 
-
-  // ...
-  useEffect(() => {
-    const initializeAddress = async () => {
-      try {
-        const deviceAddress = await getAddress();
-        setAddress(deviceAddress);
-      } catch (error) {
-        console.error('Error setting device address: ', error);
-      }
-    };
-
-    initializeAddress();
-  }, []);
   
   function DetailsScreen() {
     return (
@@ -48,6 +33,7 @@ export default function App() {
   const Stack = createNativeStackNavigator();
 
   return (
+    
       <RootProvider>
         <StateContextProvider>
           <NavigationContainer>

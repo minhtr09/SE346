@@ -22,7 +22,7 @@ const BottomMenu = () => {
         <Text>Swap</Text>
       </TouchableOpacity>
 
-    //T đang để hiển thị 1 cái dialog để test thoi nha
+
       <Modal
         animationType="slide"
         transparent={true}

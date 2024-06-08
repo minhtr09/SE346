@@ -8,14 +8,17 @@ interface ScoreData {
   // Add other fields here if needed
 }
 
-export const addScoreToFirebase = async (newScore: number) => {
+export const addScoreToFirebase = async (address: string,newScore: number) => {
   try {
-    const address = await AsyncStorage.getItem('device_address');
-    if (!address) {
-      throw new Error('Device address not found');
-    }
 
-    const scoreDocRef = doc(FIRESTORE_DB, 'users', address);
+    // const address = await AsyncStorage.getItem('device_address');
+    // if (!address) {
+    //   throw new Error('Device address not found');
+    // }
+
+    // address here is ethereum address, not the device address
+
+    const scoreDocRef = doc(FIRESTORE_DB, 'users', address?.toString());
 
     // Get the current score
     const scoreDoc = await getDoc(scoreDocRef);
@@ -29,9 +32,8 @@ export const addScoreToFirebase = async (newScore: number) => {
     // Update the score with the new value
     const updatedScore = currentScore + newScore;
     await setDoc(scoreDocRef, { score: updatedScore });
-
     console.log('Score updated to Firestore with address:', address, 'New total score:', updatedScore);
   } catch (error) {
-    console.error('Error updating score to Firestore:', error);
+    console.log(error);
   }
 };

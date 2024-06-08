@@ -6,6 +6,8 @@ import {
   defaultWagmiConfig,
   Web3Modal,
 } from "@web3modal/wagmi-react-native";
+import { Provider } from "react-redux";
+import { store } from "../redux/store";
 
 // 1. Get projectId at https://cloud.walletconnect.com
 const projectId = "4e178defe3ed3ce84ed2b0c72f38aca8";
@@ -36,9 +38,11 @@ createWeb3Modal({
 
 export default function Wagmi({ children }: { children: React.ReactNode }) {
   return (
+    <Provider store={store}>
     <WagmiConfig config={wagmiConfig}>
       {children}
       <Web3Modal />
     </WagmiConfig>
+    </Provider>
   );
 }

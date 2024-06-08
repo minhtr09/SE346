@@ -6,11 +6,12 @@ export const getUsdtAddress = () =>
 //   "0xea64f6cF8a29FA439450dC65AFEe3DEE4Fe02062";
 // export const getBirdAddress = () =>
 // "0x26c25EFf885Ef34A33B265345cAAd6856E9a3cAA";
-export const getBirdMarketPlaceAddress = () =>
-  "0xa66DB814adfEB07371417a9Dd9866cf26B218105";
+
 
 //saigon testnet
 export const getFloppyAddress = () =>
   "0x7DCdfe41708fdB651bAAFD2A392A1eCB808A25FE";
 export const getBirdAddress = () =>
-  "0xD4704E39C36f75ECcE4F68FCB000619B1dBCd252";
+  "0x35c9366c6702ef7d62C7c03db173EeCf6D603e46";
+export const getBirdMarketPlaceAddress = () =>
+  "0xbf1361ceb0aa108a1700b61c862786c85c4fb4f5";

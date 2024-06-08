@@ -37,6 +37,7 @@ interface ListedNFT {
   author: string; // Assuming 'author' is a string
   price: bigint; // Assuming 'price' is a bigint
   tokenId: number; // Assuming 'tokenId' is a bigint
+  url: string
 }
 
 export { NftAttribute, NftProps, NftData, ListedNFT, ICOProps };
