@@ -11,6 +11,7 @@ import NFTCard from '../../components/NFTCard';
 import ICOCard from '../../components/ICOCard';
 import { WriteContract } from '../../components/WriteContract';
 import Button from '../../components/Button';
+import BottomMenu from '../../components/BottomMenu/BottomMenu';
 
 const Store: React.FC = () => {
   const { isConnected, address } = useAccount();
@@ -164,6 +165,7 @@ const Store: React.FC = () => {
 
   return (
     <>
+    <View style = {styles.container}>
       <ScrollView horizontal={false} showsHorizontalScrollIndicator={false}>
         <View style={styles.connectedView}>
           <View style={styles.card}>
@@ -208,7 +210,8 @@ const Store: React.FC = () => {
 
         </View>
       </ScrollView >
-
+      <BottomMenu/>
+    </View>
     </>
 
   );

@@ -20,6 +20,7 @@ import Nine from "../../../assets/images/9.png";
 import Zero from "../../../assets/images/0.png";
 
 import {addScoreToFirebase} from "../../../database/storeScore"
+import BottomMenu from "../../../components/BottomMenu/BottomMenu";
 
 const numberImages = {
   0: Zero,
