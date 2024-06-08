@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, TouchableOpacity, Modal, StyleSheet } from 'react-native';
-import { Ionicons } from '@expo/vector-icons';
+import { View, Text, TouchableOpacity, Modal, StyleSheet, Image } from 'react-native';
 import { styles } from './styles';
 
 const BottomMenu = () => {
@@ -13,15 +12,12 @@ const BottomMenu = () => {
 
   return (
     <View style={styles.container}>
-      <TouchableOpacity style={styles.iconContainer} onPress={() => {}}>
-        <Ionicons name = "cart-outline" size={30} color="black" />
-        <Text>Store</Text>
+      <TouchableOpacity onPress={() => {}}>
+        <Image source={require('../../assets/icons/store.png')}  style = {styles.icon}></Image>
       </TouchableOpacity>
-      <TouchableOpacity style={styles.iconContainer} onPress={toggleSwapModal}>
-        <Ionicons name="swap-horizontal-outline" size={30} color="black" />
-        <Text>Swap</Text>
+      <TouchableOpacity onPress={toggleSwapModal}>
+        <Image source={require('../../assets/icons/swap.png')}  style = {styles.icon}></Image>
       </TouchableOpacity>
-
 
       <Modal
         animationType="slide"

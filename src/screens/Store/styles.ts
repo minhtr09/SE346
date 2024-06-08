@@ -86,4 +86,13 @@ export const styles = StyleSheet.create({
     width: "100%",
     alignItems: "center", // Center elements horizontally
   },
+  bottomMenuContainer: {
+    position: 'absolute',
+    bottom: 0,
+    left: 0,
+    right: 0,
+    backgroundColor: '#fff',
+    borderTopWidth: 1,
+    borderColor: '#eaeaea',
+  },
 });

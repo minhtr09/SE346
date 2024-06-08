@@ -19,11 +19,10 @@ import Eight from "../../../assets/images/8.png";
 import Nine from "../../../assets/images/9.png";
 import Zero from "../../../assets/images/0.png";
 
-import BottomMenu from "../../../components/BottomMenu/BottomMenu";
-
 import { addScoreToFirebase } from "../../../database/storeScore";
 import { useStateContext } from "../../../context";
 import { useAccount } from "wagmi";
+
 
 const numberImages = {
   0: Zero,

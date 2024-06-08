@@ -182,7 +182,9 @@ const Store: React.FC = () => {
             {/* refreshing ={} */}
           </View>
         </ScrollView>
-        <BottomMenu />
+        <View style={styles.bottomMenuContainer}>
+          <BottomMenu />
+      </View>
       </View>
     </>
   );
