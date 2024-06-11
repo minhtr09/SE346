@@ -7,12 +7,15 @@ import { HeaderBackButton } from '@react-navigation/elements';
 
 import { Home } from "./src/screens/Homes";
 import { Store } from "./src/screens/Store";
+import Swap from "./src/screens/Swap";
+
+
 import { StateContextProvider } from "./src/context";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { Start } from "./src/screens/Homes/Game/Start";
 import { Text } from "react-native";
 import { View } from "react-native";
-import {getAddress} from "./src/utils/address";
+//import {getAddress} from "./src/utils/address";
 
 export default function App() {
 
@@ -38,13 +41,14 @@ export default function App() {
         <StateContextProvider>
           <NavigationContainer>
             <StatusBar style="auto" hidden />
-            <Stack.Navigator>
+            <Stack.Navigator >
               <Stack.Screen name="Home" 
               component={Home} 
               options={{
                 headerShown: false
               }} />
               <Stack.Screen name="Store" component={Store}/>
+              <Stack.Screen name="Swap" component={Swap}/>
             </Stack.Navigator>
           </NavigationContainer>
         </StateContextProvider>
