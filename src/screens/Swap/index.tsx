@@ -11,11 +11,11 @@ const Swap = () => {
     const navigation = useNavigation();
     const coins = [
         { label: "Bitcoin", value: "bitcoin",
-            icon:()=><Image source={require("../assets/bitcoin.png")} style={styles.Icon} /> 
+             
             
          },
         { label: "Ethereum", value: "ethereum", 
-            icon:()=><Image source={require("../assets/ethereum.png")} style={styles.Icon} />
+           
          },
         { label: "Litecoin", value: "litecoin" },
     ];
@@ -41,9 +41,29 @@ const Swap = () => {
                     useNativeAndroidPickerStyle={false}
                 />
 
-
-
             </View>
+            <Image
+                source={require("../../assets/images/swap.png")}
+                style={{ width: 50, height: 50,marginBottom: 24,marginTop: 24}}
+                />
+            <View style={styles.rectangle}>
+                <Text
+                    style={{
+                        color: "#BDBDBD",
+                        fontSize: 14,
+                        marginRight: 4,
+                        flex: 1,
+                    }}>
+                    {"To"}
+                </Text>
+                <Picker
+                    placeholder={{}}
+                    items={coins}
+                    onValueChange={(value) => console.log(value)}
+                    style={pickerSelectStyles}
+                    useNativeAndroidPickerStyle={false}
+                />
+                </View>
 
         </View>
     );
@@ -56,7 +76,7 @@ const pickerSelectStyles = {
         borderWidth: 1,
         borderColor: 'gray',
         borderRadius: 4,
-        color: 'black',
+        color: 'white',
         paddingRight: 30, // to ensure the text is never behind the icon
     },
     inputAndroid: {
@@ -66,7 +86,7 @@ const pickerSelectStyles = {
         borderWidth: 0.5,
         borderColor: 'purple',
         borderRadius: 8,
-        color: 'black',
+        color: 'white',
         paddingRight: 30, // to ensure the text is never behind the icon
     },
 };

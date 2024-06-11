@@ -41,7 +41,7 @@ export default function App() {
         <StateContextProvider>
           <NavigationContainer>
             <StatusBar style="auto" hidden />
-            <Stack.Navigator initialRouteName="Swap">
+            <Stack.Navigator >
               <Stack.Screen name="Home" 
               component={Home} 
               options={{
