@@ -1,5 +1,5 @@
 import { Icon } from "ionicons/dist/types/components/icon/icon";
-import { StyleSheet } from "react-native";
+import { StyleSheet, TextInput } from "react-native";
 
 const styles = StyleSheet.create({
     container:{
@@ -35,6 +35,7 @@ const styles = StyleSheet.create({
 		marginBottom: 13,
 		marginHorizontal: 24,
         justifyContent: "space-between",
+        alignItems: "center",
     },
     button:{
         flexDirection: "row",
@@ -48,14 +49,30 @@ const styles = StyleSheet.create({
         width: 327,
         position: "absolute",
         bottom: 24,
+   
  
     },
     coin:{
         color: "#FFFFFF",
         fontSize: 16,
         marginRight: 4,
+        flex: 1,
+        
      
     },
+    buttonText:{
+        color: "#FFFFFF",
+        fontSize: 20,
+        flex: 1,
+        textAlign: "center",
+    },
+    textInput:{
+        color: "#FFFFFF",
+        fontSize: 16,
+
+    },
+
+
  
 
     
@@ -66,7 +83,5 @@ const styles = StyleSheet.create({
     
 
     
-
-
 });
 export default styles;
