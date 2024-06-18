@@ -42,13 +42,14 @@ export default function App() {
           <NavigationContainer>
             <StatusBar style="auto" hidden />
             <Stack.Navigator >
+            <Stack.Screen name="Swap" component={Swap}/>
               <Stack.Screen name="Home" 
               component={Home} 
               options={{
                 headerShown: false
               }} />
               <Stack.Screen name="Store" component={Store}/>
-              <Stack.Screen name="Swap" component={Swap}/>
+          
             </Stack.Navigator>
           </NavigationContainer>
         </StateContextProvider>

@@ -16,7 +16,7 @@ const styles = StyleSheet.create({
         color: "#FEFEFE",
 			fontSize: 22,
 			marginBottom: 7,
-			marginLeft: 26,
+            marginLeft: 25,
 
     },
     text:{
@@ -36,9 +36,30 @@ const styles = StyleSheet.create({
 		marginHorizontal: 24,
         justifyContent: "space-between",
     },
-    Icon:{
-        width: 24,
-        height: 24,}
+    button:{
+        flexDirection: "row",
+        justifyContent: "center",
+        alignItems: "center",
+        backgroundColor: "#89B9FF",
+        borderRadius: 8,
+        paddingVertical: 13,
+        paddingHorizontal: 24,
+        marginHorizontal: 24,
+        width: 327,
+        position: "absolute",
+        bottom: 24,
+ 
+    },
+    coin:{
+        color: "#FFFFFF",
+        fontSize: 16,
+        marginRight: 4,
+     
+    },
+ 
+
+    
+  
         
     
 

@@ -1,5 +1,5 @@
-import React from "react";
-import { View, Text, Image } from "react-native"; // Import Image from react-native
+import React,{useState} from "react";
+import { View, Text, Image, TouchableOpacity } from "react-native"; // Import Image from react-native
 import { useNavigation } from "@react-navigation/native";
 import Picker from "react-native-picker-select";
 
@@ -9,16 +9,13 @@ import styles from "./style";
 
 const Swap = () => {
     const navigation = useNavigation();
-    const coins = [
-        { label: "Bitcoin", value: "bitcoin",
-             
-            
-         },
-        { label: "Ethereum", value: "ethereum", 
-           
-         },
-        { label: "Litecoin", value: "litecoin" },
-    ];
+
+    const [coins, setCoins] = useState({coin1: "RON", coin2: "FLP"});
+    const swapCoins = () => {
+        setCoins({coin1: coins.coin2, coin2: coins.coin1});
+    }
+
+   
     return (
         <View style={styles.container}>
             <Text style={styles.title}>Exchange</Text>
@@ -33,19 +30,23 @@ const Swap = () => {
                     }}>
                     {"From"}
                 </Text>
-                <Picker
-                    placeholder={{}}
-                    items={coins}
-                    onValueChange={(value) => console.log(value)}
-                    style={pickerSelectStyles}
-                    useNativeAndroidPickerStyle={false}
-                />
+                <Text style={styles.coin}>{coins.coin1}</Text>
+             
+              
 
             </View>
+            <TouchableOpacity 
+            onPress={() => {
+                swapCoins();
+
+            }}
+            >
             <Image
                 source={require("../../assets/images/swap.png")}
                 style={{ width: 50, height: 50,marginBottom: 24,marginTop: 24}}
                 />
+            </TouchableOpacity>
+
             <View style={styles.rectangle}>
                 <Text
                     style={{
@@ -56,38 +57,16 @@ const Swap = () => {
                     }}>
                     {"To"}
                 </Text>
-                <Picker
-                    placeholder={{}}
-                    items={coins}
-                    onValueChange={(value) => console.log(value)}
-                    style={pickerSelectStyles}
-                    useNativeAndroidPickerStyle={false}
-                />
+                <Text style={styles.coin}>{coins.coin2}</Text>
+            
                 </View>
+                <TouchableOpacity style={styles.button}>
+                    <Text style={styles.coin}>{"Exchange"}</Text>
+                   
+                </TouchableOpacity>
 
         </View>
     );
 };
-const pickerSelectStyles = {
-    inputIOS: {
-        fontSize: 16,
-        paddingVertical: 12,
-        paddingHorizontal: 10,
-        borderWidth: 1,
-        borderColor: 'gray',
-        borderRadius: 4,
-        color: 'white',
-        paddingRight: 30, // to ensure the text is never behind the icon
-    },
-    inputAndroid: {
-        fontSize: 16,
-        paddingHorizontal: 10,
-        paddingVertical: 8,
-        borderWidth: 0.5,
-        borderColor: 'purple',
-        borderRadius: 8,
-        color: 'white',
-        paddingRight: 30, // to ensure the text is never behind the icon
-    },
-};
+
 export default Swap;
