@@ -79,7 +79,16 @@ const styles = StyleSheet.create({
     icon :{
         width: 24,
         height: 24,
+    },
+    rate:{
+        color: "#FFFFFF",
+        fontSize: 16,
+        marginRight: 4,
+        flex: 1,
+        marginLeft: 4,
+        textAlign: "center",
     }
+
 
 
 });

@@ -11,12 +11,17 @@ const Swap = () => {
     const navigation = useNavigation();
 
     const [coins, setCoins] = useState({ coin1: "RON", coin2: "FLP" });
-    const [coinLogo, setCoinLogo] = useState({ coin1: require("../../assets/images/ronin_logo.png"), coin2: require("../../assets/images/medal_gold.png")})
+    const [coinLogo, setCoinLogo] = useState({ coin1: require("../../assets/images/ronin_logo.png"), coin2: require("../../assets/images/medal_gold.png") })
     const swapCoins = () => {
         setCoins({ coin1: coins.coin2, coin2: coins.coin1 });
         setCoinLogo({ coin1: coinLogo.coin2, coin2: coinLogo.coin1 });
     }
     const [coinAmount, setCoinAmount] = useState("0.0");
+    const [rates, setRates] = useState(2);
+    const updateRates = (newRate) => {
+        setRates(newRate);
+    }
+
 
 
     return (
@@ -78,9 +83,13 @@ const Swap = () => {
                 />
 
             </View>
+            <View style={styles.rectangle}>
+                <Text style={styles.rate}>
+                    {"1 RON = " + rates + " FLP"}
+                </Text>
+            </View>
             <TouchableOpacity style={styles.button}>
                 <Text style={styles.buttonText}>{"Exchange"}</Text>
-
             </TouchableOpacity>
 
         </View>
