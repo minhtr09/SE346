@@ -11,8 +11,10 @@ const Swap = () => {
     const navigation = useNavigation();
 
     const [coins, setCoins] = useState({ coin1: "RON", coin2: "FLP" });
+    const [coinLogo, setCoinLogo] = useState({ coin1: require("../../assets/images/ronin_logo.png"), coin2: require("../../assets/images/medal_gold.png")})
     const swapCoins = () => {
         setCoins({ coin1: coins.coin2, coin2: coins.coin1 });
+        setCoinLogo({ coin1: coinLogo.coin2, coin2: coinLogo.coin1 });
     }
     const [coinAmount, setCoinAmount] = useState("0.0");
 
@@ -24,14 +26,17 @@ const Swap = () => {
             <View style={styles.rectangle}>
 
                 <Text
-                    style={{
-                        color: "#BDBDBD",
-                        fontSize: 14,
-                        marginRight: 4,
-                    }}>
+                    style={styles.header}
+                >
                     {"From :"}
                 </Text>
+                <Image
+                    source={coinLogo.coin1}
+                    style={styles.icon}
+                />
+
                 <Text style={styles.coin}>{coins.coin1}</Text>
+
 
 
                 <TextInput
@@ -56,15 +61,13 @@ const Swap = () => {
             </TouchableOpacity>
 
             <View style={styles.rectangle}>
-                <Text
-                    style={{
-                        color: "#BDBDBD",
-                        fontSize: 14,
-                        marginRight: 4,
-                     
-                    }}>
+                <Text style={styles.header}>
                     {"To :"}
                 </Text>
+                <Image
+                    source={coinLogo.coin2}
+                    style={styles.icon}
+                />
                 <Text style={styles.coin}>{coins.coin2}</Text>
                 <TextInput
                     style={styles.textInput}

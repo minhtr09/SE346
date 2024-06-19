@@ -2,7 +2,7 @@ import { Icon } from "ionicons/dist/types/components/icon/icon";
 import { StyleSheet, TextInput } from "react-native";
 
 const styles = StyleSheet.create({
-    container:{
+    container: {
         backgroundColor: '#202020',
         flex: 1,
         alignItems: 'center',
@@ -12,32 +12,32 @@ const styles = StyleSheet.create({
         paddingTop: 84,
         paddingBottom: 118,
     },
-    title:{
+    title: {
         color: "#FEFEFE",
-			fontSize: 22,
-			marginBottom: 7,
-            marginLeft: 25,
+        fontSize: 22,
+        marginBottom: 7,
+        marginLeft: 25,
 
     },
-    text:{
+    text: {
         color: "#DADADA",
-			fontSize: 14,
-			marginBottom: 24,
-			marginLeft: 25,
+        fontSize: 14,
+        marginBottom: 24,
+        marginLeft: 25,
     },
-    rectangle:{
+    rectangle: {
         flexDirection: "row",
-		borderColor: "#767676",
-		borderRadius: 8,
-		borderWidth: 1,
-		paddingVertical: 16,
-		paddingHorizontal: 18,
-		marginBottom: 13,
-		marginHorizontal: 24,
+        borderColor: "#767676",
+        borderRadius: 8,
+        borderWidth: 1,
+        paddingVertical: 16,
+        paddingHorizontal: 18,
+        marginBottom: 13,
+        marginHorizontal: 24,
         justifyContent: "space-between",
         alignItems: "center",
     },
-    button:{
+    button: {
         flexDirection: "row",
         justifyContent: "center",
         alignItems: "center",
@@ -49,39 +49,38 @@ const styles = StyleSheet.create({
         width: 327,
         position: "absolute",
         bottom: 24,
-   
- 
+
+
     },
-    coin:{
+    coin: {
         color: "#FFFFFF",
         fontSize: 16,
         marginRight: 4,
         flex: 1,
-        
-     
+        marginLeft: 4,
+
     },
-    buttonText:{
+    buttonText: {
         color: "#FFFFFF",
         fontSize: 20,
         flex: 1,
         textAlign: "center",
     },
-    textInput:{
+    textInput: {
         color: "#FFFFFF",
         fontSize: 16,
 
     },
+    header:{
+        color: "#BDBDBD",
+        fontSize: 14,
+        marginRight: 4,
+    },
+    icon :{
+        width: 24,
+        height: 24,
+    }
 
 
- 
-
-    
-  
-        
-    
-
-    
-
-    
 });
 export default styles;
