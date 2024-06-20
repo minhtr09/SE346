@@ -56,7 +56,6 @@ const styles = StyleSheet.create({
         color: "#FFFFFF",
         fontSize: 16,
         marginRight: 4,
-        flex: 1,
         marginLeft: 4,
 
     },
@@ -87,7 +86,16 @@ const styles = StyleSheet.create({
         flex: 1,
         marginLeft: 4,
         textAlign: "center",
-    }
+    },
+    balance: {
+        color: "#FFFFFF",
+        fontSize: 14,
+        marginRight: 4,
+    },
+    coinContainer: {
+        flexDirection: 'column',
+        flex: 1,
+    },
 
 
 
