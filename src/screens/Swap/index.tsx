@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { View, Text, Image, TouchableOpacity, TextInput } from "react-native"; // Import Image from react-native
+import { View, Text, Image, TouchableOpacity, TextInput, KeyboardAvoidingView } from "react-native"; // Import Image from react-native
 import { useNavigation } from "@react-navigation/native";
 import Picker from "react-native-picker-select";
 
@@ -104,6 +104,7 @@ const Swap = () => {
                 />
 
             </View>
+            
             <View style={styles.rectangle}>
                 <Text style={styles.rate}>
                     {coins.coin1 === 'RON' && coins.coin2 === 'FLP' ? `1 RON = ${rates} FLP` : `1 FLP = ${1 / rates} RON`}
@@ -112,6 +113,7 @@ const Swap = () => {
             <TouchableOpacity style={styles.button}>
                 <Text style={styles.buttonText}>{"Exchange"}</Text>
             </TouchableOpacity>
+           
 
         </View>
     );
