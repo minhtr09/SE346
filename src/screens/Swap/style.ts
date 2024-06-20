@@ -37,7 +37,7 @@ const styles = StyleSheet.create({
         justifyContent: "space-between",
         alignItems: "center",
     },
-    button: {
+    buttonEnabled: {
         flexDirection: "row",
         justifyContent: "center",
         alignItems: "center",
@@ -51,6 +51,19 @@ const styles = StyleSheet.create({
         bottom: 24,
 
 
+    },
+    buttonDisabled: {
+        flexDirection: "row",
+        justifyContent: "center",
+        alignItems: "center",
+        backgroundColor: 'red',
+        borderRadius: 8,
+        paddingVertical: 13,
+        paddingHorizontal: 24,
+        marginHorizontal: 24,
+        width: 327,
+        position: "absolute",
+        bottom: 24,
     },
     coin: {
         color: "#FFFFFF",
@@ -95,6 +108,19 @@ const styles = StyleSheet.create({
     coinContainer: {
         flexDirection: 'column',
         flex: 1,
+    },
+    approvecontainer:{
+        flexDirection: "row",
+        backgroundColor:"#04252F",
+        borderRadius: 8,
+        borderWidth: 1,
+        paddingVertical: 16,
+        paddingHorizontal: 18,
+        marginBottom: 13,
+        marginHorizontal: 24,
+        alignItems: "center",
+         justifyContent: "center",
+    
     },
 
 
