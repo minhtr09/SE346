@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { View, Text, TouchableOpacity, Modal, StyleSheet, Image } from 'react-native';
 import { styles } from './styles';
 
-// bottomMenu store
+// bottomMenu storeeeeee
 const BottomMenu = () => {
   // Control showing dialog -> click swap icon
   const [isSwapModalVisible, setSwapModalVisible] = useState(false);

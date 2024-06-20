@@ -1,5 +1,6 @@
 import { StyleSheet } from "react-native";
 
+// styles
 export const styles = StyleSheet.create({
     container: {
       position: 'absolute',
