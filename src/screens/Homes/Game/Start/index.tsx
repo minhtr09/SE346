@@ -14,7 +14,7 @@ import { NavigationProp, useNavigation } from '@react-navigation/native'
 
 
 const Start = ({ handleOnStart }) => {
-  const { isConnected, address } = useStateContext();
+  const { isConnected, address } = useAccount();
   const navigation = useNavigation<NavigationProp<any>>();
 
   const { open } = useWeb3Modal()

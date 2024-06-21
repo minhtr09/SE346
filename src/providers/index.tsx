@@ -38,11 +38,13 @@ createWeb3Modal({
 
 export default function Wagmi({ children }: { children: React.ReactNode }) {
   return (
-    <Provider store={store}>
+    
     <WagmiConfig config={wagmiConfig}>
+      <Provider store={store}>
       {children}
+      </Provider>
       <Web3Modal />
     </WagmiConfig>
-    </Provider>
+   
   );
 }

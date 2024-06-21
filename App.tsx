@@ -43,6 +43,7 @@ export default function App() {
           <NavigationContainer>
             <StatusBar style="auto" hidden />
             <Stack.Navigator >
+            {/* <Stack.Screen name="Swap" component={Swap}/> */}
               <Stack.Screen name="Home" 
               component={Home} 
               options={{
