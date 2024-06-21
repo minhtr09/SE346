@@ -31,6 +31,7 @@ import { bindActionCreators } from "redux";
 import { State, actionCreators } from "../../redux";
 import { useSelector } from "react-redux";
 import BottomMenu from "../../components/BottomMenu/BottomMenu";
+import { NavigationProp, useNavigation } from '@react-navigation/native'
 
 const Store: React.FC = () => {
   const {
@@ -108,6 +109,16 @@ const Store: React.FC = () => {
     fetchUserNfts();
   }, [marketBalance, userNftBalance]);
 
+  const navigation = useNavigation<NavigationProp<any>>();
+  const handleCardPress = (nft: NftData) => {
+    navigation.navigate('NftDetail', { nft });
+  };
+
+  const handleDetailListPress = (nft: NftData) => {
+    navigation.navigate('NftDetailList', { nft });
+  }
+
+
   return (
     <>
       <View style={styles.container}>
@@ -143,6 +154,7 @@ const Store: React.FC = () => {
                         price={nfts[index]?.price as any}
                         isTransfer={true}
                         isList={false}
+                        onPress={() => handleCardPress(nft)}
                       />
                     );
                   })
@@ -169,6 +181,7 @@ const Store: React.FC = () => {
                         price={1}
                         isTransfer={false}
                         isList={true}
+                        onPress={() => handleDetailListPress(nft)}
                       />
                     );
                   })
@@ -182,7 +195,9 @@ const Store: React.FC = () => {
             {/* refreshing ={} */}
           </View>
         </ScrollView>
-        <BottomMenu />
+        <View style={styles.bottomMenuContainer}>
+          <BottomMenu />
+        </View>
       </View>
     </>
   );

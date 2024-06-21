@@ -23,6 +23,7 @@ type NftProps = {
   // isUnList: boolean;
   price: number;
   // onAction?: (action: ActionType) => void;
+  onPress?: ()=> void;
 };
 
 type ICOProps = {
