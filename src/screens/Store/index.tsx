@@ -103,9 +103,11 @@ const Store: React.FC = () => {
     fetchUserNfts();
   }, [marketBalance, userNftBalance]);
 
+  console.log(address)
+
   const navigation = useNavigation<NavigationProp<any>>();
   const handleCardPress = (nft: any, index: number) => {
-    
+
     navigation.navigate("NftDetail", { data: nft, id: nfts[index]?.tokenId, price: nfts[index]?.price as any});
   };
 
@@ -166,7 +168,7 @@ const Store: React.FC = () => {
             >
               {state?.userNfts && state?.userNfts.length > 0 ? (
                 state?.userNfts?.map((nft, index) => {
-              
+                  
                   return (
                     <NFTCard
                       key={index}

@@ -44,7 +44,9 @@ const NFTCard: React.FC<NftProps> = ({
   isList,
   onPress,
 }) => {
-  
+  const isShowDefaultImageBlueBird = id?.toString() === "1";
+  const isShowDefaultImageRedBird = id?.toString() === "2";
+  const isShowIPFSimage = id?.toString() === "0";
 
   return (
     <TouchableOpacity onPress={onPress}>
@@ -53,15 +55,33 @@ const NFTCard: React.FC<NftProps> = ({
           <>
             <View style={styles.NFTCardContainer}>
               <View style={styles.imageContainer}>
-                <Image
-                  source={{ uri: nft.image ?? undefined }}
-                  style={[styles.nftImage, { aspectRatio: 1 }]}
-                  resizeMode="contain"
-                />
+                {isShowIPFSimage && (
+                  <Image
+                    source={{ uri: nft.image ?? undefined }}
+                    style={[styles.nftImage, { aspectRatio: 1 }]}
+                    resizeMode="contain"
+                  />
+                )}
+                {isShowDefaultImageBlueBird && (
+                  <Image
+                    source={require("../../assets/images/bluebird-midflap.png")}
+                    style={[styles.nftImage, { aspectRatio: 1 }]}
+                    resizeMode="contain"
+                  />
+                )}
+                {isShowDefaultImageRedBird && (
+                  <Image
+                    source={require("../../assets/images/redbird-midflap.png")}
+                    style={[styles.nftImage, { aspectRatio: 1 }]}
+                    resizeMode="contain"
+                  />
+                )}
               </View>
               <View style={styles.textContainer}>
                 {/* NFTcard name */}
-                <Text style={styles.NFTName}>The Flappy Bird NFT #{(id as any).toString()}</Text>
+                <Text style={styles.NFTName}>
+                  The Flappy Bird NFT #{(id as any)?.toString()}
+                </Text>
                 {isTransfer && (
                   <View style={styles.nftprice}>
                     <Text
@@ -79,7 +99,7 @@ const NFTCard: React.FC<NftProps> = ({
         ) : (
           <ActivityIndicator size="large" style={styles.loadingIndicator} />
         )}
-        
+
         {/* <RequestModal
             isVisible={requestModalVisible}
             isLoading={isApproveTokenLoading || isBuyNftLoading || isApproveNftLoading}

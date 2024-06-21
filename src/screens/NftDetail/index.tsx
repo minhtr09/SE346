@@ -38,6 +38,7 @@ const NFTDetail = ({ route }) => {
     const { width } = event.nativeEvent.layout;
     setTextWidth(width); //Get the width of the text and update it to the state
   };
+  
 
   const nft = route?.params.data?._j;
   const id = route?.params.id;
@@ -77,13 +78,22 @@ const NFTDetail = ({ route }) => {
   const floppyAddress = getFloppyAddress();
   const floppyABI = getFloppyAbi();
   const birdMarketPlaceABI = getBirdMarketPlaceAbi();
+
+  const isShowDefaultImageBlueBird = id?.toString() === "1";
+  const isShowDefaultImageRedBird = id?.toString() === "2";
+  const isShowIPFSimage = id?.toString() === "0";
+
   // Prepare contract configurations
-  const { config: buyNftConfig } = usePrepareContractWrite({
-    address: marketPlaceAddress,
-    abi: birdMarketPlaceABI,
-    functionName: "buyNFT",
-    args: [id?.toString()],
-  });
+  const { config: buyNftConfig, isSuccess: isPrepareBuyNftSuccess } =
+    usePrepareContractWrite({
+      address: marketPlaceAddress,
+      abi: birdMarketPlaceABI,
+      functionName: "buyNFT",
+      args: [id?.toString()],
+      onError(err) {
+        console.error("Prepare BuyNFT error:",err);
+      },
+    });
   const {
     config: approveTokenConfig,
     isSuccess: isPrepareApproveTokenSuccess,
@@ -93,19 +103,7 @@ const NFTDetail = ({ route }) => {
     functionName: "approve",
     args: [marketPlaceAddress, price],
   });
-  const { config: approveNftConfig, isSuccess: isPrepareApproveSuccess } =
-    usePrepareContractWrite({
-      address: birdAddress,
-      abi: birdAbi,
-      functionName: "approve",
-      args: [marketPlaceAddress, id?.toString()],
-    });
-  const { config: listNftConfig, isSuccess } = usePrepareContractWrite({
-    address: marketPlaceAddress,
-    abi: birdMarketPlaceABI,
-    functionName: "listNft",
-    args: [id?.toString(), 120000000000000],
-  });
+
   // Hook contract functions
 
   const {
@@ -121,20 +119,6 @@ const NFTDetail = ({ route }) => {
     isLoading: isBuyNftLoading,
     write: onBuyNFT,
   } = useContractWrite(buyNftConfig);
-  const {
-    isSuccess: isApproveNftSuccess,
-    isError: buyApproveNftError,
-    write: onApproveNft,
-    isError: isApproveNftError,
-    isLoading: isApproveNftLoading,
-  } = useContractWrite(approveNftConfig);
-  const {
-    data: listData,
-    isSuccess: isListNftSuccess,
-    isError: isListNftError,
-    isLoading: isListNftLoading,
-    write: onListNFT,
-  } = useContractWrite(listNftConfig);
 
   // Hook read contract
   const { data: amountApproved, isSuccess: isCheckAmountAprrovedSuccess } =
@@ -149,21 +133,9 @@ const NFTDetail = ({ route }) => {
       },
     });
 
-  const { data: approvedAddress } = useContractRead({
-    address: birdAddress as any,
-    abi: birdAbi,
-    functionName: "getApproved",
-    args: [id?.toString()],
-    watch: true,
-    onSuccess(data) {
-      if (approvedAddress?.toString() === marketPlaceAddress) {
-        approveNft(id);
-      }
-    },
-  });
-
   //handle NFT actions
   const handleBuyNFT = async () => {
+    console.log("Buy NFT button pressed");
     if (isCheckAmountAprrovedSuccess) {
       const amount = amountApproved?.toString() as any as number;
       const nftPrice = price?.toString() as any as number;
@@ -171,64 +143,55 @@ const NFTDetail = ({ route }) => {
       try {
         if (state.amount >= nftPrice || amount >= nftPrice) {
           console.log("Buying...");
-          // setRequetsModalVisible(true);
-          onBuyNFT;
+          console.log(isPrepareBuyNftSuccess)
+          if (isPrepareBuyNftSuccess) {
+            onBuyNFT();
+          }
         } else {
           // setRequetsModalVisible(true);
           console.log("Approving...");
-          onApprove();
+          if (isPrepareApproveTokenSuccess) {
+            onApprove();
+          }
         }
       } catch (error) {
         console.log(error);
       }
-      fetchListedNfts();
     }
   };
 
-  const handleListNFT = async () => {
-    setRequetsModalVisible(true);
-
-    console.log(approvedAddress, state[id]);
-    console.log("List NFT id:", id);
-    if (
-      approvedAddress?.toString().toLowerCase() != marketPlaceAddress ||
-      state[id] === true
-    ) {
-      console.log("Please approve market to transfer this NFT");
-      try {
-        onApproveNft();
-      } catch (error) {
-        console.log(error);
-      }
-    } else {
-      console.log("Listing NFT......");
-      try {
-        onListNFT();
-      } catch (error) {
-        console.log(error);
-      }
-    }
-    fetchUserNfts();
-  };
-
+  
   return (
     <View style={styles.container}>
       <View style={styles.header}>
         <HeaderBackButton onPress={() => navigation.goBack()} />
       </View>
       <View style={styles.content}>
-        {/* <Text style={styles.title}>NFT Details</Text> */}
-        {/* <Text>ID: {id}</Text>
-            <Text>Price: {price}</Text> */}
-        {/* <Image source={{ uri: nft.image ?? undefined }} style={styles.image}/> */}
         <Image
           source={require("../../assets/images/item.png")}
           style={styles.image}
         />
-        <Image
+        {isShowDefaultImageBlueBird && (
+            <Image
+            source={require("../../assets/images/bluebird-midflap.png")}
+            style={styles.overlayImage}
+          />
+        )
+        }
+        {isShowDefaultImageRedBird && (
+            <Image
+            source={require("../../assets/images/redbird-midflap.png")}
+            style={styles.overlayImage}
+          />
+        )
+        }
+        {isShowIPFSimage && (
+          <Image
           source={{ uri: nft.image ?? undefined }}
           style={styles.overlayImage}
-        />
+          />
+        )}
+        
         <Text style={styles.title}>
           {" "}
           The Flappy Bird NFT #{(id as any).toString()}{" "}
@@ -269,7 +232,7 @@ const NFTDetail = ({ route }) => {
 
       {/* Button Place Bid Now */}
       <View style={styles.footer}>
-        <TouchableOpacity style={styles.button} onPress={handlePlaceBid}>
+        <TouchableOpacity style={styles.button} onPress={() => handleBuyNFT()}>
           <Text style={styles.buttonText}>Buy Now</Text>
         </TouchableOpacity>
       </View>

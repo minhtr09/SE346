@@ -1,22 +1,59 @@
 import React, { useState } from "react";
 import {
-  View,
+  RefreshControl,
+  ScrollView,
   Text,
-  StyleSheet,
-  Image,
-  Button,
-  TouchableOpacity,
   TextInput,
+  TouchableOpacity,
+  StyleSheet,
+  View,
+  Image,
 } from "react-native";
-import { NftProps } from "../../type";
-import { useNavigation } from "@react-navigation/native";
+import { ListedNFT, NftData } from "../../type";
+import {
+  getBirdAbi,
+  getBirdMarketPlaceAbi,
+  getFloppyAbi,
+} from "../../contracts/utils/getAbis";
+import {
+  useAccount,
+  useBalance,
+  useContractRead,
+  useContractReads,
+  useContractWrite,
+  usePrepareContractWrite,
+} from "wagmi";
+
+import {
+  getBirdAddress,
+  getBirdMarketPlaceAddress,
+  getFloppyAddress,
+} from "../../contracts/utils/getAddress";
+// import { WriteContract } from '../../components/WriteContract';
+
+import { bscTestnet } from "wagmi/chains";
+import NFTCard from "../../components/NFTCard";
+import ICOCard from "../../components/ICOCard";
+import { WriteContract } from "../../components/WriteContract";
+import Button from "../../components/Button";
+import { useStateContext } from "../../context";
+import { useDispatch } from "react-redux";
+import { bindActionCreators } from "redux";
+import { State, actionCreators } from "../../redux";
+import { useSelector } from "react-redux";
+import BottomMenu from "../../components/BottomMenu/BottomMenu";
+import { NavigationProp, useNavigation } from "@react-navigation/native";
 import { HeaderBackButton } from "@react-navigation/elements";
 
 const NFTDetailList = ({ route }) => {
   const navigation = useNavigation();
   const [inputValue, setInputValue] = useState("");
-  const nftId = route?.params.data?.tokenId;
+  const id = route?.params.data?.tokenId;
   const nft = route?.params.data?.tokenUrl?._j;
+
+  const isShowDefaultImageBlueBird = id?.toString() === "1";
+  const isShowDefaultImageRedBird = id?.toString() === "2";
+  const isShowIPFSimage = id?.toString() === "0";
 
   const handlePlaceBid = () => {
     console.log("Place Bid Now button pressed");
@@ -30,6 +67,96 @@ const NFTDetailList = ({ route }) => {
   };
   const handleAdd = () => {
     console.log("Add button pressed");
+  };
+
+
+  const { address } = useAccount();
+  const { fetchListedNfts, fetchUserNfts } = useStateContext();
+  const [requestModalVisible, setRequetsModalVisible] = React.useState(false);
+  const [isRequestLoading, setRequestLoading] = React.useState(false);
+  const [isRequestSuccess, setRequestSisRequestSuccess] = React.useState(false);
+  const [isRequestError, setRequestSisRequestError] = React.useState(false);
+
+  const dispatch = useDispatch();
+  const { approveNft, approveToken } = bindActionCreators(
+    actionCreators,
+    dispatch
+  );
+  const state = useSelector((state: State) => state.approve);
+
+  //contracts address, abi
+  const marketPlaceAddress = getBirdMarketPlaceAddress();
+  const birdAddress = getBirdAddress();
+  const birdAbi = getBirdAbi();
+  const floppyAddress = getFloppyAddress();
+  const floppyABI = getFloppyAbi();
+  const birdMarketPlaceABI = getBirdMarketPlaceAbi();
+  // Prepare contract configurations
+  const { config: approveNftConfig, isSuccess: isPrepareApproveNftSuccess } = usePrepareContractWrite({
+    address: birdAddress,
+    abi: birdAbi,
+    functionName: "approve",
+    args: [marketPlaceAddress, id?.toString()],
+  });
+  const { config: listNftConfig, isSuccess: isPrepareListNftSuccess} = usePrepareContractWrite({
+    address: marketPlaceAddress,
+    abi: birdMarketPlaceABI,
+    functionName: "listNft",
+    args: [id?.toString(), 120000000000000],
+  });
+  // Hook contract functions
+
+  const {
+    isSuccess: isApproveNftSuccess,
+    isError: buyApproveNftError,
+    write: onApproveNft,
+    isError: isApproveNftError,
+    isLoading: isApproveNftLoading,
+  } = useContractWrite(approveNftConfig);
+  const {
+    data: listData,
+    isSuccess: isListNftSuccess,
+    isError: isListNftError,
+    isLoading: isListNftLoading,
+    write: onListNFT,
+  } = useContractWrite(listNftConfig);
+
+  // Hook read contract
+
+  const { data: approvedAddress } = useContractRead({
+    address: birdAddress as any,
+    abi: birdAbi,
+    functionName: "getApproved",
+    args: [id?.toString()],
+    watch: true,
+    onSuccess(data) {
+      if (approvedAddress?.toString() === marketPlaceAddress) {
+        approveNft(id);
+      }
+    },
+  });
+
+  //handle NFT actions
+  const handleListNFT = async () => {
+    setRequetsModalVisible(true);
+
+    console.log(approvedAddress, state[id]);
+    console.log("List NFT id:", id);
+    if (approvedAddress?.toString().toLowerCase() != marketPlaceAddress || state[id] === true) {
+      console.log("Please approve market to transfer this NFT");
+      try {
+        onApproveNft();
+      } catch (error) {
+        console.log(error);
+      }
+    } else {
+      console.log("Listing NFT......");
+      try {
+        onListNFT();
+      } catch (error) {
+        console.log(error);
+      }
+    }
   };
 
   console.log(nft.image);
@@ -47,7 +174,25 @@ const NFTDetailList = ({ route }) => {
           source={require("../../assets/images/item.png")}
           style={styles.image}
         />
-        <Image source={{ uri: nft.image ?? undefined}} style={styles.overlayImage} />
+
+        {isShowDefaultImageBlueBird && (
+          <Image
+            source={require("../../assets/images/bluebird-midflap.png")}
+            style={styles.overlayImage}
+          />
+        )}
+        {isShowDefaultImageRedBird && (
+          <Image
+            source={require("../../assets/images/redbird-midflap.png")}
+            style={styles.overlayImage}
+          />
+        )}
+        {isShowIPFSimage && (
+          <Image
+          source={{ uri: nft.image ?? undefined }}
+          style={styles.overlayImage}
+          />
+        )}
 
         <View style={styles.containerPrice}>
           <TextInput
@@ -89,7 +234,7 @@ const NFTDetailList = ({ route }) => {
 
       {/* Button Place Bid Now */}
       <View>
-        <TouchableOpacity style={styles.button} onPress={handlePlaceBid}>
+        <TouchableOpacity style={styles.button} onPress={() => handleListNFT()}>
           <Text style={styles.buttonText}>Sell Now</Text>
         </TouchableOpacity>
       </View>
