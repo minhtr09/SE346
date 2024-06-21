@@ -6,6 +6,7 @@ import {
   ActivityIndicator,
   Text,
   Button,
+  TouchableOpacity,
 } from "react-native";
 import {
   useAccount,
@@ -41,6 +42,7 @@ const NFTCard: React.FC<NftProps> = ({
   price,
   isTransfer,
   isList,
+  onPress,
 }) => {
   const { address } = useAccount();
   const { fetchListedNfts, fetchUserNfts } = useStateContext();
@@ -189,78 +191,125 @@ const NFTCard: React.FC<NftProps> = ({
     }
     fetchUserNfts();
   };
+
+
   return (
-    <View style={styles.nft}>
-      {!isLoading ? (
-        <>
-          <Image
-            source={{ uri: nft.image ?? undefined }}
-            style={[styles.nftImage, { aspectRatio: 1 }]}
-            resizeMode="contain"
-          />
-        </>
-      ) : (
-        <ActivityIndicator size="large" style={styles.loadingIndicator} />
-      )}
-      {isTransfer && (
-        <Text style={styles.nftprice}>
-          Cost: {parseFloat((price as any)?.toString()) / 1e18} RON
-        </Text>
-      )}
-      {isTransfer && (
-        <View style={styles.buyButton}>
-          <Button
-            title="Buy Now"
-            onPress={() => {
-              handleBuyNFT();
-            }}
-          />
+    <TouchableOpacity onPress = {onPress}>
+      <View style={styles.nft}>
+        {!isLoading ? (
+          <>
+           <View style={styles.NFTCardContainer}> 
+            <View style={styles.imageContainer}>
+              <Image
+                source={{ uri: nft.image ?? undefined }}
+                style={[styles.nftImage, { aspectRatio: 1 }]}
+                resizeMode="contain"
+              />
+            </View>
+            <View style = {styles.textContainer }>
+              {/* NFTcard name */}
+            <Text style = {styles.NFTName}>THE UNKNOWN</Text> 
+              {isTransfer && (
+            <View style={styles.nftprice}>
+              <Text style={styles.text} numberOfLines={1} ellipsizeMode="tail">
+                {parseFloat((price as any)?.toString()) / 1e18} RON
+              </Text>
+            </View>   
+            )}
+            </View>
         </View>
-      )}
-      {isList && (
-        <View style={styles.buyButton}>
-          <Button
-            title="List NFT"
-            onPress={() => {
-              handleListNFT();
-            }}
-          />
-        </View>
-      )}
-      {/* <RequestModal
-                isVisible={requestModalVisible}
-                isLoading={isApproveTokenLoading || isBuyNftLoading || isApproveNftLoading}
-                rpcResponse={isApproveTokenSuccess || isBuyNftSuccess || isApproveNftSuccess ? "Success" : undefined}
-                rpcError={isApproveTokenError || isBuyNftError || isApproveNftError ? 'Something Wrong Happened' : undefined}
-                onClose={() => setRequetsModalVisible(false)}
-            /> */}
-    </View>
+          </>
+        ) : (
+          <ActivityIndicator size="large" style={styles.loadingIndicator} />
+        )}
+        {isTransfer && (
+          <View style={styles.buyButton}>
+            <Button
+              title="Buy Now"
+              onPress={() => {
+                handleBuyNFT();
+              }}
+            />
+          </View>
+        )}
+        {isList && (
+          <View style={styles.buyButton}>
+            <Button
+              title="List NFT"
+              onPress={() => {
+                handleListNFT();
+              }}
+            />
+          </View>
+        )}       
+        {/* <RequestModal
+            isVisible={requestModalVisible}
+            isLoading={isApproveTokenLoading || isBuyNftLoading || isApproveNftLoading}
+            rpcResponse={isApproveTokenSuccess || isBuyNftSuccess || isApproveNftSuccess ? "Success" : undefined}
+            rpcError={isApproveTokenError || isBuyNftError || isApproveNftError ? 'Something Wrong Happened' : undefined}
+            onClose={() => setRequetsModalVisible(false)}
+        /> */}
+      </View>
+    </TouchableOpacity>
   );
 };
 
 const styles = StyleSheet.create({
   nft: {
     backgroundColor: "#eee",
-    width: width * 0.45,
+    width: width * 0.75,
     marginHorizontal: 10,
     borderRadius: 8,
     justifyContent: "center",
   },
+  NFTCardContainer: {
+    flexDirection: 'row', // Arrange items horizontally
+  },
+  NFTName: {
+    color: 'Black', 
+    fontWeight: 'bold',
+    textAlign: 'auto',
+    fontSize: 16,
+    marginBottom: 10,
+  },
+  textContainer: {
+    flex: 1,
+    marginLeft: 10,
+    justifyContent: 'center',
+  },
   nftprice: {
-    backgroundColor: "#eee",
-    width: width * 0.45,
+    backgroundColor: '#612FB1',
+    borderRadius: 30, 
+    width: width * 0.3,
+    marginLeft: 10,
+    maxWidth: 200,
   },
   nftImage: {
     width: "100%",
-    height: undefined,
-    marginBottom: 10,
+    height: 100,
     borderRadius: 6,
   },
   loadingIndicator: {
     alignSelf: "center",
     justifyContent: "center",
     alignItems: "center",
-    color: "#ADD8E6", // Light blue color,
+    color: "#11C0CB", // cyan color,
+  },
+  text: {
+    color: 'white', 
+    textAlign: 'center',
+    fontSize: 16,
+    fontWeight: '300',
+  },
+  imageContainer: {
+    alignSelf: 'flex-start', // Align image to the left
+    margin: 10,
+    borderRadius: 6,
+    elevation: 5, 
+    shadowColor: "#000", 
+    shadowOffset: { width: 0, height: 2 }, 
+    shadowOpacity: 0.8, 
+    shadowRadius: 2, 
   },
   buyButton: {
     paddingHorizontal: 10,

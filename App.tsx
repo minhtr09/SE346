@@ -8,7 +8,8 @@ import { HeaderBackButton } from '@react-navigation/elements';
 import { Home } from "./src/screens/Homes";
 import { Store } from "./src/screens/Store";
 import Swap from "./src/screens/Swap";
-
+import NFTDetail from "./src/screens/NftDetail";
+import NFTDetailList from "./src/screens/NftDetail_forList";
 
 import { StateContextProvider } from "./src/context";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
@@ -42,13 +43,21 @@ export default function App() {
           <NavigationContainer>
             <StatusBar style="auto" hidden />
             <Stack.Navigator >
-            <Stack.Screen name="Swap" component={Swap}/>
               <Stack.Screen name="Home" 
               component={Home} 
               options={{
                 headerShown: false
               }} />
               <Stack.Screen name="Store" component={Store}/>
+              <Stack.Screen name = "NftDetailList" 
+              component={NFTDetailList} 
+              options={{headerShown: false}}
+              />
+              <Stack.Screen name = "NftDetail" 
+              component={NFTDetail} 
+              options={{headerShown: false}}
+              />
+              <Stack.Screen name="Swap" component={Swap}/>             
           
             </Stack.Navigator>
           </NavigationContainer>
