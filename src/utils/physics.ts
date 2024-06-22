@@ -5,6 +5,7 @@ import { Dimensions } from "react-native";
 const windowHeight = Dimensions.get("window").height;
 const windowWidth = Dimensions.get("window").width;
 
+
 export const Physics = (entities, { touches, time, dispatch }) => {
   let engine = entities.physics.engine;
 
@@ -15,6 +16,7 @@ export const Physics = (entities, { touches, time, dispatch }) => {
         x: 0,
         y: -4,
       });
+     
     });
 
   Matter.Engine.update(engine, time.delta);

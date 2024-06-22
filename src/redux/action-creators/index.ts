@@ -38,11 +38,9 @@ export const setUserNfts = (nfts : NftData[] )=>{
     }
 }
 
-export const changeBirdCharacter = (character: string) => {
-    return (dispatch: Dispatch) => {
-        dispatch({
-            type: ActionType.CHANGE_BIRD_CHARACTER,
-            payload: character
-        });
-    };
-};
+
+
+export const setBirdSkin = (skinColor: 'red' | 'yellow' | 'blue') => ({
+  type: ActionType.SET_BIRD_SKIN,
+  payload: skinColor,
+});

@@ -1,6 +1,9 @@
 import { ActionType } from "../action-types";
 import { NftData } from "../../type";
 
+
+
+
 interface ApproveNftAction {
   type: ActionType.APPROVE_NFT;
   payload: number;
@@ -14,8 +17,8 @@ interface FetchNftAction {
   payload: NftData[];
 }
 interface ChangeBirdCharacterAction {
-  type: ActionType.CHANGE_BIRD_CHARACTER;
-  payload: string;
+  type: ActionType.SET_BIRD_SKIN;
+  payload: 'red' | 'yellow' | 'blue';
 }
 
 export type Action = ApproveNftAction | ApproveTokenAction | FetchNftAction|ChangeBirdCharacterAction;;

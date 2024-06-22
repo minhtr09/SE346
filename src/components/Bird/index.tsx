@@ -6,7 +6,6 @@ import { styles } from "./styles";
 import BLUE_BIRD from "../../assets/images/bluebird-midflap.png";
 import RED_BIRD from "../../assets/images/redbird-midflap.png";
 import YELLOW_BIRD from "../../assets/images/yellowbird-midflap.png";
-import BIRD from "../../assets/images/01.png";
 
 
 const Bird = (props) => {
@@ -18,9 +17,25 @@ const Bird = (props) => {
 
   const color = props.color;
 
+  let birdImage;
+  switch (color) {
+    case "blue":
+      birdImage = BLUE_BIRD;
+      break;
+    case "red":
+      birdImage = RED_BIRD;
+      break;
+    case "yellow":
+      birdImage = YELLOW_BIRD;
+      break;
+    default:
+      birdImage = BLUE_BIRD;
+      break;
+  }
+
   return (
     <Image
-      source={BIRD}
+      source={birdImage}
       style={
         styles({
           widthBody,
@@ -33,6 +48,11 @@ const Bird = (props) => {
     />
   );
 };
+
+const mapStateToProps = (state) =>({
+  color: state.birdSkin.skin
+}); 
+
 
 export default (world, color, pos, size) => {
   const initialBird = Matter.Bodies.rectangle(
