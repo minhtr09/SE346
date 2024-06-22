@@ -18,16 +18,6 @@ export const styles = StyleSheet.create({
       width: 25,
       height: 25,
     },
-    modalView: {
-      flex: 1,
-      justifyContent: 'center',
-      alignItems: 'center',
-      marginTop: 22,
-    },
-    modalText: {
-      marginBottom: 15,
-      textAlign: 'center',
-    },
     closeButton: {
       marginTop: 10,
       color: 'blue',

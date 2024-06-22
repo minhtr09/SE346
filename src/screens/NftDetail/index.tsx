@@ -205,7 +205,7 @@ const NFTDetail = ({ route }) => {
           {" "}
           The Flappy Bird NFT #{(id as any)?.toString()}{" "}
         </Text>
-        <View style={[styles.containerPrice, { width: textWidth + 50 }]}>
+        <View style={[styles.containerPrice, { width: textWidth + 80 }]}>
           <Text
             style={styles.text}
             onLayout={handleTextLayout}
@@ -339,7 +339,7 @@ const styles = StyleSheet.create({
   text: {
     color: "white",
     textAlign: "center",
-    fontSize: 14,
+    fontSize: 17,
   },
 });
 
