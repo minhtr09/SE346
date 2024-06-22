@@ -41,8 +41,9 @@ const Start = ({ handleOnStart }) => {
   return (
     <View style={styles.container}>
       {isLoading ? (
-    
+        <SafeAreaView style={styles.loadingContainer}>
         <ActivityIndicator size="large" color="#0000ff" /> 
+        </SafeAreaView>
    
       ) : (
         <>
