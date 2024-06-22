@@ -86,4 +86,10 @@ export const styles = StyleSheet.create({
     width: "100%",
     alignItems: "center", // Center elements horizontally
   },
+  loadingContainer: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "#fff",
+  },
 });
