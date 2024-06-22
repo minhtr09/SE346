@@ -1,5 +1,5 @@
-import { View, Image, TouchableWithoutFeedback, TouchableOpacity } from "react-native";
-import React from "react";
+import { View, Image, TouchableWithoutFeedback, TouchableOpacity,ActivityIndicator} from "react-native";
+import React, { useEffect, useState } from "react";
 
 import LOGO from "../../../../assets/images/logo.png";
 import PLAY from "../../../../assets/images/play.png";
@@ -11,6 +11,7 @@ import { useWeb3Modal } from "@web3modal/wagmi-react-native";
 import Button from "../../../../components/Button";
 import { useStateContext } from "../../../../context";
 import { NavigationProp, useNavigation } from '@react-navigation/native'
+import { SafeAreaView } from "react-native-safe-area-context";
 
 
 const Start = ({ handleOnStart }) => {
@@ -21,30 +22,45 @@ const Start = ({ handleOnStart }) => {
   const handleConnect = () => {
     open();
   }
+  const [isLoading, setIsLoading] = useState(false);
   const { disconnect } = useDisconnect()
-  const handleDisconnect = () => {
-    disconnect();
+  const handleDisconnect = async () => {
+    setIsLoading(true);
+    try{
+      await disconnect();
+    }
+    catch(e){
+      console.error(e);
+    }
+    setIsLoading(false);
   }
+
   
 
 
   return (
-
-    (<View style={styles.container}>
-      <Image source={LOGO} style={styles.logo} />
-      {isConnected ? (
+    <View style={styles.container}>
+      {isLoading ? (
+    
+        <ActivityIndicator size="large" color="#0000ff" /> 
+   
+      ) : (
         <>
-          <TouchableOpacity onPress={handleOnStart}>
-            <Image source={PLAY} style={styles.playButton} />
-          </TouchableOpacity>
-          <Button text="Disconnect" onPress={disconnect} />
-          <Button text="Store" onPress={() => navigation.navigate('Store')} />
-          
+          <Image source={LOGO} style={styles.logo} />
+          {isConnected ? (
+            <>
+              <TouchableOpacity onPress={handleOnStart}>
+                <Image source={PLAY} style={styles.playButton} />
+              </TouchableOpacity>
+              <Button text="Disconnect" onPress={handleDisconnect} />
+              <Button text="Store" onPress={() => navigation.navigate('Store')} />
+            </>
+          ) : (
+            <Button text="Connect Wallet" onPress={handleConnect} />
+          )}
         </>
-
-      ) : (<Button text="Connect Wallet" onPress={handleConnect} />)}
-
-    </View>)
+      )}
+    </View>
   );
 };
 
