@@ -2,6 +2,7 @@ import { Dispatch } from "redux"
 import { ActionType } from "../action-types"
 import "../../type"
 import { NftData } from "../../type"
+
 export const approveNft = (nftId : number) => {
     return (dispatch :Dispatch) => {
         dispatch({
@@ -36,3 +37,12 @@ export const setUserNfts = (nfts : NftData[] )=>{
         })
     }
 }
+
+export const changeBirdCharacter = (character: string) => {
+    return (dispatch: Dispatch) => {
+        dispatch({
+            type: ActionType.CHANGE_BIRD_CHARACTER,
+            payload: character
+        });
+    };
+};

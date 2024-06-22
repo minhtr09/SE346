@@ -13,4 +13,9 @@ interface FetchNftAction {
   type: ActionType.FETCH_LISTED_NFTS | ActionType.FETCH_USERS_NFTS;
   payload: NftData[];
 }
-export type Action = ApproveNftAction | ApproveTokenAction | FetchNftAction;;
+interface ChangeBirdCharacterAction {
+  type: ActionType.CHANGE_BIRD_CHARACTER;
+  payload: string;
+}
+
+export type Action = ApproveNftAction | ApproveTokenAction | FetchNftAction|ChangeBirdCharacterAction;;
