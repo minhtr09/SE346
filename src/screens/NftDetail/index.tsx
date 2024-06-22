@@ -38,7 +38,6 @@ const NFTDetail = ({ route }) => {
     const { width } = event.nativeEvent.layout;
     setTextWidth(width); //Get the width of the text and update it to the state
   };
-  
 
   const nft = route?.params.data?._j;
   const id = route?.params.id;
@@ -70,6 +69,8 @@ const NFTDetail = ({ route }) => {
     actionCreators,
     dispatch
   );
+
+
   const state = useSelector((state: State) => state.approve);
   //contracts address, abi
   const marketPlaceAddress = getBirdMarketPlaceAddress();
@@ -83,6 +84,8 @@ const NFTDetail = ({ route }) => {
   const isShowDefaultImageRedBird = id?.toString() === "2";
   const isShowIPFSimage = id?.toString() === "0";
 
+  const [txLoading, setTxLoading] = useState(false);
+
   // Prepare contract configurations
   const { config: buyNftConfig, isSuccess: isPrepareBuyNftSuccess } =
     usePrepareContractWrite({
@@ -91,7 +94,7 @@ const NFTDetail = ({ route }) => {
       functionName: "buyNFT",
       args: [id?.toString()],
       onError(err) {
-        console.error("Prepare BuyNFT error:",err);
+        console.error("Prepare BuyNFT error:", err);
       },
     });
   const {
@@ -102,12 +105,14 @@ const NFTDetail = ({ route }) => {
     abi: floppyABI,
     functionName: "approve",
     args: [marketPlaceAddress, price],
+    onError(err) {
+      console.error("Prepare Approve error:", err);
+    },
   });
 
   // Hook contract functions
 
   const {
-    data,
     isLoading: isApproveTokenLoading,
     isSuccess: isApproveTokenSuccess,
     isError: isApproveTokenError,
@@ -117,7 +122,7 @@ const NFTDetail = ({ route }) => {
     isSuccess: isBuyNftSuccess,
     isError: isBuyNftError,
     isLoading: isBuyNftLoading,
-    write: onBuyNFT,
+    writeAsync: onBuyNFT,
   } = useContractWrite(buyNftConfig);
 
   // Hook read contract
@@ -143,15 +148,22 @@ const NFTDetail = ({ route }) => {
       try {
         if (state.amount >= nftPrice || amount >= nftPrice) {
           console.log("Buying...");
-          console.log(isPrepareBuyNftSuccess)
+          console.log(isPrepareBuyNftSuccess);
           if (isPrepareBuyNftSuccess) {
-            onBuyNFT();
+            setTxLoading(true);
+            const txHash = (await onBuyNFT?.()).hash; 
+            console.log(txHash);
+            setTxLoading(false);
           }
+
         } else {
           // setRequetsModalVisible(true);
           console.log("Approving...");
           if (isPrepareApproveTokenSuccess) {
-            onApprove();
+            setTxLoading(true);
+            const txHash = (await onApprove?.()).hash;
+            console.log(txHash);
+            setTxLoading(false);
           }
         }
       } catch (error) {
@@ -160,7 +172,6 @@ const NFTDetail = ({ route }) => {
     }
   };
 
-  
   return (
     <View style={styles.container}>
       <View style={styles.header}>
@@ -172,29 +183,27 @@ const NFTDetail = ({ route }) => {
           style={styles.image}
         />
         {isShowDefaultImageBlueBird && (
-            <Image
+          <Image
             source={require("../../assets/images/bluebird-midflap.png")}
             style={styles.overlayImage}
           />
-        )
-        }
+        )}
         {isShowDefaultImageRedBird && (
-            <Image
+          <Image
             source={require("../../assets/images/redbird-midflap.png")}
             style={styles.overlayImage}
           />
-        )
-        }
+        )}
         {isShowIPFSimage && (
           <Image
-          source={{ uri: nft.image ?? undefined }}
-          style={styles.overlayImage}
+            source={{ uri: nft.image ?? undefined }}
+            style={styles.overlayImage}
           />
         )}
-        
+
         <Text style={styles.title}>
           {" "}
-          The Flappy Bird NFT #{(id as any).toString()}{" "}
+          The Flappy Bird NFT #{(id as any)?.toString()}{" "}
         </Text>
         <View style={[styles.containerPrice, { width: textWidth + 50 }]}>
           <Text
@@ -232,9 +241,15 @@ const NFTDetail = ({ route }) => {
 
       {/* Button Place Bid Now */}
       <View style={styles.footer}>
-        <TouchableOpacity style={styles.button} onPress={() => handleBuyNFT()}>
+      {txLoading ? (
+        <TouchableOpacity style={styles.disabledButton} disabled={true}>
+          <Text style={styles.buttonText}>Buying...</Text> 
+        </TouchableOpacity>
+      ) : (
+        <TouchableOpacity style={styles.button} onPress={() => handleBuyNFT()} disabled={false}>
           <Text style={styles.buttonText}>Buy Now</Text>
         </TouchableOpacity>
+      )}
       </View>
     </View>
   );
@@ -270,6 +285,12 @@ const styles = StyleSheet.create({
   },
   button: {
     backgroundColor: "#11C0CB", //cyan
+    padding: 16,
+    borderRadius: 8,
+    alignItems: "center",
+  },
+  disabledButton: {
+    backgroundColor: "#99dde0", 
     padding: 16,
     borderRadius: 8,
     alignItems: "center",

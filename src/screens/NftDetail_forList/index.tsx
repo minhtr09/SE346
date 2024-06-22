@@ -69,13 +69,9 @@ const NFTDetailList = ({ route }) => {
     console.log("Add button pressed");
   };
 
-
   const { address } = useAccount();
   const { fetchListedNfts, fetchUserNfts } = useStateContext();
-  const [requestModalVisible, setRequetsModalVisible] = React.useState(false);
-  const [isRequestLoading, setRequestLoading] = React.useState(false);
-  const [isRequestSuccess, setRequestSisRequestSuccess] = React.useState(false);
-  const [isRequestError, setRequestSisRequestError] = React.useState(false);
+  const [txLoading, setTxLoading] = useState(false);
 
   const dispatch = useDispatch();
   const { approveNft, approveToken } = bindActionCreators(
@@ -92,24 +88,26 @@ const NFTDetailList = ({ route }) => {
   const floppyABI = getFloppyAbi();
   const birdMarketPlaceABI = getBirdMarketPlaceAbi();
   // Prepare contract configurations
-  const { config: approveNftConfig, isSuccess: isPrepareApproveNftSuccess } = usePrepareContractWrite({
-    address: birdAddress,
-    abi: birdAbi,
-    functionName: "approve",
-    args: [marketPlaceAddress, id?.toString()],
-  });
-  const { config: listNftConfig, isSuccess: isPrepareListNftSuccess} = usePrepareContractWrite({
-    address: marketPlaceAddress,
-    abi: birdMarketPlaceABI,
-    functionName: "listNft",
-    args: [id?.toString(), 120000000000000],
-  });
+  const { config: approveNftConfig, isSuccess: isPrepareApproveNftSuccess } =
+    usePrepareContractWrite({
+      address: birdAddress,
+      abi: birdAbi,
+      functionName: "approve",
+      args: [marketPlaceAddress, id?.toString()],
+    });
+  const { config: listNftConfig, isSuccess: isPrepareListNftSuccess } =
+    usePrepareContractWrite({
+      address: marketPlaceAddress,
+      abi: birdMarketPlaceABI,
+      functionName: "listNft",
+      args: [id?.toString(), 120000000000000],
+    });
   // Hook contract functions
 
   const {
     isSuccess: isApproveNftSuccess,
     isError: buyApproveNftError,
-    write: onApproveNft,
+    writeAsync: onApproveNft,
     isError: isApproveNftError,
     isLoading: isApproveNftLoading,
   } = useContractWrite(approveNftConfig);
@@ -118,7 +116,7 @@ const NFTDetailList = ({ route }) => {
     isSuccess: isListNftSuccess,
     isError: isListNftError,
     isLoading: isListNftLoading,
-    write: onListNFT,
+    writeAsync: onListNFT,
   } = useContractWrite(listNftConfig);
 
   // Hook read contract
@@ -129,37 +127,34 @@ const NFTDetailList = ({ route }) => {
     functionName: "getApproved",
     args: [id?.toString()],
     watch: true,
-    onSuccess(data) {
-      if (approvedAddress?.toString() === marketPlaceAddress) {
-        approveNft(id);
-      }
-    },
   });
 
   //handle NFT actions
   const handleListNFT = async () => {
-    setRequetsModalVisible(true);
-
-    console.log(approvedAddress, state[id]);
     console.log("List NFT id:", id);
-    if (approvedAddress?.toString().toLowerCase() != marketPlaceAddress || state[id] === true) {
+    if (approvedAddress?.toString().toLowerCase() != marketPlaceAddress) {
       console.log("Please approve market to transfer this NFT");
       try {
-        onApproveNft();
+        setTxLoading(true);
+        const txHash = (await onApproveNft?.()).hash;
+        console.log(txHash);
+        setTxLoading(false);
       } catch (error) {
         console.log(error);
       }
     } else {
       console.log("Listing NFT......");
       try {
-        onListNFT();
+        setTxLoading(true);
+        const txHash = (await onListNFT?.()).hash;
+        console.log(txHash);
+        setTxLoading(false);
       } catch (error) {
         console.log(error);
       }
     }
   };
 
-  console.log(nft.image);
   return (
     <View style={styles.container}>
       <View style={styles.header}>
@@ -189,8 +184,8 @@ const NFTDetailList = ({ route }) => {
         )}
         {isShowIPFSimage && (
           <Image
-          source={{ uri: nft.image ?? undefined }}
-          style={styles.overlayImage}
+            source={{ uri: nft.image ?? undefined }}
+            style={styles.overlayImage}
           />
         )}
 
@@ -234,9 +229,19 @@ const NFTDetailList = ({ route }) => {
 
       {/* Button Place Bid Now */}
       <View>
-        <TouchableOpacity style={styles.button} onPress={() => handleListNFT()}>
-          <Text style={styles.buttonText}>Sell Now</Text>
-        </TouchableOpacity>
+        {txLoading ? (
+          <TouchableOpacity style={styles.disabledButton} disabled={true}>
+            <Text style={styles.buttonText}>Listing...</Text>
+          </TouchableOpacity>
+        ) : (
+          <TouchableOpacity
+            style={styles.button}
+            onPress={() => handleListNFT()}
+            disabled={false}
+          >
+            <Text style={styles.buttonText}>List Now</Text>
+          </TouchableOpacity>
+        )}
       </View>
     </View>
   );
@@ -271,6 +276,12 @@ const styles = StyleSheet.create({
   },
   button: {
     backgroundColor: "#11C0CB", //cyan
+    padding: 16,
+    borderRadius: 8,
+    alignItems: "center",
+  },
+  disabledButton: {
+    backgroundColor: "#99dde0",
     padding: 16,
     borderRadius: 8,
     alignItems: "center",

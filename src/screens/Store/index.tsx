@@ -63,15 +63,6 @@ const Store: React.FC = () => {
 
   const [refreshing, setRefreshing] = React.useState(false);
 
-  const onRefresh = React.useCallback(() => {
-    fetchListedNfts();
-    fetchUserNfts();
-    setRefreshing(true);
-    setTimeout(() => {
-      setRefreshing(false);
-    }, 2000);
-  }, []);
-
   const { data: marketBalance } = useContractRead({
     address: birdAddress as any, // Bird address
     abi: birdABI,
@@ -95,19 +86,49 @@ const Store: React.FC = () => {
     abi: birdMarketPlaceABI,
     functionName: "getListedNfts",
     enabled: true,
+    watch: true,
+    onSuccess(data) {
+      fetchListedNfts(nfts);
+    },
+  });
+
+  const birdContract = {
+    address: birdAddress,
+    abi: birdABI,
+  };
+
+
+  const { data: usersNftInfo } = useContractRead({
+    address: birdAddress as any,
+    abi: birdABI,
+    functionName: "getAllTokensOwnedBy",
+    args: [address],
+    enabled: true,
+    watch: true,
+    onSuccess(){
+      fetchUserNfts(usersNftInfo);
+    }
   });
 
   React.useEffect(() => {
     console.log("UI Realoading...");
-    fetchListedNfts();
-    fetchUserNfts();
-  }, [marketBalance, userNftBalance]);
+    fetchListedNfts(nfts);
+    fetchUserNfts(usersNftInfo);
+  }, [marketBalance, userNftBalance, nfts]);
 
-  console.log(address)
+  const onRefresh = React.useCallback(() => {
+    fetchListedNfts(nfts);
+    fetchUserNfts(usersNftInfo);
+    setRefreshing(true);
+    setTimeout(() => {
+      setRefreshing(false);
+    }, 2000);
+  }, []);
+
 
   const navigation = useNavigation<NavigationProp<any>>();
   const handleCardPress = (nft: any, index: number) => {
-
+    
     navigation.navigate("NftDetail", { data: nft, id: nfts[index]?.tokenId, price: nfts[index]?.price as any});
   };
 

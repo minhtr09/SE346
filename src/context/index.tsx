@@ -45,30 +45,10 @@ export const StateContextProvider = ({ children }) => {
     onSuccess(data) {},
   });
 
-  const { data: nfts } = useContractRead({
-    address: marketPlaceAddress as any,
-    abi: birdMarketPlaceABI,
-    functionName: "getListedNfts",
-    enabled: true,
-  });
 
-  const birdContract = {
-    address: birdAddress,
-    abi: birdABI,
-  };
-
-
-  const { data: usersNftInfo } = useContractRead({
-    address: birdAddress as any,
-    abi: birdABI,
-    functionName: "getAllTokensOwnedBy",
-    args: [address],
-    enabled: true,
-  });
-
-  const fetchListedNfts = async () => {
+  const fetchListedNfts = async (listedNfts : any) => {
     try {
-      const nftPromises = (nfts as any)?.map(async (nft) => {
+      const nftPromises = (listedNfts as any)?.map(async (nft) => {
         const imageUrl = nft.url;
         const nftData = await fetch(imageUrl);
 
@@ -82,7 +62,7 @@ export const StateContextProvider = ({ children }) => {
     } catch (error) {}
   };
 
-  const fetchUserNfts = async () => {
+  const fetchUserNfts = async (usersNftInfo : any) => {
 
     try {
       const tokenIds = usersNftInfo[0];
