@@ -8,6 +8,8 @@ import {
   StyleSheet,
   View,
   Image,
+  TouchableWithoutFeedback,
+  Keyboard,
 } from "react-native";
 import { ListedNFT, NftData } from "../../type";
 import {
@@ -158,6 +160,7 @@ const NFTDetailList = ({ route }) => {
   };
 
   return (
+    <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
     <View style={styles.container}>
       <View style={styles.header}>
         <HeaderBackButton onPress={() => navigation.goBack()} />
@@ -246,6 +249,7 @@ const NFTDetailList = ({ route }) => {
         )}
       </View>
     </View>
+    </TouchableWithoutFeedback>
   );
 };
 
