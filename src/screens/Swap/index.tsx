@@ -11,14 +11,13 @@ import { useNavigation } from "@react-navigation/native";
 import Picker from "react-native-picker-select";
 
 import styles from "./style";
-import { useContractRead } from "wagmi";
+import { useBalance, useContractRead } from "wagmi";
 import { useStateContext } from "../../context";
 
 const Swap = () => {
   const {
     address,
     userTokenBalance,
-    ronBalance
   } = useStateContext();
 
   const navigation = useNavigation();
@@ -39,7 +38,10 @@ const Swap = () => {
     setRates(newRate);
   };
 
-
+  const {data: ronBalance} = useBalance({
+    address: address,
+    watch: true,
+  })
 
   const { data: flpBalance } = useContractRead({});
 
