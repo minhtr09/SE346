@@ -1,5 +1,5 @@
 import React from "react";
-import { RefreshControl, ScrollView, Text, View } from "react-native";
+import { RefreshControl, ScrollView, Text, View, Image } from "react-native";
 import { ListedNFT, NftData } from "../../type";
 import {
   getBirdAbi,
@@ -150,10 +150,20 @@ const Store: React.FC = () => {
       >
         <View style={styles.connectedView}>
           <View style={styles.card}>
-            <Text>
-              FLP Balances:{" "}
+          <View style={{
+                        flexDirection: "row",
+                        alignItems: "center",
+                    }}>
+                      <Text>FLP Balances </Text>
+                        <Image
+                            source={require('../../../src/assets/images/medal_gold.png')}
+                            style={styles.iconCoin}
+                        />
+              <Text>
+              :{" "}
               {parseFloat((userTokenBalance as any)?.toString()) / 1e18}
             </Text>
+          </View>
           </View>
           <View style={styles.card}>
             <Text>NFT for sells:</Text>

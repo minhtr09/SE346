@@ -95,4 +95,8 @@ export const styles = StyleSheet.create({
     borderTopWidth: 1,
     borderColor: '#eaeaea',
   },
+  iconCoin :{
+    width: 24,
+    height: 24,
+  },
 });

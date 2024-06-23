@@ -33,6 +33,7 @@ import { useDispatch } from "react-redux";
 import { bindActionCreators } from "redux";
 import { actionCreators, State } from "../../redux/index";
 import { useSelector } from "react-redux";
+import NFTCElement from "../NFTCard_Element/NFTC_Element";
 const width = Dimensions.get("window").width;
 
 const NFTCard: React.FC<NftProps> = ({
@@ -54,6 +55,7 @@ const NFTCard: React.FC<NftProps> = ({
         {!isLoading ? (
           <>
             <View style={styles.NFTCardContainer}>
+        
               <View style={styles.imageContainer}>
                 {isShowIPFSimage && (
                   <Image
@@ -77,6 +79,10 @@ const NFTCard: React.FC<NftProps> = ({
                   />
                 )}
               </View>
+              <View style={styles.nftcElementContainer}>
+                <NFTCElement />
+              </View>
+
               <View style={styles.textContainer}>
                 {/* NFTcard name */}
                 <Text style={styles.NFTName}>
@@ -84,13 +90,22 @@ const NFTCard: React.FC<NftProps> = ({
                 </Text>
                 {isTransfer && (
                   <View style={styles.nftprice}>
-                    <Text
-                      style={styles.text}
-                      numberOfLines={1}
-                      ellipsizeMode="tail"
-                    >
-                      {parseFloat((price as any)?.toString()) / 1e18} FLP
-                    </Text>
+                     <View style={{
+                        flexDirection: "row",
+                        alignItems: "center",
+                        }}>
+                       <Text
+                            style={styles.text}
+                            numberOfLines={1}
+                            ellipsizeMode="tail"
+                            >
+                              {parseFloat((price as any)?.toString()) / 1e18} {" "}
+                            </Text>
+                          <Image
+                            source={require('../../../src/assets/images/medal_gold.png')}
+                            style={styles.iconCoin}
+                          />
+                    </View>                   
                   </View>
                 )}
               </View>
@@ -114,7 +129,7 @@ const NFTCard: React.FC<NftProps> = ({
 
 const styles = StyleSheet.create({
   nft: {
-    backgroundColor: "#eee",
+    // backgroundColor: "#eee",
     width: width * 0.75,
     marginHorizontal: 10,
     borderRadius: 8,
@@ -131,16 +146,29 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   textContainer: {
+    backgroundColor: "#eee",
     flex: 1,
-    marginLeft: 10,
+    marginTop: 8,
+    marginBottom:8,
+    padding: 8,
+    borderWidth: 1,
+    borderColor: "#ddd",
+    borderRadius: 8,
     justifyContent: "center",
+    borderTopLeftRadius: 0,
+    borderBottomLeftRadius: 0,
   },
   nftprice: {
     backgroundColor: "#612FB1",
     borderRadius: 30,
     width: width * 0.3,
-    marginLeft: 10,
     maxWidth: 200,
+    alignSelf: "center",
+    paddingHorizontal: 10,
+    paddingVertical: 5,
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
   },
   nftImage: {
     width: "100%",
@@ -158,21 +186,22 @@ const styles = StyleSheet.create({
     textAlign: "center",
     fontSize: 16,
     fontWeight: "300",
+    marginLeft: 10,
   },
   imageContainer: {
-    alignSelf: "flex-start", // Align image to the left
-    margin: 10,
-    borderRadius: 6,
-    elevation: 5,
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.8,
-    shadowRadius: 2,
+    position: "absolute",
+    marginLeft: 10,
+    marginTop:10,
+    zIndex: 1, 
+    alignItems: "flex-start",
   },
-  buyButton: {
-    paddingHorizontal: 10,
-    paddingVertical: 5,
-    borderRadius: 5,
+  nftcElementContainer: {
+    zIndex: 0, 
+  },
+  iconCoin :{
+    width: 24,
+    height: 24,
+    marginLeft: 5,
   },
 });
 
