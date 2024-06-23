@@ -95,6 +95,18 @@ const Swap = () => {
     }
   };
 
+  const checkDisabled = () => {
+    if (Number(coinAmount1) === 0) {
+        return true;
+      } else if (Number(coinAmount1) > Number(balance.coin1)) {
+        return true;
+      } else if (coins.coin1 === 'FLP' && approvedAmount.toString() === "0") {
+        return true;
+      } else {
+        return false;
+      }
+  }
+
   React.useEffect(() => {
     setBalance({
       coin1: parseFloat((ronBalance?.value as any)?.toString()) / 1e18,
@@ -213,7 +225,7 @@ const Swap = () => {
               ? styles.buttonDisabled
               : styles.buttonEnabled
           }
-          disabled={Number(coinAmount1) > Number(balance.coin1)}
+          disabled={checkDisabled()}
         >
           <Text style={styles.buttonText}>{buttonText()}</Text>
         </TouchableOpacity>
