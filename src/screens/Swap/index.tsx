@@ -6,6 +6,10 @@ import {
   TouchableOpacity,
   TextInput,
   KeyboardAvoidingView,
+  TouchableWithoutFeedback,
+  Keyboard,
+  InputAccessoryView,
+  Button,
 } from "react-native"; // Import Image from react-native
 import { useNavigation } from "@react-navigation/native";
 import Picker from "react-native-picker-select";
@@ -39,6 +43,8 @@ const Swap = () => {
     setRates(newRate);
   };
 
+  const approveAmount = 0;
+
   const {data: ronBalance} = useBalance({
     address: address,
     watch: true,
@@ -51,12 +57,13 @@ const Swap = () => {
   const [approved, setApproved] = useState(false);
 
   return (
+    <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
     <View style={styles.container}>
       <Text style={styles.title}>Exchange</Text>
       <Text style={styles.text}>Swap your coins</Text>
       <View style={styles.rectangle}>
         <View style={styles.coinContainer}>
-          <Text style={styles.header}>{"From :"}</Text>
+          <Text style={styles.header}>{"You sell :"}</Text>
           <View
             style={{
               flexDirection: "row",
@@ -97,7 +104,7 @@ const Swap = () => {
 
       <View style={styles.rectangle}>
         <View style={styles.coinContainer}>
-          <Text style={styles.header}>{"To :"}</Text>
+          <Text style={styles.header}>{"You buy :"}</Text>
           <View
             style={{
               flexDirection: "row",
@@ -130,17 +137,27 @@ const Swap = () => {
             : `1 FLP = ${1 / rates} RON`}
         </Text>
       </View>
-      {!approved ? (
+      {!approveAmount && coins.coin1 === "FLP" ? (
         <View style={styles.approvecontainer}>
           <Text
             style={{
               color: "#FFFFFF",
-              fontSize: 20,
+              fontSize: 15,
               flex: 1,
-              textAlign: "center",
+              textAlign: "left",
             }}
           >
-            Not approved !
+            Approve spending cap
+          </Text>
+          <Text
+            style={{
+              color: "#FFFFFF",
+              fontSize: 15,
+              flex: 1,
+              textAlign: "left",
+            }}
+          >
+            Your current spending cap is {approveAmount} FLP. Please approve new spending cap
           </Text>
         </View>
       ) : null}
@@ -158,9 +175,9 @@ const Swap = () => {
             : "Exchange"}
         </Text>
       </TouchableOpacity>
-
       <BottomMenu/>
     </View>
+    </TouchableWithoutFeedback>
   );
 };
 

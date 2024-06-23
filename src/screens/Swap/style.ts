@@ -1,5 +1,5 @@
 import { Icon } from "ionicons/dist/types/components/icon/icon";
-import { StyleSheet, TextInput } from "react-native";
+import { Dimensions, StyleSheet, TextInput } from "react-native";
 
 const styles = StyleSheet.create({
     container: {
@@ -47,20 +47,18 @@ const styles = StyleSheet.create({
         paddingVertical: 13,
         paddingHorizontal: 24,
         marginHorizontal: 24,
-        width: 327,
+        width: "auto",
     },
     buttonDisabled: {
         flexDirection: "row",
         justifyContent: "center",
         alignItems: "center",
-        backgroundColor: 'red',
+        backgroundColor: "red",
         borderRadius: 8,
         paddingVertical: 13,
         paddingHorizontal: 24,
         marginHorizontal: 24,
-        width: 327,
-        position: "absolute",
-        bottom: 24,
+        width: "auto",
     },
     coin: {
         color: "#FFFFFF",
@@ -116,9 +114,18 @@ const styles = StyleSheet.create({
         marginBottom: 13,
         marginHorizontal: 24,
         alignItems: "center",
-         justifyContent: "center",
+        justifyContent: "center",
     
     },
+    accessory: {
+        width: Dimensions.get('window').width,
+        height: 48,
+        flexDirection: 'row',
+        justifyContent: 'flex-end',
+        alignItems: 'center',
+        backgroundColor: '#F8F8F8',
+        paddingHorizontal: 8
+      }
 
 
 
