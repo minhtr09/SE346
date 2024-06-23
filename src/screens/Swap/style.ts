@@ -3,7 +3,7 @@ import { Dimensions, StyleSheet, TextInput } from "react-native";
 
 const styles = StyleSheet.create({
     container: {
-        backgroundColor: '#202020',
+        backgroundColor: 'white',
         flex: 1,
         alignItems: 'center',
         justifyContent: 'center',
@@ -21,28 +21,29 @@ const styles = StyleSheet.create({
 
     },
     text: {
-        color: "#DADADA",
-        fontSize: 14,
+        color: "black",
+        fontSize: 30,
         marginBottom: 24,
         marginLeft: 25,
+        fontWeight: 'bold',
     },
     rectangle: {
         flexDirection: "row",
-        borderColor: "#767676",
         borderRadius: 8,
-        borderWidth: 1,
         paddingVertical: 16,
         paddingHorizontal: 18,
         marginBottom: 13,
         marginHorizontal: 24,
         justifyContent: "space-between",
         alignItems: "center",
+        backgroundColor: "#eee",
+        shadowColor: "#eee",
     },
     buttonEnabled: {
         flexDirection: "row",
         justifyContent: "center",
         alignItems: "center",
-        backgroundColor: "#89B9FF",
+        backgroundColor: "#203bc7",
         borderRadius: 8,
         paddingVertical: 13,
         paddingHorizontal: 24,
@@ -53,30 +54,54 @@ const styles = StyleSheet.create({
         flexDirection: "row",
         justifyContent: "center",
         alignItems: "center",
-        backgroundColor: "red",
+        backgroundColor: "#7f9ddb",
         borderRadius: 8,
         paddingVertical: 13,
         paddingHorizontal: 24,
         marginHorizontal: 24,
         width: "auto",
     },
+    buttonLoading: {
+        flexDirection: "row",
+        justifyContent: "center",
+        alignItems: "center",
+        backgroundColor: "#5a84d1",
+        borderRadius: 8,
+        paddingVertical: 13,
+        paddingHorizontal: 24,
+        marginHorizontal: 24,
+        width: "auto",
+    },
+    buttonError: {
+        flexDirection: "row",
+        justifyContent: "center",
+        alignItems: "center",
+        backgroundColor: "#eb2121",
+        borderRadius: 8,
+        paddingVertical: 13,
+        paddingHorizontal: 24,
+        marginHorizontal: 24,
+        width: "auto",
+    },
+    
     coin: {
-        color: "#FFFFFF",
+        color: "black",
         fontSize: 16,
         marginRight: 4,
         marginLeft: 4,
+        fontWeight: "bold",
 
     },
     buttonText: {
-        color: "#FFFFFF",
+        color: "white",
         fontSize: 20,
         flex: 1,
         textAlign: "center",
     },
     textInput: {
-        color: "#FFFFFF",
+        color: "black",
         fontSize: 20,
-
+        fontWeight: 'bold'
     },
     textInputError: {
         color: "red",
@@ -84,7 +109,7 @@ const styles = StyleSheet.create({
 
     },
     header:{
-        color: "#BDBDBD",
+        color: "#42444d",
         fontSize: 14,
         marginRight: 4,
     },
@@ -93,7 +118,7 @@ const styles = StyleSheet.create({
         height: 24,
     },
     rate:{
-        color: "#FFFFFF",
+        color: "black",
         fontSize: 16,
         marginRight: 4,
         flex: 1,
@@ -101,7 +126,7 @@ const styles = StyleSheet.create({
         textAlign: "center",
     },
     balance: {
-        color: "#FFFFFF",
+        color: "#42444d",
         fontSize: 14,
         marginRight: 4,
     },

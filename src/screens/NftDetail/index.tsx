@@ -258,21 +258,20 @@ const styles = StyleSheet.create({
     borderColor: "#FFFFFF",
   },
   button: {
-    backgroundColor: "#11C0CB", //cyan
+    backgroundColor: "#203bc7", //cyan
     padding: 16,
     borderRadius: 8,
     alignItems: "center",
   },
   disabledButton: {
-    backgroundColor: "#99dde0", 
+    backgroundColor: "#5a84d1", 
     padding: 16,
     borderRadius: 8,
     alignItems: "center",
   },
   buttonText: {
-    color: "black",
+    color: "white",
     fontSize: 18,
-    fontWeight: "bold",
   },
   overlayImage: {
     position: "absolute",

@@ -15,21 +15,34 @@ import { useNavigation } from "@react-navigation/native";
 import Picker from "react-native-picker-select";
 
 import styles from "./style";
-import { useBalance, useContractRead } from "wagmi";
+import {
+  useBalance,
+  useContractRead,
+  useContractWrite,
+  usePrepareContractWrite,
+} from "wagmi";
 import { useStateContext } from "../../context";
 import BottomMenu from "../../components/BottomMenu/BottomMenu";
 import {
   getBirdMarketPlaceAddress,
+  getFLPCrowdSaleAddress,
   getFloppyAddress,
 } from "../../contracts/utils/getAddress";
-import { getFloppyAbi } from "../../contracts/utils/getAbis";
+import {
+  getFLPCrowdSaleABI,
+  getFloppyAbi,
+} from "../../contracts/utils/getAbis";
+import { parseEther } from "../../contracts/utils/parseEther";
 
 const Swap = () => {
   const { address } = useStateContext();
 
   const floppyAddress = getFloppyAddress();
-  const floppyABI = getFloppyAbi();
   const marketPlaceAddress = getBirdMarketPlaceAddress();
+  const flpCrowdSaleAddress = getFLPCrowdSaleAddress();
+  const floppyABI = getFloppyAbi();
+  const flpCrowdSaleABI = getFLPCrowdSaleABI();
+
   const navigation = useNavigation();
   const [coins, setCoins] = useState({ coin1: "RON", coin2: "FLP" });
   const [coinLogo, setCoinLogo] = useState({
@@ -45,9 +58,39 @@ const Swap = () => {
   const [coinAmount2, setCoinAmount2] = useState("0.0");
   const [approvedAmount, setApprovedAmount] = useState(0);
   const [rates, setRates] = useState(1000);
+  const [txLoading, setTxLoading] = useState(false);
   const updateRates = (newRate) => {
     setRates(newRate);
   };
+  //prepare config
+  const {
+    config: approveTokenConfig,
+    isSuccess: isPrepareApproveTokenSuccess,
+  } = usePrepareContractWrite({
+    address: floppyAddress,
+    abi: floppyABI,
+    functionName: "approve",
+    args: [marketPlaceAddress, Number(Number(coinAmount1) * 1e18)],
+    onError(err) {
+      console.error("prepare err", err);
+    },
+  });
+
+  const { config: buyRONconfig, isSuccess: isPrepareBuyRONSuccess } =
+    usePrepareContractWrite({
+      address: flpCrowdSaleAddress,
+      abi: flpCrowdSaleABI,
+      functionName: "buyRONbyToken",
+      args: [Number(Number(coinAmount1) * 1e15)],
+      onError(err) {
+        console.error("prepare err", err);
+      },
+    });
+
+  // contract write
+  const { writeAsync: onApprove } = useContractWrite(approveTokenConfig);
+
+  const { writeAsync: onBuyRonByFLP } = useContractWrite(approveTokenConfig);
 
   //contract read
   const { data: ronBalance } = useBalance({
@@ -72,7 +115,6 @@ const Swap = () => {
       watch: true,
       onSuccess(data) {
         setApprovedAmount(amount as number);
-        console.log("amount approved", approvedAmount);
       },
     });
 
@@ -87,30 +129,97 @@ const Swap = () => {
     if (Number(coinAmount1) === 0) {
       return "Enter an amount";
     } else if (Number(coinAmount1) > Number(balance.coin1)) {
-      return "Insufficient Balance";
-    } else if (coins.coin1 === 'FLP' && approvedAmount.toString() === "0") {
-      return "Approve spending cap";
+      return "Insufficient " + coins.coin1 + " Balance to swap";
+    } else if (
+      (coins.coin1 === "FLP" && approvedAmount.toString() === "0") ||
+      parseFloat((approvedAmount as any)?.toString()) / 1e18 <
+        Number(coinAmount1)
+    ) {
+      return txLoading ? "Approving..." : "Approve spending cap";
     } else {
-      return "Swap";
+      return txLoading ? "Swapping..." : "Swap";
     }
   };
 
   const checkDisabled = () => {
+    if (txLoading) return true;
+
     if (Number(coinAmount1) === 0) {
-        return true;
-      } else if (Number(coinAmount1) > Number(balance.coin1)) {
-        return true;
-      } else if (coins.coin1 === 'FLP' && approvedAmount.toString() === "0") {
-        return true;
+      return true;
+    } else if (Number(coinAmount1) > Number(balance.coin1)) {
+      return true;
+    } else if (
+      coins.coin1 === "FLP" &&
+      parseFloat((approvedAmount as any)?.toString()) / 1e18 >
+        Number(coinAmount1)
+    ) {
+      return false;
+    } else {
+      return false;
+    }
+  };
+
+  const buttonStyle = () => {
+    const disable = checkDisabled();
+    if (txLoading) return styles.buttonLoading;
+
+    if (Number(coinAmount1) > Number(balance.coin1)) return styles.buttonError;
+
+    if (disable) return styles.buttonDisabled;
+
+    return styles.buttonEnabled;
+  };
+
+  const onClickApprove = async () => {
+    try {
+      console.log(
+        "Approving spending cap ....",
+        Number(Number(coinAmount1) * 1e18)
+      );
+      setTxLoading(true);
+      const txHash = (await onApprove?.()).hash;
+      console.log(txHash);
+      setTxLoading(false);
+    } catch (error) {}
+  };
+  const onClickBuyRon = async () => {
+    try {
+      console.log(
+        "Buying RON ....",
+        Number(Number(coinAmount1) * 1e18)
+      );
+      setTxLoading(true);
+      const txHash = (await onBuyRonByFLP?.()).hash;
+      console.log(txHash);
+      setTxLoading(false);
+    } catch (error) {}
+  };
+
+
+
+  const handleButtonClick = async () => {
+    if (Number(coinAmount1) === 0) {
+    } else if (Number(coinAmount1) > Number(balance.coin1)) {
+    } else if (coins.coin1 === "FLP") {
+      if (
+        coins.coin1 === "FLP" &&
+        parseFloat((approvedAmount as any)?.toString()) / 1e18 <
+          Number(coinAmount1)
+      ) {
+        onClickApprove();
       } else {
-        return false;
+        onClickBuyRon();
       }
-  }
+    } else {
+    }
+  };
 
   React.useEffect(() => {
     setBalance({
-      coin1: parseFloat((ronBalance?.value as any)?.toString()) / 1e18,
-      coin2: parseFloat((userTokenBalance as any)?.toString()) / 1e18,
+      //   coin1: parseFloat((ronBalance?.value as any)?.toString()) / 1e18,
+      //   coin2: parseFloat((userTokenBalance as any)?.toString()) / 1e18,
+      coin1: parseEther(ronBalance?.value as any),
+      coin2: parseEther(userTokenBalance as any),
     });
   }, [ronBalance, userTokenBalance]);
   return (
@@ -135,7 +244,11 @@ const Swap = () => {
           </View>
 
           <TextInput
-            style= {Number(coinAmount1) > Number(balance.coin1) ? styles.textInputError : styles.textInput}
+            style={
+              Number(coinAmount1) > Number(balance.coin1)
+                ? styles.textInputError
+                : styles.textInput
+            }
             onChangeText={(text) => {
               setCoinAmount1(text);
             }}
@@ -154,7 +267,7 @@ const Swap = () => {
           }}
         >
           <Image
-            source={require("../../assets/images/swap.png")}
+            source={require("../../assets/images/coin-swap.png")}
             style={{ width: 50, height: 50, marginBottom: 24, marginTop: 24 }}
           />
         </TouchableOpacity>
@@ -194,7 +307,9 @@ const Swap = () => {
               : `1 FLP = ${1 / rates} RON`}
           </Text>
         </View>
-        {!approvedAmount && coins.coin1 === "FLP" ? (
+        {parseEther(approvedAmount) < Number(coinAmount1) &&
+        coins.coin1 === "FLP" &&
+        Number(coinAmount1) <= Number(balance.coin1) ? (
           <View style={styles.approvecontainer}>
             <Text
               style={{
@@ -214,18 +329,15 @@ const Swap = () => {
                 textAlign: "left",
               }}
             >
-              Your current spending cap is {approvedAmount?.toString()} FLP. Please approve
-              new spending cap
+              Your current spending cap is {parseEther(approvedAmount)} FLP.
+              Please approve new spending cap
             </Text>
           </View>
         ) : null}
         <TouchableOpacity
-          style={
-            Number(coinAmount1) > Number(balance.coin1)
-              ? styles.buttonDisabled
-              : styles.buttonEnabled
-          }
+          style={buttonStyle()}
           disabled={checkDisabled()}
+          onPress={() => handleButtonClick()}
         >
           <Text style={styles.buttonText}>{buttonText()}</Text>
         </TouchableOpacity>

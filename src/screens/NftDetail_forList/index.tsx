@@ -50,7 +50,7 @@ import Frame from "../../components/frame/frame";
 
 const NFTDetailList = ({ route }) => {
 const navigation = useNavigation();
-const [inputValue, setInputValue] = useState("");
+const [nftPrice, setNftPrice] = useState("");
 const id = route?.params.data?.tokenId;
 const nft = route?.params.data?.tokenUrl?._j;
 
@@ -193,8 +193,9 @@ return (
             numberOfLines={1}
             placeholder="0.0"
             keyboardType="numeric"
-            value={inputValue}
-            onChangeText={setInputValue}
+            value={nftPrice}
+            onChangeText={setNftPrice}
+            maxLength={10}
           />
           <View style={{ flexDirection: "row", alignItems: "center" }}>
             <Image
