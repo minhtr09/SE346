@@ -134,9 +134,9 @@ const Store: React.FC = () => {
     navigation.navigate("NftDetail", { data: nft, id: nfts[index]?.tokenId, price: nfts[index]?.price as any});
   };
 
-  const handleDetailListPress = (nft: any) => {
+  const handleDetailListPress = (nft: any, id: any) => {
     
-    navigation.navigate("NftDetailList", { data: nft  });
+    navigation.navigate("NftDetailList", { data: nft, id: id });
   };
 
   return (
@@ -201,7 +201,7 @@ const Store: React.FC = () => {
                       price={1200000}
                       isTransfer={false}
                       isList={true}
-                      onPress={() => handleDetailListPress(nft)}
+                      onPress={() => handleDetailListPress(nft, nft?.tokenId)}
                     />
                   );
                 })
