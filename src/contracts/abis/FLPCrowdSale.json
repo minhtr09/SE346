@@ -103,12 +103,14 @@
       { "internalType": "uint256", "name": "ronAmount", "type": "uint256" }
     ],
     "name": "buyRONbyToken",
+    "outputs": [],
     "stateMutability": "nonpayable",
     "type": "function"
   },
   {
     "inputs": [],
     "name": "buyTokenByRON",
+    "outputs": [],
     "stateMutability": "payable",
     "type": "function"
   },
@@ -131,6 +133,7 @@
   {
     "inputs": [],
     "name": "renounceOwnership",
+    "outputs":[],
     "stateMutability": "nonpayable",
     "type": "function"
   },

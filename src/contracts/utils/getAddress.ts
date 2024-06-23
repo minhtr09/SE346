@@ -17,4 +17,4 @@ export const getBirdAddressOldVersion = () =>
 export const getBirdMarketPlaceAddress = () =>
   "0xbf1361ceb0aa108a1700b61c862786c85c4fb4f5";
 export const getFLPCrowdSaleAddress = () =>
-  "0x0E04690537aaFEA50180330601278836c993B9FB";
+  "0x0e04690537aafea50180330601278836c993b9fb";
