@@ -341,12 +341,25 @@ const Swap = () => {
         coins.coin1 === "FLP" &&
         Number(coinAmount1) <= Number(balance.coin1) ? (
           <View style={styles.approvecontainer}>
+            <Image
+              source={require('../../assets/icons/warning.png')}
+              style={{
+                width: 20,
+                height: 20,
+              }}
+            />
+            <View 
+              style = {{
+                flexDirection: "column",
+                marginLeft: 10,
+              }}>
             <Text
               style={{
                 color: "#FFFFFF",
                 fontSize: 15,
-                flex: 1,
                 textAlign: "left",
+                marginBottom: 10,
+                fontWeight: "600"
               }}
             >
               Approve spending cap
@@ -355,13 +368,14 @@ const Swap = () => {
               style={{
                 color: "#FFFFFF",
                 fontSize: 15,
-                flex: 1,
                 textAlign: "left",
+                fontWeight: "200"
               }}
             >
               Your current spending cap is {parseEther(approvedAmount)} FLP.
               Please approve new spending cap
             </Text>
+            </View>
           </View>
         ) : null}
         <TouchableOpacity

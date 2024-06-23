@@ -136,15 +136,17 @@ const styles = StyleSheet.create({
     },
     approvecontainer:{
         flexDirection: "row",
-        backgroundColor:"#04252F",
+        backgroundColor: "#04252F",
         borderRadius: 8,
-        borderWidth: 1,
         paddingVertical: 16,
-        paddingHorizontal: 18,
+        paddingHorizontal: 16,
+        paddingBottom: 5,
         marginBottom: 13,
-        marginHorizontal: 24,
-        alignItems: "center",
-        justifyContent: "center",
+        marginTop: 15,
+        alignItems: "flex-start",
+        justifyContent: "flex-start",
+        width: 345,
+        height: 100,
     
     },
     accessory: {
@@ -155,9 +157,6 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         backgroundColor: '#F8F8F8',
         paddingHorizontal: 8
-      }
-
-
-
+    },
 });
 export default styles;

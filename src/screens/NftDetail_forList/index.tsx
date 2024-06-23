@@ -219,29 +219,41 @@ const NFTDetailList = ({ route }) => {
           </View>
           <Text style={styles.title}> The Flappy Bird NFT #{id.toString()} </Text>
           {approvedAddress?.toString().toLowerCase() != marketPlaceAddress ? (
-            <View style={styles.approvecontainer}>
-              <Text
-                style={{
-                  color: "#FFFFFF",
-                  fontSize: 15,
-                  flex: 1,
-                  textAlign: "left",
-                }}
-              >
-                Approve transfering the NFT
-              </Text>
-              <Text
-                style={{
-                  color: "#FFFFFF",
-                  fontSize: 15,
-                  flex: 1,
-                  textAlign: "left",
-                }}
-              >
-                This NFT cannot be listed for transfer on the market yet. Please
-                approve it first.
-              </Text>
-            </View>
+                        <View style={styles.approvecontainer}>
+                        <Image
+                          source={require('../../assets/icons/warning.png')}
+                          style ={{
+                            width: 20,
+                            height: 20,
+                          }}  
+                        />
+                        <View style = {{
+                          flexDirection: "column",
+                          marginLeft: 10,
+                        }}>
+                          <Text
+                            style={{
+                              color: "#FFFFFF",
+                              fontSize: 15,
+                              textAlign: "left",
+                              marginBottom: 10,
+                              fontWeight: "600"
+                            }}
+                          >
+                            Approve transfering the NFT
+                          </Text>
+                          <Text
+                            style={{
+                              color: "#FFFFFF",
+                              fontSize: 15,
+                              textAlign: "left",
+                              fontWeight: "200"
+                            }}
+                          >
+                            This NFT cannot be listed for transfer on the market yet. Please approve it first.
+                          </Text>
+                        </View>
+                      </View>
           ) : null}
 
           {/* Button to list now */}
@@ -347,12 +359,14 @@ const styles = StyleSheet.create({
     backgroundColor: "#04252F",
     borderRadius: 8,
     paddingVertical: 16,
-    paddingHorizontal: 18,
+    paddingHorizontal: 16,
+    paddingBottom: 5,
     marginBottom: 13,
     marginTop: 15,
-    alignItems: "center",
-    justifyContent: "center",
-    width: "auto",
+    alignItems: "flex-start",
+    justifyContent: "flex-start",
+    width: 362,
+    height: 100,
   },
 });
 
