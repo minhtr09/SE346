@@ -72,6 +72,8 @@ const Store: React.FC = () => {
     watch: true,
   });
 
+  
+
   const { data: userNftBalance } = useContractRead({
     address: birdAddress as any, // Bird address
     abi: birdABI,

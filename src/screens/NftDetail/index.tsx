@@ -93,9 +93,6 @@ const NFTDetail = ({ route }) => {
       abi: birdMarketPlaceABI,
       functionName: "buyNFT",
       args: [id?.toString()],
-      onError(err) {
-        console.error("Prepare BuyNFT error:", err);
-      },
     });
   const {
     config: approveTokenConfig,
@@ -105,9 +102,6 @@ const NFTDetail = ({ route }) => {
     abi: floppyABI,
     functionName: "approve",
     args: [marketPlaceAddress, price],
-    onError(err) {
-      console.error("Prepare Approve error:", err);
-    },
   });
 
   // Hook contract functions
@@ -148,14 +142,15 @@ const NFTDetail = ({ route }) => {
       try {
         if (state.amount >= nftPrice || amount >= nftPrice) {
           console.log("Buying...");
-          console.log(isPrepareBuyNftSuccess);
           if (isPrepareBuyNftSuccess) {
             setTxLoading(true);
             const txHash = (await onBuyNFT?.()).hash; 
             console.log(txHash);
             setTxLoading(false);
+            if(txHash.toString().length > 0) {
+              navigation.goBack();
+            }
           }
-
         } else {
           // setRequetsModalVisible(true);
           console.log("Approving...");
@@ -167,7 +162,6 @@ const NFTDetail = ({ route }) => {
           }
         }
       } catch (error) {
-        console.log(error);
       }
     }
   };
@@ -196,7 +190,7 @@ const NFTDetail = ({ route }) => {
         )}
         {isShowIPFSimage && (
           <Image
-            source={{ uri: nft.image ?? undefined }}
+            source={require("../../assets/images/yellowbird-midflap.png")}
             style={styles.overlayImage}
           />
         )}

@@ -57,7 +57,7 @@ const NFTCard: React.FC<NftProps> = ({
               <View style={styles.imageContainer}>
                 {isShowIPFSimage && (
                   <Image
-                    source={{ uri: nft.image ?? undefined }}
+                    source={require("../../assets/images/yellowbird-midflap.png")}
                     style={[styles.nftImage, { aspectRatio: 1 }]}
                     resizeMode="contain"
                   />

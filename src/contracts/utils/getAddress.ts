@@ -7,7 +7,6 @@ export const getUsdtAddress = () =>
 // export const getBirdAddress = () =>
 // "0x26c25EFf885Ef34A33B265345cAAd6856E9a3cAA";
 
-
 //saigon testnet
 export const getFloppyAddress = () =>
   "0x7DCdfe41708fdB651bAAFD2A392A1eCB808A25FE";
@@ -17,3 +16,5 @@ export const getBirdAddressOldVersion = () =>
   "0x35c9366c6702ef7d62C7c03db173EeCf6D603e46";
 export const getBirdMarketPlaceAddress = () =>
   "0xbf1361ceb0aa108a1700b61c862786c85c4fb4f5";
+export const getFLPCrowdSaleAddress = () =>
+  "0x0E04690537aaFEA50180330601278836c993B9FB";

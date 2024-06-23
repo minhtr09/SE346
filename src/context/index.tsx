@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import { useAccount, useContractRead, useContractReads } from "wagmi";
+import { useAccount, useBalance, useContractRead, useContractReads } from "wagmi";
 import { NftData } from "../type";
 import {
   getBirdAbi,
@@ -14,6 +14,7 @@ import {
 import { useDispatch, useSelector } from "react-redux";
 import { bindActionCreators } from "redux";
 import { State, actionCreators } from "../redux";
+
 const StateContext = React.createContext(null);
 export const StateContextProvider = ({ children }) => {
   const { isConnected, address } = useAccount();
@@ -26,6 +27,12 @@ export const StateContextProvider = ({ children }) => {
 
   const marketPlaceAddress = getBirdMarketPlaceAddress();
   const birdMarketPlaceABI = getBirdMarketPlaceAbi();
+
+  const {data: ronBalance} = useBalance({
+    address: address,
+    enabled: false,
+    watch: true,
+  })
 
   const dispatch = useDispatch();
   const { setListedNfts, setUserNfts } = bindActionCreators(
@@ -45,21 +52,26 @@ export const StateContextProvider = ({ children }) => {
     onSuccess(data) {},
   });
 
+  
+
 
   const fetchListedNfts = async (listedNfts : any) => {
     try {
       const nftPromises = (listedNfts as any)?.map(async (nft) => {
         const imageUrl = nft.url;
         const nftData = await fetch(imageUrl);
-
-        const json = await nftData.json(); // Assuming response is JSON
-        return json;
+        console.log("before fetching")
+        // const json = await nftData.json(); // Assuming response is JSON
+        // return json;
+        return nftData;
       });
 
       // 7. Set NFTs after all data is fetched
       await Promise.all(nftPromises);
       setListedNfts(nftPromises);
-    } catch (error) {}
+    } catch (error) {
+      console.log("fetch listed nft error: " + error); 
+    }
   };
 
   const fetchUserNfts = async (usersNftInfo : any) => {
@@ -69,9 +81,9 @@ export const StateContextProvider = ({ children }) => {
       const tokenUrls = usersNftInfo[1];
       const nftPromises = (tokenUrls as any)?.map(async (nftUrl) => {
         const nftData = await fetch(nftUrl);
-        const json = await nftData.json(); // Assuming response is JSON
+        // const json = await nftData.json(); // Assuming response is JSON
 
-        return json;
+        return nftData;
       });
 
       // 7. Set NFTs after all data is fetched
@@ -83,16 +95,16 @@ export const StateContextProvider = ({ children }) => {
           tokenUrl: nftPromises[i]
         })
       }
-      console.log(userNftsInfo, address);
       setUserNfts(userNftsInfo);
     } catch (error) {
-      console.log("fetch error: " + error);
+      console.log("fetch user nft error: " + error);
     }
   };
 
   return (
     <StateContext.Provider
       value={{
+        ronBalance,
         isConnected,
         address,
         userTokenBalance,

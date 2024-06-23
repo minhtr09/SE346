@@ -139,8 +139,8 @@ const NFTDetailList = ({ route }) => {
         const txHash = (await onApproveNft?.()).hash;
         console.log(txHash);
         setTxLoading(false);
+    
       } catch (error) {
-        console.log(error);
       }
     } else {
       console.log("Listing NFT......");
@@ -149,8 +149,10 @@ const NFTDetailList = ({ route }) => {
         const txHash = (await onListNFT?.()).hash;
         console.log(txHash);
         setTxLoading(false);
+        if(txHash.toString().length > 0) {
+          navigation.goBack();
+        }
       } catch (error) {
-        console.log(error);
       }
     }
   };
@@ -184,7 +186,7 @@ const NFTDetailList = ({ route }) => {
         )}
         {isShowIPFSimage && (
           <Image
-            source={{ uri: nft.image ?? undefined }}
+          source={require("../../assets/images/yellowbird-midflap.png")}
             style={styles.overlayImage}
           />
         )}
