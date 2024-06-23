@@ -31,6 +31,7 @@ import {
 } from "../../contracts/utils/getAbis";
 import { useStateContext } from "../../context";
 import Frame from "../../components/frame/frame";
+import { parseEther } from "../../contracts/utils/parseEther";
 
 const NFTDetail = ({ route }) => {
   const navigation = useNavigation();
@@ -43,6 +44,7 @@ const NFTDetail = ({ route }) => {
   const nft = route?.params.data?._j;
   const id = route?.params.id;
   const price = route?.params.price;
+  const nftPrice = price?.toString() as any as number;
 
   const handlePlaceBid = () => {
     console.log("Place Bid Now button pressed");
@@ -71,7 +73,6 @@ const NFTDetail = ({ route }) => {
     dispatch
   );
 
-
   const state = useSelector((state: State) => state.approve);
   //contracts address, abi
   const marketPlaceAddress = getBirdMarketPlaceAddress();
@@ -86,6 +87,18 @@ const NFTDetail = ({ route }) => {
   const isShowIPFSimage = id?.toString() === "0";
 
   const [txLoading, setTxLoading] = useState(false);
+
+  const buttonText = () => {
+    const amount = amountApproved?.toString() as any as number;
+    if (txLoading && amount >= nftPrice) return "Buying...";
+    else if (amount >= nftPrice) return "Buy";
+    else if (txLoading && amount < nftPrice) return "Approving...";
+    else return "Approve";
+  };
+  const buttonStyle = () => {
+    if (txLoading) return styles.disabledButton;
+    else return styles.button;
+  };
 
   // Prepare contract configurations
   const { config: buyNftConfig, isSuccess: isPrepareBuyNftSuccess } =
@@ -138,17 +151,16 @@ const NFTDetail = ({ route }) => {
     console.log("Buy NFT button pressed");
     if (isCheckAmountAprrovedSuccess) {
       const amount = amountApproved?.toString() as any as number;
-      const nftPrice = price?.toString() as any as number;
-      console.log(state.amount, amount, nftPrice);
+      console.log(amount);
       try {
-        if (state.amount >= nftPrice || amount >= nftPrice) {
+        if (amount >= nftPrice) {
           console.log("Buying...");
           if (isPrepareBuyNftSuccess) {
             setTxLoading(true);
-            const txHash = (await onBuyNFT?.()).hash; 
+            const txHash = (await onBuyNFT?.()).hash;
             console.log(txHash);
             setTxLoading(false);
-            if(txHash.toString().length > 0) {
+            if (txHash.toString().length > 0) {
               navigation.goBack();
             }
           }
@@ -162,8 +174,7 @@ const NFTDetail = ({ route }) => {
             setTxLoading(false);
           }
         }
-      } catch (error) {
-      }
+      } catch (error) {}
     }
   };
 
@@ -173,7 +184,7 @@ const NFTDetail = ({ route }) => {
         <HeaderBackButton onPress={() => navigation.goBack()} />
       </View>
       <View style={styles.content}>
-        <Frame/>
+        <Frame />
         {isShowDefaultImageBlueBird && (
           <Image
             source={require("../../assets/images/bluebird-midflap.png")}
@@ -197,38 +208,58 @@ const NFTDetail = ({ route }) => {
           {" "}
           The Flappy Bird NFT #{(id as any)?.toString()}{" "}
         </Text>
-        <View style={[styles.containerPrice]}>
-          <Text
-            style={styles.text}
-            numberOfLines={1}
-            ellipsizeMode="tail"
-          >
-            {parseFloat((price as any)?.toString()) / 1e18}           
+        <View style={styles.containerPrice}>
+          <Text style={styles.text} numberOfLines={1} ellipsizeMode="tail">
+            {parseFloat((price as any)?.toString()) / 1e18}
           </Text>
-          <View style={{
-                        flexDirection: "row",
-                        alignItems: "center",
-                    }}>
-                        <Image
-                            source={require('../../../src/assets/images/medal_gold.png')}
-                            style={styles.iconCoin}
-                        />
-                       <Text style={styles.unitText}>FLP</Text>
-                    </View>
+          <View
+            style={{
+              flexDirection: "row",
+              alignItems: "center",
+            }}
+          >
+            <Image
+              source={require("../../../src/assets/images/medal_gold.png")}
+              style={styles.iconCoin}
+            />
+            <Text style={styles.unitText}>FLP</Text>
+          </View>
         </View>
-      </View>
-
-      {/* Button Place Bid Now */}
-      <View style={styles.footer}>
-      {txLoading ? (
-        <TouchableOpacity style={styles.disabledButton} disabled={true}>
-          <Text style={styles.buttonText}>Buying...</Text> 
-        </TouchableOpacity>
-      ) : (
-        <TouchableOpacity style={styles.button} onPress={() => handleBuyNFT()} disabled={false}>
-          <Text style={styles.buttonText}>Buy Now</Text>
-        </TouchableOpacity>
-      )}
+        {(amountApproved?.toString() as any as number) < nftPrice ? (
+          <View style={styles.approvecontainer}>
+            <Text
+              style={{
+                color: "#FFFFFF",
+                fontSize: 15,
+                flex: 1,
+                textAlign: "left",
+              }}
+            >
+              Approve spending cap
+            </Text>
+            <Text
+              style={{
+                color: "#FFFFFF",
+                fontSize: 15,
+                flex: 1,
+                textAlign: "left",
+              }}
+            >
+              Your current spending cap is {parseEther(amountApproved)} FLP.
+              Please approve new spending cap
+            </Text>
+          </View>
+        ) : null}
+        {/* Button Place Bid Now */}
+        <View style={styles.footer}>
+          <TouchableOpacity
+            style={buttonStyle()}
+            onPress={() => handleBuyNFT()}
+            disabled={txLoading}
+          >
+            <Text style={styles.buttonText}>{buttonText()}</Text>
+          </TouchableOpacity>
+        </View>
       </View>
     </View>
   );
@@ -253,7 +284,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   footer: {
-    padding: 10,
+    marginTop: 15,
     borderTopWidth: 1,
     borderColor: "#FFFFFF",
   },
@@ -262,12 +293,14 @@ const styles = StyleSheet.create({
     padding: 16,
     borderRadius: 8,
     alignItems: "center",
+    width: "auto",
   },
   disabledButton: {
-    backgroundColor: "#5a84d1", 
+    backgroundColor: "#5a84d1",
     padding: 16,
     borderRadius: 8,
     alignItems: "center",
+    marginTop: 20,
   },
   buttonText: {
     color: "white",
@@ -288,16 +321,16 @@ const styles = StyleSheet.create({
     paddingVertical: 8,
     padding: 12,
     marginTop: 30,
-    marginLeft: 10,
     marginBottom: 15,
     alignItems: "center",
-    flexDirection: 'row',
+    flexDirection: "row",
+    width: "auto",
   },
   text: {
     color: "white",
     textAlign: "center",
     fontSize: 22,
-    fontWeight: 'bold',
+    fontWeight: "bold",
     flex: 1,
   },
   unitText: {
@@ -305,9 +338,21 @@ const styles = StyleSheet.create({
     fontSize: 14,
     marginLeft: 5,
   },
-  iconCoin :{
+  iconCoin: {
     width: 24,
     height: 24,
+  },
+  approvecontainer: {
+    flexDirection: "row",
+    backgroundColor: "#04252F",
+    borderRadius: 8,
+    paddingVertical: 16,
+    paddingHorizontal: 18,
+    marginBottom: 13,
+    marginTop: 15,
+    alignItems: "center",
+    justifyContent: "center",
+    width: "auto",
   },
 });
 

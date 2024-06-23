@@ -162,7 +162,7 @@ const Store: React.FC = () => {
               showsHorizontalScrollIndicator={false}
               style={{ marginTop: 20 }}
             >
-              {state.listedNfts && state.listedNfts.length > 0 ? (
+              {state.listedNfts && state?.listedNfts.length > 0 ? (
                 state.listedNfts?.map((nft, index) => {
                   return (
                     <NFTCard

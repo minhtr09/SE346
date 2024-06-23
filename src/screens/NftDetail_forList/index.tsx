@@ -47,6 +47,7 @@ import BottomMenu from "../../components/BottomMenu/BottomMenu";
 import { NavigationProp, useNavigation } from "@react-navigation/native";
 import { HeaderBackButton } from "@react-navigation/elements";
 import Frame from "../../components/frame/frame";
+import { toGwei } from "../../contracts/utils/parseEther";
 
 const NFTDetailList = ({ route }) => {
   const navigation = useNavigation();
@@ -103,7 +104,7 @@ const NFTDetailList = ({ route }) => {
       address: marketPlaceAddress,
       abi: birdMarketPlaceABI,
       functionName: "listNft",
-      args: [id?.toString(), 120000000000000],
+      args: [id?.toString(), toGwei(nftPrice)],
     });
   // Hook contract functions
 
@@ -206,6 +207,7 @@ const NFTDetailList = ({ route }) => {
               value={nftPrice}
               onChangeText={setNftPrice}
               maxLength={10}
+              editable = {approvedAddress?.toString().toLowerCase() == marketPlaceAddress}
             />
             <View style={{ flexDirection: "row", alignItems: "center" }}>
               <Image
