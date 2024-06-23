@@ -30,14 +30,15 @@ import {
   getFloppyAbi,
 } from "../../contracts/utils/getAbis";
 import { useStateContext } from "../../context";
+import Frame from "../../components/frame/frame";
 
 const NFTDetail = ({ route }) => {
   const navigation = useNavigation();
-  const [textWidth, setTextWidth] = useState(0);
-  const handleTextLayout = (event: any) => {
-    const { width } = event.nativeEvent.layout;
-    setTextWidth(width); //Get the width of the text and update it to the state
-  };
+  // const [textWidth, setTextWidth] = useState(0);
+  // const handleTextLayout = (event: any) => {
+  //   const { width } = event.nativeEvent.layout;
+  //   setTextWidth(width); //Get the width of the text and update it to the state
+  // };
 
   const nft = route?.params.data?._j;
   const id = route?.params.id;
@@ -172,10 +173,7 @@ const NFTDetail = ({ route }) => {
         <HeaderBackButton onPress={() => navigation.goBack()} />
       </View>
       <View style={styles.content}>
-        <Image
-          source={require("../../assets/images/item.png")}
-          style={styles.image}
-        />
+        <Frame/>
         {isShowDefaultImageBlueBird && (
           <Image
             source={require("../../assets/images/bluebird-midflap.png")}
@@ -199,38 +197,25 @@ const NFTDetail = ({ route }) => {
           {" "}
           The Flappy Bird NFT #{(id as any)?.toString()}{" "}
         </Text>
-        <View style={[styles.containerPrice, { width: textWidth + 80 }]}>
+        <View style={[styles.containerPrice]}>
           <Text
             style={styles.text}
-            onLayout={handleTextLayout}
             numberOfLines={1}
             ellipsizeMode="tail"
           >
-            {parseFloat((price as any)?.toString()) / 1e18} FLP
+            {parseFloat((price as any)?.toString()) / 1e18}           
           </Text>
+          <View style={{
+                        flexDirection: "row",
+                        alignItems: "center",
+                    }}>
+                        <Image
+                            source={require('../../../src/assets/images/medal_gold.png')}
+                            style={styles.iconCoin}
+                        />
+                       <Text style={styles.unitText}>FLP</Text>
+                    </View>
         </View>
-      </View>
-
-      {/* Group icons */}
-      <View style={styles.iconRow}>
-        <TouchableOpacity onPress={handleFavorite} style={styles.iconButton}>
-          <Image
-            source={require("../../assets/icons/favorite.png")}
-            style={styles.icon}
-          />
-        </TouchableOpacity>
-        <TouchableOpacity onPress={handleShare} style={styles.iconButton}>
-          <Image
-            source={require("../../assets/icons/share.png")}
-            style={styles.icon}
-          />
-        </TouchableOpacity>
-        <TouchableOpacity onPress={handleAdd} style={styles.iconButton}>
-          <Image
-            source={require("../../assets/icons/more.png")}
-            style={styles.icon}
-          />
-        </TouchableOpacity>
       </View>
 
       {/* Button Place Bid Now */}
@@ -261,19 +246,14 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 30,
     fontWeight: "bold",
+    paddingTop: 20,
+    paddingLeft: 10,
   },
   content: {
     flex: 1,
   },
-  image: {
-    width: 373,
-    height: 453,
-    resizeMode: "contain",
-    marginBottom: 16,
-    justifyContent: "center",
-  },
   footer: {
-    padding: 16,
+    padding: 10,
     borderTopWidth: 1,
     borderColor: "#FFFFFF",
   },
@@ -303,37 +283,32 @@ const styles = StyleSheet.create({
     resizeMode: "contain",
     transform: [{ translateX: -50 }, { translateY: -50 }],
   },
-  iconRow: {
-    position: "absolute",
-    marginTop: 415,
-    marginLeft: 110,
-    flexDirection: "row",
-    justifyContent: "center",
-    marginBottom: 16,
-  },
-  iconButton: {
-    padding: 15,
-  },
-  icon: {
-    width: 24,
-    height: 24,
-    resizeMode: "contain",
-  },
-
   containerPrice: {
-    backgroundColor: "#612FB1", //light purple
-    borderRadius: 30,
+    backgroundColor: "#D04848",
+    borderRadius: 10,
     paddingVertical: 8,
     padding: 12,
-    marginTop: 16,
-    marginLeft: 15,
-    justifyContent: "center",
+    marginTop: 30,
+    marginLeft: 10,
+    marginBottom: 15,
     alignItems: "center",
+    flexDirection: 'row',
   },
   text: {
     color: "white",
     textAlign: "center",
-    fontSize: 17,
+    fontSize: 22,
+    fontWeight: 'bold',
+    flex: 1,
+  },
+  unitText: {
+    color: "white",
+    fontSize: 14,
+    marginLeft: 5,
+  },
+  iconCoin :{
+    width: 24,
+    height: 24,
   },
 });
 

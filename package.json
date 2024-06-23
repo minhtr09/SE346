@@ -40,7 +40,8 @@
     "redux-thunk": "^3.1.0",
     "typescript": "^5.3.0",
     "viem": "1.21.4",
-    "wagmi": "1.4.13"
+    "wagmi": "1.4.13",
+    "expo-linear-gradient": "~13.0.2"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",

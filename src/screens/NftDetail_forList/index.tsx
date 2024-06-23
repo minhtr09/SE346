@@ -44,6 +44,7 @@ import { useSelector } from "react-redux";
 import BottomMenu from "../../components/BottomMenu/BottomMenu";
 import { NavigationProp, useNavigation } from "@react-navigation/native";
 import { HeaderBackButton } from "@react-navigation/elements";
+import Frame from "../../components/frame/frame";
 
 const NFTDetailList = ({ route }) => {
   const navigation = useNavigation();
@@ -163,15 +164,7 @@ const NFTDetailList = ({ route }) => {
         <HeaderBackButton onPress={() => navigation.goBack()} />
       </View>
       <View style={styles.content}>
-        {/* <Text style={styles.title}>NFT Details</Text> */}
-        {/* <Text>ID: {id}</Text>
-            <Text>Price: {price}</Text> */}
-        {/* <Image source={{ uri: nft.image ?? undefined }} style={styles.image}/> */}
-        <Image
-          source={require("../../assets/images/item.png")}
-          style={styles.image}
-        />
-
+      <Frame/>
         {isShowDefaultImageBlueBird && (
           <Image
             source={require("../../assets/images/bluebird-midflap.png")}
@@ -195,42 +188,26 @@ const NFTDetailList = ({ route }) => {
           <TextInput
             style={styles.text}
             numberOfLines={1}
-            placeholder="Price"
+            placeholder="0.0"
             keyboardType="numeric"
             value={inputValue}
             onChangeText={setInputValue}
-            maxLength={10}
           />
-          <Text style={styles.unitText}>FLP</Text>
+          <View style={{
+                        flexDirection: "row",
+                        alignItems: "center",
+                    }}>
+                        <Image
+                            source={require('../../../src/assets/images/medal_gold.png')}
+                            style={styles.iconCoin}
+                        />
+                       <Text style={styles.unitText}>FLP</Text>
+                    </View>
         </View>
-
         <Text style={styles.title}> The Unkown </Text>
-      </View>
 
-      {/* Group icons */}
-      <View style={styles.iconRow}>
-        <TouchableOpacity onPress={handleFavorite} style={styles.iconButton}>
-          <Image
-            source={require("../../assets/icons/favorite.png")}
-            style={styles.icon}
-          />
-        </TouchableOpacity>
-        <TouchableOpacity onPress={handleShare} style={styles.iconButton}>
-          <Image
-            source={require("../../assets/icons/share.png")}
-            style={styles.icon}
-          />
-        </TouchableOpacity>
-        <TouchableOpacity onPress={handleAdd} style={styles.iconButton}>
-          <Image
-            source={require("../../assets/icons/more.png")}
-            style={styles.icon}
-          />
-        </TouchableOpacity>
-      </View>
-
-      {/* Button Place Bid Now */}
-      <View>
+        {/* button list now */}
+        <View>
         {txLoading ? (
           <TouchableOpacity style={styles.disabledButton} disabled={true}>
             <Text style={styles.buttonText}>Listing...</Text>
@@ -245,6 +222,7 @@ const NFTDetailList = ({ route }) => {
           </TouchableOpacity>
         )}
       </View>
+    </View>
     </View>
   );
 };
@@ -272,7 +250,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   footer: {
-    padding: 16,
+    padding: 10,
     borderTopWidth: 1,
     borderColor: "#FFFFFF",
   },
@@ -281,12 +259,14 @@ const styles = StyleSheet.create({
     padding: 16,
     borderRadius: 8,
     alignItems: "center",
+    marginTop: 20,
   },
   disabledButton: {
     backgroundColor: "#99dde0",
     padding: 16,
     borderRadius: 8,
     alignItems: "center",
+    marginTop: 20,
   },
   buttonText: {
     color: "black",
@@ -302,29 +282,14 @@ const styles = StyleSheet.create({
     resizeMode: "contain",
     transform: [{ translateX: -50 }, { translateY: -50 }],
   },
-  iconRow: {
-    position: "absolute",
-    marginTop: 415,
-    marginLeft: 110,
-    flexDirection: "row",
-    justifyContent: "center",
-    marginBottom: 16,
-  },
-  iconButton: {
-    padding: 15,
-  },
-  icon: {
-    width: 24,
-    height: 24,
-    resizeMode: "contain",
-  },
 
   containerPrice: {
-    backgroundColor: "#808080",
-    borderRadius: 30,
-    paddingVertical: 8,
-    padding: 12,
-    marginLeft: 10,
+    borderRadius: 10,
+    borderWidth: 2,
+    borderColor: "#808080",
+    // paddingVertical: 8,
+    padding: 10,
+    marginTop: 30,
     marginBottom: 15,
     flexDirection: "row",
     alignItems: "center",
@@ -332,13 +297,17 @@ const styles = StyleSheet.create({
   text: {
     color: "black",
     textAlign: "center",
-    fontSize: 14,
+    fontSize: 20,
     flex: 1,
   },
   unitText: {
     color: "Black",
     fontSize: 14,
     marginLeft: 5,
+  },
+  iconCoin :{
+    width: 24,
+    height: 24,
   },
 });
 
