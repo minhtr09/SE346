@@ -8,10 +8,13 @@ const BottomMenu = () => {
   const handleSwapPress = () => {
     navigation.navigate('Swap');
   }
+  const handleStorePress = () => {
+    navigation.navigate('Store');
+  }
 
   return (
     <View style={styles.container}>
-      <TouchableOpacity onPress={() => {}}>
+      <TouchableOpacity onPress={handleStorePress}>
         <Image source={require('../../assets/icons/store.png')}  style = {styles.icon}></Image>
       </TouchableOpacity>
       <TouchableOpacity onPress={handleSwapPress}>

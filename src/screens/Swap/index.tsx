@@ -13,6 +13,7 @@ import Picker from "react-native-picker-select";
 import styles from "./style";
 import { useContractRead } from "wagmi";
 import { useStateContext } from "../../context";
+import BottomMenu from "../../components/BottomMenu/BottomMenu";
 
 const Swap = () => {
   const {
@@ -155,6 +156,8 @@ const Swap = () => {
             : "Exchange"}
         </Text>
       </TouchableOpacity>
+
+      <BottomMenu/>
     </View>
   );
 };

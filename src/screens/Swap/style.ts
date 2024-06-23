@@ -7,16 +7,17 @@ const styles = StyleSheet.create({
         flex: 1,
         alignItems: 'center',
         justifyContent: 'center',
-        borderTopLeftRadius: 24,
-        borderTopRightRadius: 24,
+        // borderTopLeftRadius: 24,
+        // borderTopRightRadius: 24,
         paddingTop: 84,
-        paddingBottom: 118,
+        paddingBottom: 200,
     },
     title: {
         color: "#FEFEFE",
-        fontSize: 22,
+        fontSize: 30,
         marginBottom: 7,
         marginLeft: 25,
+        fontWeight: 'bold',
 
     },
     text: {
@@ -47,10 +48,6 @@ const styles = StyleSheet.create({
         paddingHorizontal: 24,
         marginHorizontal: 24,
         width: 327,
-        position: "absolute",
-        bottom: 24,
-
-
     },
     buttonDisabled: {
         flexDirection: "row",

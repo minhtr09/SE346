@@ -58,7 +58,10 @@ export default function App() {
               component={NFTDetail} 
               options={{headerShown: false}}
               />
-              <Stack.Screen name="Swap" component={Swap}/>             
+              <Stack.Screen name="Swap" 
+              component={Swap}
+              options={{headerShown: false}}
+              />             
           
             </Stack.Navigator>
           </NavigationContainer>
