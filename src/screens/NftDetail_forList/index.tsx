@@ -8,6 +8,8 @@ import {
   StyleSheet,
   View,
   Image,
+  TouchableWithoutFeedback,
+  Keyboard,
 } from "react-native";
 import { ListedNFT, NftData } from "../../type";
 import {
@@ -47,124 +49,125 @@ import { HeaderBackButton } from "@react-navigation/elements";
 import Frame from "../../components/frame/frame";
 
 const NFTDetailList = ({ route }) => {
-  const navigation = useNavigation();
-  const [inputValue, setInputValue] = useState("");
-  const id = route?.params.data?.tokenId;
-  const nft = route?.params.data?.tokenUrl?._j;
+const navigation = useNavigation();
+const [inputValue, setInputValue] = useState("");
+const id = route?.params.data?.tokenId;
+const nft = route?.params.data?.tokenUrl?._j;
 
-  const isShowDefaultImageBlueBird = id?.toString() === "1";
-  const isShowDefaultImageRedBird = id?.toString() === "2";
-  const isShowIPFSimage = id?.toString() === "0";
+const isShowDefaultImageBlueBird = id?.toString() === "1";
+const isShowDefaultImageRedBird = id?.toString() === "2";
+const isShowIPFSimage = id?.toString() === "0";
 
-  const handlePlaceBid = () => {
-    console.log("Place Bid Now button pressed");
-  };
+const handlePlaceBid = () => {
+  console.log("Place Bid Now button pressed");
+};
 
-  const handleFavorite = () => {
-    console.log("Favorite button pressed");
-  };
-  const handleShare = () => {
-    console.log("Share button pressed");
-  };
-  const handleAdd = () => {
-    console.log("Add button pressed");
-  };
+const handleFavorite = () => {
+  console.log("Favorite button pressed");
+};
+const handleShare = () => {
+  console.log("Share button pressed");
+};
+const handleAdd = () => {
+  console.log("Add button pressed");
+};
 
-  const { address } = useAccount();
-  const { fetchListedNfts, fetchUserNfts } = useStateContext();
-  const [txLoading, setTxLoading] = useState(false);
+const { address } = useAccount();
+const { fetchListedNfts, fetchUserNfts } = useStateContext();
+const [txLoading, setTxLoading] = useState(false);
 
-  const dispatch = useDispatch();
-  const { approveNft, approveToken } = bindActionCreators(
-    actionCreators,
-    dispatch
-  );
-  const state = useSelector((state: State) => state.approve);
+const dispatch = useDispatch();
+const { approveNft, approveToken } = bindActionCreators(
+  actionCreators,
+  dispatch
+);
+const state = useSelector((state: State) => state.approve);
 
-  //contracts address, abi
-  const marketPlaceAddress = getBirdMarketPlaceAddress();
-  const birdAddress = getBirdAddress();
-  const birdAbi = getBirdAbi();
-  const floppyAddress = getFloppyAddress();
-  const floppyABI = getFloppyAbi();
-  const birdMarketPlaceABI = getBirdMarketPlaceAbi();
-  // Prepare contract configurations
-  const { config: approveNftConfig, isSuccess: isPrepareApproveNftSuccess } =
-    usePrepareContractWrite({
-      address: birdAddress,
-      abi: birdAbi,
-      functionName: "approve",
-      args: [marketPlaceAddress, id?.toString()],
-    });
-  const { config: listNftConfig, isSuccess: isPrepareListNftSuccess } =
-    usePrepareContractWrite({
-      address: marketPlaceAddress,
-      abi: birdMarketPlaceABI,
-      functionName: "listNft",
-      args: [id?.toString(), 120000000000000],
-    });
-  // Hook contract functions
-
-  const {
-    isSuccess: isApproveNftSuccess,
-    isError: buyApproveNftError,
-    writeAsync: onApproveNft,
-    isError: isApproveNftError,
-    isLoading: isApproveNftLoading,
-  } = useContractWrite(approveNftConfig);
-  const {
-    data: listData,
-    isSuccess: isListNftSuccess,
-    isError: isListNftError,
-    isLoading: isListNftLoading,
-    writeAsync: onListNFT,
-  } = useContractWrite(listNftConfig);
-
-  // Hook read contract
-
-  const { data: approvedAddress } = useContractRead({
-    address: birdAddress as any,
+//contracts address, abi
+const marketPlaceAddress = getBirdMarketPlaceAddress();
+const birdAddress = getBirdAddress();
+const birdAbi = getBirdAbi();
+const floppyAddress = getFloppyAddress();
+const floppyABI = getFloppyAbi();
+const birdMarketPlaceABI = getBirdMarketPlaceAbi();
+// Prepare contract configurations
+const { config: approveNftConfig, isSuccess: isPrepareApproveNftSuccess } =
+  usePrepareContractWrite({
+    address: birdAddress,
     abi: birdAbi,
-    functionName: "getApproved",
-    args: [id?.toString()],
-    watch: true,
+    functionName: "approve",
+    args: [marketPlaceAddress, id?.toString()],
   });
+const { config: listNftConfig, isSuccess: isPrepareListNftSuccess } =
+  usePrepareContractWrite({
+    address: marketPlaceAddress,
+    abi: birdMarketPlaceABI,
+    functionName: "listNft",
+    args: [id?.toString(), 120000000000000],
+  });
+// Hook contract functions
 
-  //handle NFT actions
-  const handleListNFT = async () => {
-    console.log("List NFT id:", id);
-    if (approvedAddress?.toString().toLowerCase() != marketPlaceAddress) {
-      console.log("Please approve market to transfer this NFT");
-      try {
-        setTxLoading(true);
-        const txHash = (await onApproveNft?.()).hash;
-        console.log(txHash);
-        setTxLoading(false);
-    
-      } catch (error) {
-      }
-    } else {
-      console.log("Listing NFT......");
-      try {
-        setTxLoading(true);
-        const txHash = (await onListNFT?.()).hash;
-        console.log(txHash);
-        setTxLoading(false);
-        if(txHash.toString().length > 0) {
-          navigation.goBack();
-        }
-      } catch (error) {
-      }
+const {
+  isSuccess: isApproveNftSuccess,
+  isError: buyApproveNftError,
+  writeAsync: onApproveNft,
+  isError: isApproveNftError,
+  isLoading: isApproveNftLoading,
+} = useContractWrite(approveNftConfig);
+const {
+  data: listData,
+  isSuccess: isListNftSuccess,
+  isError: isListNftError,
+  isLoading: isListNftLoading,
+  writeAsync: onListNFT,
+} = useContractWrite(listNftConfig);
+
+// Hook read contract
+
+const { data: approvedAddress } = useContractRead({
+  address: birdAddress as any,
+  abi: birdAbi,
+  functionName: "getApproved",
+  args: [id?.toString()],
+  watch: true,
+});
+
+//handle NFT actions
+const handleListNFT = async () => {
+  console.log("List NFT id:", id);
+  if (approvedAddress?.toString().toLowerCase() != marketPlaceAddress) {
+    console.log("Please approve market to transfer this NFT");
+    try {
+      setTxLoading(true);
+      const txHash = (await onApproveNft?.()).hash;
+      console.log(txHash);
+      setTxLoading(false);
+  
+    } catch (error) {
     }
-  };
+  } else {
+    console.log("Listing NFT......");
+    try {
+      setTxLoading(true);
+      const txHash = (await onListNFT?.()).hash;
+      console.log(txHash);
+      setTxLoading(false);
+      if(txHash.toString().length > 0) {
+        navigation.goBack();
+      }
+    } catch (error) {
+    }
+  }
+};
 
-  return (
+return (
+  <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
     <View style={styles.container}>
       <View style={styles.header}>
         <HeaderBackButton onPress={() => navigation.goBack()} />
       </View>
       <View style={styles.content}>
-      <Frame/>
+        <Frame />
         {isShowDefaultImageBlueBird && (
           <Image
             source={require("../../assets/images/bluebird-midflap.png")}
@@ -179,7 +182,7 @@ const NFTDetailList = ({ route }) => {
         )}
         {isShowIPFSimage && (
           <Image
-          source={require("../../assets/images/yellowbird-midflap.png")}
+            source={require("../../assets/images/yellowbird-midflap.png")}
             style={styles.overlayImage}
           />
         )}
@@ -193,39 +196,38 @@ const NFTDetailList = ({ route }) => {
             value={inputValue}
             onChangeText={setInputValue}
           />
-          <View style={{
-                        flexDirection: "row",
-                        alignItems: "center",
-                    }}>
-                        <Image
-                            source={require('../../../src/assets/images/medal_gold.png')}
-                            style={styles.iconCoin}
-                        />
-                       <Text style={styles.unitText}>FLP</Text>
-                    </View>
+          <View style={{ flexDirection: "row", alignItems: "center" }}>
+            <Image
+              source={require("../../../src/assets/images/medal_gold.png")}
+              style={styles.iconCoin}
+            />
+            <Text style={styles.unitText}>FLP</Text>
+          </View>
         </View>
-        <Text style={styles.title}> The Unkown </Text>
+        <Text style={styles.title}> The Unknown </Text>
 
-        {/* button list now */}
+        {/* Button to list now */}
         <View>
-        {txLoading ? (
-          <TouchableOpacity style={styles.disabledButton} disabled={true}>
-            <Text style={styles.buttonText}>Listing...</Text>
-          </TouchableOpacity>
-        ) : (
-          <TouchableOpacity
-            style={styles.button}
-            onPress={() => handleListNFT()}
-            disabled={false}
-          >
-            <Text style={styles.buttonText}>List Now</Text>
-          </TouchableOpacity>
-        )}
+          {txLoading ? (
+            <TouchableOpacity style={styles.disabledButton} disabled={true}>
+              <Text style={styles.buttonText}>Listing...</Text>
+            </TouchableOpacity>
+          ) : (
+            <TouchableOpacity
+              style={styles.button}
+              onPress={() => handleListNFT()}
+              disabled={false}
+            >
+              <Text style={styles.buttonText}>List Now</Text>
+            </TouchableOpacity>
+          )}
+        </View>
       </View>
     </View>
-    </View>
+  </TouchableWithoutFeedback>
   );
 };
+
 
 const styles = StyleSheet.create({
   container: {
