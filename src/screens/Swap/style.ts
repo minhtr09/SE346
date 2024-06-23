@@ -75,7 +75,12 @@ const styles = StyleSheet.create({
     },
     textInput: {
         color: "#FFFFFF",
-        fontSize: 16,
+        fontSize: 20,
+
+    },
+    textInputError: {
+        color: "red",
+        fontSize: 20,
 
     },
     header:{
