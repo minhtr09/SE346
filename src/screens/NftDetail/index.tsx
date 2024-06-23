@@ -146,6 +146,14 @@ const NFTDetail = ({ route }) => {
       },
     });
 
+  const { data: userFlpBalance } = useContractRead({
+    address: floppyAddress as any,
+    abi: floppyABI,
+    functionName: "balanceOf",
+    args: [address],
+    watch: true,
+  });
+
   //handle NFT actions
   const handleBuyNFT = async () => {
     console.log("Buy NFT button pressed");
@@ -174,7 +182,9 @@ const NFTDetail = ({ route }) => {
             setTxLoading(false);
           }
         }
-      } catch (error) {}
+      } catch (error) {
+        console.error(error);
+      }
     }
   };
 
@@ -225,53 +235,62 @@ const NFTDetail = ({ route }) => {
             <Text style={styles.unitText}>FLP</Text>
           </View>
         </View>
-        {(amountApproved?.toString() as any as number) < nftPrice ? (
+        {(amountApproved?.toString() as any as number) < nftPrice &&
+        parseEther(userFlpBalance?.toString()) > parseEther(nftPrice) ? (
           <View style={styles.approvecontainer}>
             <Image
-                          source={require('../../assets/icons/warning.png')}
-                          style ={{
-                            width: 20,
-                            height: 20,
-                          }}  
-                        />
-            <View style = {{
-                          flexDirection: "column",
-                          marginLeft: 10,
-                        }}>
-            <Text
+              source={require("../../assets/icons/warning.png")}
               style={{
-                color: "#FFFFFF",
-                fontSize: 15,
-                textAlign: "left",
-                marginBottom: 10,
-                fontWeight: "600"
+                width: 20,
+                height: 20,
+              }}
+            />
+            <View
+              style={{
+                flexDirection: "column",
+                marginLeft: 10,
               }}
             >
-              Approve spending cap
-            </Text>
-            <Text
-              style={{
-                color: "#FFFFFF",
-                fontSize: 15,
-                textAlign: "left",
-                fontWeight: "200"
-              }}
-            >
-              Your current spending cap is {parseEther(amountApproved)} FLP.
-              Please approve new spending cap
-            </Text>
+              <Text
+                style={{
+                  color: "#FFFFFF",
+                  fontSize: 15,
+                  textAlign: "left",
+                  marginBottom: 10,
+                  fontWeight: "600",
+                }}
+              >
+                Approve spending cap
+              </Text>
+              <Text
+                style={{
+                  color: "#FFFFFF",
+                  fontSize: 15,
+                  textAlign: "left",
+                  fontWeight: "200",
+                }}
+              >
+                Your current spending cap is {parseEther(amountApproved)} FLP.
+                Please approve new spending cap
+              </Text>
             </View>
           </View>
         ) : null}
         {/* Button Place Bid Now */}
-        <View>
-          <TouchableOpacity
-            style={buttonStyle()}
-            onPress={() => handleBuyNFT()}
-            disabled={txLoading}
-          >
-            <Text style={styles.buttonText}>{buttonText()}</Text>
-          </TouchableOpacity>
+        <View style={styles.footer}>
+          {parseEther(userFlpBalance?.toString()) > parseEther(nftPrice) ? (
+            <TouchableOpacity
+              style={buttonStyle()}
+              onPress={() => handleBuyNFT()}
+              disabled={txLoading}
+            >
+              <Text style={styles.buttonText}>{buttonText()}</Text>
+            </TouchableOpacity>
+          ) : (
+            <TouchableOpacity style={styles.buttonError} disabled={true}>
+              <Text style={styles.buttonText}>Insufficient balance</Text>
+            </TouchableOpacity>
+          )}
         </View>
       </View>
     </View>
@@ -306,10 +325,17 @@ const styles = StyleSheet.create({
     padding: 16,
     borderRadius: 8,
     alignItems: "center",
-    width: "auto",
+    marginTop: 20,
   },
   disabledButton: {
     backgroundColor: "#5a84d1",
+    padding: 16,
+    borderRadius: 8,
+    alignItems: "center",
+    marginTop: 20,
+  },
+  buttonError: {
+    backgroundColor: "#eb2121",
     padding: 16,
     borderRadius: 8,
     alignItems: "center",
@@ -366,7 +392,6 @@ const styles = StyleSheet.create({
     marginTop: 15,
     alignItems: "flex-start",
     justifyContent: "flex-start",
-    width: 362,
     height: 100,
   },
 });

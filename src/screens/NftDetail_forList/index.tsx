@@ -365,7 +365,6 @@ const styles = StyleSheet.create({
     marginTop: 15,
     alignItems: "flex-start",
     justifyContent: "flex-start",
-    width: 362,
     height: 100,
   },
 });

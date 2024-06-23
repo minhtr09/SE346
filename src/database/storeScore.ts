@@ -34,6 +34,5 @@ export const addScoreToFirebase = async (address: string,newScore: number) => {
     await setDoc(scoreDocRef, { score: updatedScore });
     console.log('Score updated to Firestore with address:', address, 'New total score:', updatedScore);
   } catch (error) {
-    console.log(error);
   }
 };

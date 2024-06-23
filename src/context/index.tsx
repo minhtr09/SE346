@@ -70,7 +70,6 @@ export const StateContextProvider = ({ children }) => {
       await Promise.all(nftPromises);
       setListedNfts(nftPromises);
     } catch (error) {
-      console.log("fetch listed nft error: " + error); 
     }
   };
 
@@ -97,7 +96,6 @@ export const StateContextProvider = ({ children }) => {
       }
       setUserNfts(userNftsInfo);
     } catch (error) {
-      console.log("fetch user nft error: " + error);
     }
   };
 

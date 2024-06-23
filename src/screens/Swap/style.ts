@@ -145,8 +145,8 @@ const styles = StyleSheet.create({
         marginTop: 15,
         alignItems: "flex-start",
         justifyContent: "flex-start",
-        width: 345,
         height: 100,
+        marginHorizontal: 23
     
     },
     accessory: {

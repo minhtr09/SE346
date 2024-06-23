@@ -74,7 +74,6 @@ const Swap = () => {
     functionName: "approve",
     args: [flpCrowdSaleAddress, Number(Number(coinAmount1) * 1e18)],
     onError(err) {
-      console.error("prepare err", err);
     },
   });
 
@@ -85,7 +84,6 @@ const Swap = () => {
       functionName: "buyRONbyToken",
       args: [Number(Number(coinAmount1) * 1e15)],
       onError(err) {
-        console.log("prepare err", err);
       },
     });
 
@@ -96,7 +94,6 @@ const Swap = () => {
       functionName: "buyTokenByRON",
       args: [],
       onError(err) {
-        console.error("prepare err", err);
       },
       value: BigInt(Number(coinAmount1)) * BigInt(1e18),
     });
