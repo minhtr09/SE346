@@ -37,4 +37,13 @@ export const setUserNfts = (nfts : NftData[] )=>{
         })
     }
 }
+export const changeBirdColor = (color : string) => {
+    return (dispatch :Dispatch) => {
+        dispatch({
+            type: ActionType.CHANGE_BIRD_COLOR,
+            payload: color
+        })
+    }
+}
+
 

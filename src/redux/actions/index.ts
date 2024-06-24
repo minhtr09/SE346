@@ -16,6 +16,10 @@ interface FetchNftAction {
   type: ActionType.FETCH_LISTED_NFTS | ActionType.FETCH_USERS_NFTS;
   payload: NftData[];
 }
+interface ChangeBirdColorAction {
+  type: ActionType.CHANGE_BIRD_COLOR;
+  payload: string;
+}
 
 
-export type Action = ApproveNftAction | ApproveTokenAction | FetchNftAction;;
+export type Action = ApproveNftAction | ApproveTokenAction | FetchNftAction|ChangeBirdColorAction;;
