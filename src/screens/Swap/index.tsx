@@ -262,9 +262,11 @@ const Swap = () => {
                 alignItems: "center",
               }}
             >
+              <View style={styles.coinWrapper}>
               <Image source={coinLogo.coin1} style={styles.icon} />
 
               <Text style={styles.coin}>{coins.coin1}</Text>
+              </View>
             </View>
             <Text style={styles.balance}>Balance: {balance.coin1}</Text>
           </View>
@@ -307,8 +309,10 @@ const Swap = () => {
                 alignItems: "center",
               }}
             >
+              <View style={styles.coinWrapper}>
               <Image source={coinLogo.coin2} style={styles.icon} />
               <Text style={styles.coin}>{coins.coin2}</Text>
+              </View>
             </View>
             <Text style={styles.balance}>Balance: {balance.coin2}</Text>
           </View>

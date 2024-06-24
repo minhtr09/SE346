@@ -7,8 +7,8 @@ const styles = StyleSheet.create({
         flex: 1,
         alignItems: 'center',
         justifyContent: 'center',
-        // borderTopLeftRadius: 24,
-        // borderTopRightRadius: 24,
+        borderTopLeftRadius: 24,
+        borderTopRightRadius: 24,
         paddingTop: 84,
         paddingBottom: 200,
     },
@@ -158,5 +158,19 @@ const styles = StyleSheet.create({
         backgroundColor: '#F8F8F8',
         paddingHorizontal: 8
     },
+    coinWrapper: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        marginVertical: 8,
+        borderRadius: 8,
+        padding: 8,
+        backgroundColor:'#E2E5EC',
+        borderTopLeftRadius: 16,
+        borderTopRightRadius: 16,
+        borderBottomLeftRadius: 16,
+        borderBottomRightRadius: 16,
+       
+    },
+ 
 });
 export default styles;
