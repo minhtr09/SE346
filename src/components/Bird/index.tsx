@@ -7,6 +7,9 @@ import BLUE_BIRD from "../../assets/images/bluebird-midflap.png";
 import RED_BIRD from "../../assets/images/redbird-midflap.png";
 import YELLOW_BIRD from "../../assets/images/yellowbird-midflap.png";
 
+const mapStateToProps = (state) =>({
+  color: state.birdSkin.skin
+}); 
 
 const Bird = (props) => {
   const widthBody = props.body.bounds.max.x - props.body.bounds.min.x;
@@ -16,6 +19,7 @@ const Bird = (props) => {
   const yBody = props.body.position.y - heightBody / 2;
 
   const color = props.color;
+
 
   let birdImage;
   switch (color) {
@@ -49,9 +53,7 @@ const Bird = (props) => {
   );
 };
 
-const mapStateToProps = (state) =>({
-  color: state.birdSkin.skin
-}); 
+
 
 
 export default (world, color, pos, size) => {

@@ -6,7 +6,10 @@ import {
   Image,
   Button,
   TouchableOpacity,
+
+
 } from "react-native";
+import { Dropdown } from "react-native-element-dropdown";
 import { NftProps } from "../../type";
 import { useNavigation } from "@react-navigation/native";
 import { HeaderBackButton } from "@react-navigation/elements";
@@ -33,6 +36,7 @@ import { useStateContext } from "../../context";
 import Frame from "../../components/frame/frame";
 import { parseEther } from "../../contracts/utils/parseEther";
 
+
 const NFTDetail = ({ route }) => {
   const navigation = useNavigation();
   // const [textWidth, setTextWidth] = useState(0);
@@ -40,6 +44,12 @@ const NFTDetail = ({ route }) => {
   //   const { width } = event.nativeEvent.layout;
   //   setTextWidth(width); //Get the width of the text and update it to the state
   // };
+
+
+  const [selectedSkin, setSelectedSkin] = useState("blue");
+  const handleSkinChange = (skin) => {
+    setSelectedSkin(skin);
+  }
 
   const nft = route?.params.data?._j;
   const id = route?.params.id;
@@ -218,6 +228,8 @@ const NFTDetail = ({ route }) => {
           {" "}
           The Flappy Bird NFT #{(id as any)?.toString()}{" "}
         </Text>
+
+
         <View style={styles.containerPrice}>
           <Text style={styles.text} numberOfLines={1} ellipsizeMode="tail">
             {parseFloat((price as any)?.toString()) / 1e18}
@@ -234,9 +246,31 @@ const NFTDetail = ({ route }) => {
             />
             <Text style={styles.unitText}>FLP</Text>
           </View>
+
         </View>
+        {/* change skin dropdown */}
+        <View style={styles.container}>
+
+          <Dropdown
+
+            data={[
+              { label: "Blue Bird", value: "blue" },
+              { label: "Red Bird", value: "red" },
+              { label: "Yellow Bird", value: "yellow" },
+            ]}
+            onChange={(item) => handleSkinChange(item.value)}
+            labelField={"label"} 
+            valueField={"value"} 
+            placeholder={"Select Skin"}
+            />
+          <Text>Selected Color: {selectedSkin}</Text>
+
+        </View>
+
+
+
         {(amountApproved?.toString() as any as number) < nftPrice &&
-        parseEther(userFlpBalance?.toString()) > parseEther(nftPrice) ? (
+          parseEther(userFlpBalance?.toString()) > parseEther(nftPrice) ? (
           <View style={styles.approvecontainer}>
             <Image
               source={require("../../assets/icons/warning.png")}
@@ -277,6 +311,7 @@ const NFTDetail = ({ route }) => {
           </View>
         ) : null}
         {/* Button Place Bid Now */}
+
         <View style={styles.footer}>
           {parseEther(userFlpBalance?.toString()) > parseEther(nftPrice) ? (
             <TouchableOpacity
@@ -394,6 +429,18 @@ const styles = StyleSheet.create({
     justifyContent: "flex-start",
     height: 100,
   },
+  changeSkinButton: {
+    backgroundColor: "#203bc7",
+    padding: 9,
+    borderRadius: 8,
+    alignItems: "center",
+    marginTop: 1,
+  },
 });
 
 export default NFTDetail;
+
+function setSelectedSkin(skin: any) {
+  throw new Error("Function not implemented.");
+}
+
