@@ -17,12 +17,13 @@ const Bird = (props) => {
 
   const xBody = props.body.position.x - widthBody / 2;
   const yBody = props.body.position.y - heightBody / 2;
+  const skin = props.skin;
 
   const color = props.color;
 
 
   let birdImage;
-  switch (color) {
+  switch (skin) {
     case "blue":
       birdImage = BLUE_BIRD;
       break;
@@ -33,7 +34,7 @@ const Bird = (props) => {
       birdImage = YELLOW_BIRD;
       break;
     default:
-      birdImage = BLUE_BIRD;
+      birdImage = RED_BIRD;
       break;
   }
 
@@ -56,7 +57,7 @@ const Bird = (props) => {
 
 
 
-export default (world, color, pos, size) => {
+export default (world, color, pos, size, skin) => {
   const initialBird = Matter.Bodies.rectangle(
     pos.x,
     pos.y,
@@ -71,6 +72,7 @@ export default (world, color, pos, size) => {
     body: initialBird,
     color,
     pos,
+    skin,
     renderer: <Bird />,
   };
 };

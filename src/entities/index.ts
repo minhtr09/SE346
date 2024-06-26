@@ -11,6 +11,7 @@ const windowsWidth = Dimensions.get('window').width;
 const BOTTOM = 51
 
 export default () => {
+    const skin: any = "yellow";
     let engine = Matter.Engine.create({ enableSleeping: false })
 
     let world = engine.world
@@ -26,11 +27,10 @@ export default () => {
 // Set the y position of the floor to be the same as the bottom of the bottom obstacle
     const floorY = obstacleBottomY;
 
-    console.log(pipeSizePosA);
 
     return {
         physics: {engine, world},
-        Bird: Bird(world, 'green', {x: 120, y: 400}, {height: 40,  width: 40}),
+        Bird: Bird(world, 'green', {x: 120, y: 400}, {height: 40,  width: 40},skin),
 
         ObstacleTop1: Obstacle(world, 'ObstacleTop1', 'green', pipeSizePosA.pipeTop.pos, pipeSizePosA.pipeTop.size, true),
         ObstacleBottom1: Obstacle(world, 'ObstacleBottom1', 'green', pipeSizePosA.pipeBottom.pos, pipeSizePosA.pipeBottom.size, false),
