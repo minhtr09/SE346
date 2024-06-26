@@ -10,8 +10,7 @@ const windowsWidth = Dimensions.get('window').width;
 
 const BOTTOM = 51
 
-export default () => {
-    const skin: any = "yellow";
+export default (skin : string) => {
     let engine = Matter.Engine.create({ enableSleeping: false })
 
     let world = engine.world

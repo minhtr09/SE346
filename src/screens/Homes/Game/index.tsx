@@ -45,6 +45,7 @@ const Game = () => {
   const [scoreSaved, setScoreSaved] = useState(0);
   const { address } = useAccount();
   const gameEngineRef = useRef();
+  const skin = "yellow";
 
   const handleBackToStart = () => {
     setIsRunning(false);
@@ -122,7 +123,7 @@ const Game = () => {
         systems={[Physics]}
         running={running}
         ref={gameEngineRef}
-        entities={entities()}
+        entities={entities(skin)}
         onEvent={handleOnEvent}
         style={styles.engineContainer}
       />
