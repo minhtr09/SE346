@@ -28,6 +28,7 @@ import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
 import { changeBirdColor } from "../../../redux/action-creators/index";
 import { Action } from "../../../redux/actions/index";
+import { State } from "../../../redux";
 
 
 
@@ -52,8 +53,9 @@ const Game = () => {
   const [scoreSaved, setScoreSaved] = useState(0);
   const { address } = useAccount();
   const gameEngineRef = useRef();
-  const dispatch = useDispatch();
-  const skin = useSelector((state:Action) => state.changeBirdColor.birdColor);
+  const skin = useSelector((state:State) => state.changeBirdColor.birdColor);
+
+
 
 
   const handleBackToStart = () => {
