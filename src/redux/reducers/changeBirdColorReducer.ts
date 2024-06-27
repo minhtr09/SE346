@@ -8,7 +8,7 @@ const initialState = {
 };
 
 // Define the reducer function
-const changeSkinReducer = (state = initialState, action: Action) => {
+const changeBirdColorReducer = (state = initialState, action: Action) => {
     switch (action.type) {
         case ActionType.CHANGE_BIRD_COLOR:
             return {
@@ -20,4 +20,4 @@ const changeSkinReducer = (state = initialState, action: Action) => {
     }
 };
 
-export default changeSkinReducer;
+export default changeBirdColorReducer;

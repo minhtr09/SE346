@@ -24,6 +24,13 @@ import BottomMenu from "../../../components/BottomMenu/BottomMenu";
 import { addScoreToFirebase } from "../../../database/storeScore";
 import { useStateContext } from "../../../context";
 import { useAccount } from "wagmi";
+import { useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
+import { changeBirdColor } from "../../../redux/action-creators/index";
+import { Action } from "../../../redux/actions/index";
+
+
+
 
 const numberImages = {
   0: Zero,
@@ -45,7 +52,9 @@ const Game = () => {
   const [scoreSaved, setScoreSaved] = useState(0);
   const { address } = useAccount();
   const gameEngineRef = useRef();
-  const skin = "yellow";
+  const dispatch = useDispatch();
+  const skin = useSelector((state:Action) => state.changeBirdColor.birdColor);
+
 
   const handleBackToStart = () => {
     setIsRunning(false);

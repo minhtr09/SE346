@@ -48,6 +48,7 @@ import { NavigationProp, useNavigation } from "@react-navigation/native";
 import { HeaderBackButton } from "@react-navigation/elements";
 import Frame from "../../components/frame/frame";
 import { toGwei } from "../../contracts/utils/parseEther";
+import { changeBirdColor } from "../../redux/action-creators";
 
 const NFTDetailList = ({ route }) => {
   const navigation = useNavigation();
@@ -255,6 +256,17 @@ const NFTDetailList = ({ route }) => {
                         </View>
                       </View>
           ) : null}
+          {/* select skin button */}
+          <TouchableOpacity style={styles.button} 
+          onPress={
+            ()=>{
+             
+            }
+          }
+          >
+            <Text style={styles.buttonText}>Select Skin</Text>
+          </TouchableOpacity>
+          
 
           {/* Button to list now */}
           <View>
