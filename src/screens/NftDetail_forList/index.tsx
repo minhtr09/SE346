@@ -84,6 +84,13 @@ const NFTDetailList = ({ route }) => {
     dispatch
   );
   const state = useSelector((state: State) => state.approve);
+  //
+  const handleBirdColorChange = (color: string) => {
+    dispatch(changeBirdColor(color) as any);
+  }
+
+
+
 
   //contracts address, abi
   const marketPlaceAddress = getBirdMarketPlaceAddress();
@@ -258,11 +265,7 @@ const NFTDetailList = ({ route }) => {
           ) : null}
           {/* select skin button */}
           <TouchableOpacity style={styles.button} 
-          onPress={
-            ()=>{
-             
-            }
-          }
+          onPress={() => handleBirdColorChange("yellow")}
           >
             <Text style={styles.buttonText}>Select Skin</Text>
           </TouchableOpacity>

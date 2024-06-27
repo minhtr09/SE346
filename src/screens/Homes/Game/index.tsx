@@ -54,7 +54,7 @@ const Game = () => {
   const { address } = useAccount();
   const gameEngineRef = useRef();
   const skin = useSelector((state:State) => state.changeBirdColor.birdColor);
-
+  const dispatch = useDispatch();
 
 
 
