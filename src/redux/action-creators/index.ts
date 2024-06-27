@@ -46,4 +46,3 @@ export const changeBirdColor = (color : string) => {
     }
 }
 
-

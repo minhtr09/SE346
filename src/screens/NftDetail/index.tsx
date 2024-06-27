@@ -9,7 +9,6 @@ import {
 
 
 } from "react-native";
-import { Dropdown } from "react-native-element-dropdown";
 import { NftProps } from "../../type";
 import { useNavigation } from "@react-navigation/native";
 import { HeaderBackButton } from "@react-navigation/elements";
@@ -37,6 +36,7 @@ import Frame from "../../components/frame/frame";
 import { parseEther } from "../../contracts/utils/parseEther";
 
 
+
 const NFTDetail = ({ route }) => {
   const navigation = useNavigation();
   // const [textWidth, setTextWidth] = useState(0);
@@ -46,10 +46,7 @@ const NFTDetail = ({ route }) => {
   // };
 
 
-  const [selectedSkin, setSelectedSkin] = useState("blue");
-  const handleSkinChange = (skin) => {
-    setSelectedSkin(skin);
-  }
+
 
   const nft = route?.params.data?._j;
   const id = route?.params.id;
@@ -82,6 +79,8 @@ const NFTDetail = ({ route }) => {
     actionCreators,
     dispatch
   );
+
+
 
   const state = useSelector((state: State) => state.approve);
   //contracts address, abi
@@ -248,25 +247,6 @@ const NFTDetail = ({ route }) => {
           </View>
 
         </View>
-        {/* change skin dropdown */}
-        <View style={styles.container}>
-
-          <Dropdown
-
-            data={[
-              { label: "Blue Bird", value: "blue" },
-              { label: "Red Bird", value: "red" },
-              { label: "Yellow Bird", value: "yellow" },
-            ]}
-            onChange={(item) => handleSkinChange(item.value)}
-            labelField={"label"} 
-            valueField={"value"} 
-            placeholder={"Select Skin"}
-            />
-          <Text>Selected Color: {selectedSkin}</Text>
-
-        </View>
-
 
 
         {(amountApproved?.toString() as any as number) < nftPrice &&
