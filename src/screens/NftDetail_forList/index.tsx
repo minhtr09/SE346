@@ -49,6 +49,7 @@ import { HeaderBackButton } from "@react-navigation/elements";
 import Frame from "../../components/frame/frame";
 import { toGwei } from "../../contracts/utils/parseEther";
 import { changeBirdColor } from "../../redux/action-creators";
+import { Alert } from "react-native";
 
 const NFTDetailList = ({ route }) => {
   const navigation = useNavigation();
@@ -87,6 +88,16 @@ const NFTDetailList = ({ route }) => {
   //
   const handleBirdColorChange = (color: string) => {
     dispatch(changeBirdColor(color) as any);
+    Alert.alert(
+      "Bird Color Changed",
+      "Your bird color has been changed to " + color,
+      [
+        {
+          text: "OK",
+          onPress: () => console.log("OK Pressed"),
+        },
+      ]
+    )
   }
 
 
