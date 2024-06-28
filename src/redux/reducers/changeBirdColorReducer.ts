@@ -4,7 +4,7 @@ import { Action } from "../actions";
 
 // Define the initial state
 const initialState = {
-    birdColor: "blue",
+    birdColor: "default",
 };
 
 // Define the reducer function

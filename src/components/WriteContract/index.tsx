@@ -30,7 +30,6 @@ export function WriteContract() {
         try {
             write();
         } catch (error) {
-            console.log(error);
         }
     };
 

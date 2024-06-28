@@ -30,7 +30,6 @@ const Start = ({ handleOnStart }) => {
       await disconnect();
     }
     catch(e){
-      console.error(e);
     }
     setIsLoading(false);
   }
@@ -54,7 +53,7 @@ const Start = ({ handleOnStart }) => {
                 <Image source={PLAY} style={styles.playButton} />
               </TouchableOpacity>
               <Button text="Disconnect" onPress={handleDisconnect} />
-              <Button text="Store" onPress={() => navigation.navigate('Wrapper')} />
+              <Button text="Market Place" onPress={() => navigation.navigate('Wrapper')} />
             </>
           ) : (
             <Button text="Connect Wallet" onPress={handleConnect} />

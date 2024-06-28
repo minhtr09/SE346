@@ -6,6 +6,7 @@ import { styles } from "./styles";
 import BLUE_BIRD from "../../assets/images/bluebird-midflap.png";
 import RED_BIRD from "../../assets/images/redbird-midflap.png";
 import YELLOW_BIRD from "../../assets/images/yellowbird-midflap.png";
+import DEFAULT_BIRD from "../../assets/images/default-bird.png";
 
 const mapStateToProps = (state) =>({
   color: state.birdSkin.skin
@@ -34,7 +35,7 @@ const Bird = (props) => {
       birdImage = YELLOW_BIRD;
       break;
     default:
-      birdImage = RED_BIRD;
+      birdImage = DEFAULT_BIRD;
       break;
   }
 

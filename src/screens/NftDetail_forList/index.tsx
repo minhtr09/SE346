@@ -86,11 +86,16 @@ const NFTDetailList = ({ route }) => {
   );
   const state = useSelector((state: State) => state.approve);
   //
-  const handleBirdColorChange = (color: string) => {
+  const handleBirdColorChange = () => {
+    let color = "default";
+    if (isShowDefaultImageBlueBird) color = "blue";
+    if (isShowDefaultImageRedBird) color = "red";
+    if (isShowIPFSimage) color = "yellow";
+    
     dispatch(changeBirdColor(color) as any);
     Alert.alert(
       "Bird Color Changed",
-      "Your bird color has been changed to " + color,
+      "Your bird skin has been changed to this NFT",
       [
         {
           text: "OK",
@@ -276,7 +281,7 @@ const NFTDetailList = ({ route }) => {
           ) : null}
           {/* select skin button */}
           <TouchableOpacity style={styles.button} 
-          onPress={() => handleBirdColorChange("yellow")}
+          onPress={() => handleBirdColorChange()}
           >
             <Text style={styles.buttonText}>Select Skin</Text>
           </TouchableOpacity>

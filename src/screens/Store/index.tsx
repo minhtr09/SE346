@@ -73,6 +73,10 @@ const Store: React.FC = () => {
     watch: true,
   });
 
+  const { data: ronBalance } = useBalance({
+    address: address,
+    watch: true,
+  });
   
 
   const { data: userNftBalance } = useContractRead({
@@ -158,14 +162,32 @@ const Store: React.FC = () => {
                         flexDirection: "row",
                         alignItems: "center",
                     }}>
-                      <Text>FLP Balances </Text>
+                      <Text>Your FLP Balance </Text>
                         <Image
                             source={require('../../../src/assets/images/medal_gold.png')}
                             style={styles.iconCoin}
                         />
               <Text>
-              :{" "}
+              {" "}
               {parseFloat((userTokenBalance as any)?.toString()) / 1e18}
+            </Text>
+          </View>
+          </View>
+
+          
+          <View style={styles.card}>
+          <View style={{
+                        flexDirection: "row",
+                        alignItems: "center",
+                    }}>
+                      <Text>Your RON Balance </Text>
+                        <Image
+                            source={require('../../../src/assets/images/ronin_logo.png')}
+                            style={styles.iconCoin}
+                        />
+              <Text>
+              {" "}
+              {parseFloat((ronBalance?.value as any)?.toString()) / 1e18}
             </Text>
           </View>
           </View>
