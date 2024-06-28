@@ -32,6 +32,7 @@ import { State, actionCreators } from "../../redux";
 import { useSelector } from "react-redux";
 import BottomMenu from "../../components/BottomMenu/BottomMenu";
 import { NavigationProp, useNavigation } from "@react-navigation/native";
+import { HeaderBackButton } from "@react-navigation/elements";
 
 const Store: React.FC = () => {
   const {
@@ -148,6 +149,10 @@ const Store: React.FC = () => {
           <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
         }
       >
+      <View style={styles.header}>
+        <HeaderBackButton onPress={() => navigation.goBack()} />
+        <Text style= {styles.headerText}>Store</Text>
+      </View>
         <View style={styles.connectedView}>
           <View style={styles.card}>
           <View style={{
@@ -225,7 +230,6 @@ const Store: React.FC = () => {
           {/* refreshing ={} */}
         </View>
       </ScrollView>
-      <BottomMenu />
     </>
   );
 };

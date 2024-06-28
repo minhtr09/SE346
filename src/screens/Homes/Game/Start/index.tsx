@@ -54,7 +54,7 @@ const Start = ({ handleOnStart }) => {
                 <Image source={PLAY} style={styles.playButton} />
               </TouchableOpacity>
               <Button text="Disconnect" onPress={handleDisconnect} />
-              <Button text="Store" onPress={() => navigation.navigate('Store')} />
+              <Button text="Store" onPress={() => navigation.navigate('Wrapper')} />
             </>
           ) : (
             <Button text="Connect Wallet" onPress={handleConnect} />

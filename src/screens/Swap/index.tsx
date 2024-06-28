@@ -386,7 +386,6 @@ const Swap = () => {
         >
           <Text style={styles.buttonText}>{buttonText()}</Text>
         </TouchableOpacity>
-        <BottomMenu />
       </View>
     </TouchableWithoutFeedback>
   );

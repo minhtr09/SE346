@@ -3,21 +3,14 @@ import { View, Text, TouchableOpacity, Modal, StyleSheet, Image } from 'react-na
 import { NavigationProp, useNavigation } from "@react-navigation/native";
 import { styles } from './styles';
 
-const BottomMenu = () => {
+const BottomMenu: React.FC<{ onNavigate: (screen: string) => void }> = ({ onNavigate }) => {
   const navigation = useNavigation<NavigationProp<any>>();
-  const handleSwapPress = () => {
-    navigation.navigate('Swap');
-  }
-  const handleStorePress = () => {
-    navigation.navigate('Store');
-  }
-
   return (
     <View style={styles.container}>
-      <TouchableOpacity onPress={handleStorePress}>
+      <TouchableOpacity onPress={() => onNavigate("Store")}>
         <Image source={require('../../assets/icons/store.png')}  style = {styles.icon}></Image>
       </TouchableOpacity>
-      <TouchableOpacity onPress={handleSwapPress}>
+      <TouchableOpacity onPress={() => onNavigate("Swap")}>
         <Image source={require('../../assets/icons/swap.png')}  style = {styles.icon}></Image>
       </TouchableOpacity>
     </View>

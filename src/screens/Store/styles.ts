@@ -99,4 +99,17 @@ export const styles = StyleSheet.create({
     width: 24,
     height: 24,
   },
+  header: {
+    flexDirection: 'row',
+    backgroundColor: 'white',
+    paddingTop: 10,
+    paddingBottom: 10,
+    justifyContent: "flex-start"
+  },
+  headerText: {
+    paddingTop: 3,
+    paddingLeft: 5,
+    fontSize: 20,
+    fontWeight: 'bold',
+  },
 });

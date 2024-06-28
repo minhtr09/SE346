@@ -16,6 +16,7 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { Start } from "./src/screens/Homes/Game/Start";
 import { Text } from "react-native";
 import { View } from "react-native";
+import Wrapper from "./src/screens/WrapperStore";
 //import {getAddress} from "./src/utils/address";
 
 export default function App() {
@@ -50,6 +51,12 @@ export default function App() {
                 headerShown: false
               }} />
               <Stack.Screen name="Store" component={Store}/>
+
+              <Stack.Screen name="Wrapper" 
+              component={Wrapper} 
+              options={{ headerShown: false }} 
+              />
+              
               <Stack.Screen name = "NftDetailList" 
               component={NFTDetailList} 
               options={{headerShown: false}}
