@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-
 import {
   View,
   Text,
@@ -73,8 +72,6 @@ const Swap = () => {
     abi: floppyABI,
     functionName: "approve",
     args: [flpCrowdSaleAddress, Number(Number(coinAmount1) * 1e18)],
-    onError(err) {
-    },
   });
 
   const { config: buyRONconfig, isSuccess: isPrepareBuyRONSuccess } =
@@ -83,8 +80,6 @@ const Swap = () => {
       abi: flpCrowdSaleABI,
       functionName: "buyRONbyToken",
       args: [Number(Number(coinAmount1) * 1e15)],
-      onError(err) {
-      },
     });
 
   const { config: buyTokenConfig, isSuccess: isPrepareBuyTokenSuccess } =
@@ -93,8 +88,6 @@ const Swap = () => {
       abi: flpCrowdSaleABI,
       functionName: "buyTokenByRON",
       args: [],
-      onError(err) {
-      },
       value: BigInt(Number(coinAmount1)) * BigInt(1e18),
     });
 

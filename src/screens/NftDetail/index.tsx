@@ -192,7 +192,6 @@ const NFTDetail = ({ route }) => {
           }
         }
       } catch (error) {
-        console.error(error);
       }
     }
   };
