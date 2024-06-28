@@ -149,10 +149,9 @@ const Store: React.FC = () => {
           <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
         }
       >
-      <View style={styles.header}>
+      {/* <View style={styles.header}>
         <HeaderBackButton onPress={() => navigation.goBack()} />
-        <Text style= {styles.headerText}>Store</Text>
-      </View>
+      </View> */}
         <View style={styles.connectedView}>
           <View style={styles.card}>
           <View style={{

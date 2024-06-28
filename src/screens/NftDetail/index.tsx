@@ -370,7 +370,7 @@ const styles = StyleSheet.create({
     transform: [{ translateX: -50 }, { translateY: -50 }],
   },
   containerPrice: {
-    backgroundColor: "#D04848",
+    backgroundColor: "#528B8B",
     borderRadius: 10,
     paddingVertical: 8,
     padding: 12,
