@@ -157,7 +157,8 @@ const Store: React.FC = () => {
         <HeaderBackButton onPress={() => navigation.goBack()} />
       </View> */}
         <View style={styles.connectedView}>
-          <View style={styles.card}>
+          <Image style={styles.marketLogo} source={require('../../../src/assets/images/marketplace.png')} />
+          <View style={styles.card}> 
           <View style={{
                         flexDirection: "row",
                         alignItems: "center",

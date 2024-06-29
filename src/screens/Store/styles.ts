@@ -99,6 +99,13 @@ export const styles = StyleSheet.create({
     width: 24,
     height: 24,
   },
+  marketLogo :{
+    width: 100,
+    height: 100,
+    marginLeft: 150,
+    marginTop: 20,
+    marginBottom: 10, 
+  },
   header: {
     flexDirection: 'row',
     paddingTop: 15,

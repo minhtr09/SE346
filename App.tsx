@@ -4,7 +4,7 @@ import * as SplashScreen from "expo-splash-screen";
 import RootProvider from "./src/providers";
 import { NavigationContainer } from '@react-navigation/native';
 import { HeaderBackButton } from '@react-navigation/elements';
-
+import { LogBox } from 'react-native';
 import { Home } from "./src/screens/Homes";
 import { Store } from "./src/screens/Store";
 import Swap from "./src/screens/Swap";
@@ -20,6 +20,9 @@ import Wrapper from "./src/screens/WrapperStore";
 //import {getAddress} from "./src/utils/address";
 
 export default function App() {
+
+LogBox.ignoreLogs(['Warning: ...']);
+LogBox.ignoreAllLogs();
 
 
   const SplashScreenHide = useCallback(async () => {

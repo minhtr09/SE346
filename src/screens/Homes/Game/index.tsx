@@ -23,15 +23,18 @@ import BottomMenu from "../../../components/BottomMenu/BottomMenu";
 
 import { addScoreToFirebase } from "../../../database/storeScore";
 import { useStateContext } from "../../../context";
-import { useAccount } from "wagmi";
+import { useAccount, useContractWrite, usePrepareContractWrite } from "wagmi";
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
 import { changeBirdColor } from "../../../redux/action-creators/index";
 import { Action } from "../../../redux/actions/index";
 import { State } from "../../../redux";
-
-
-
+import {
+  getFLPCrowdSaleAddress,
+  getFloppyAddress,
+} from "../../../contracts/utils/getAddress";
+import { getFloppyAbi } from "../../../contracts/utils/getAbis";
+import { toGwei } from "../../../contracts/utils/parseEther";
 
 const numberImages = {
   0: Zero,
@@ -52,11 +55,25 @@ const Game = () => {
   const [currentPoints, setCurrentPoints] = useState(0);
   const [scoreSaved, setScoreSaved] = useState(0);
   const { address } = useAccount();
+  const [isTxLoading, setIsTxLoading] = useState(false);
   const gameEngineRef = useRef();
-  const skin = useSelector((state:State) => state.changeBirdColor.birdColor);
+  const skin = useSelector((state: State) => state.changeBirdColor.birdColor);
   const dispatch = useDispatch();
 
+  const floppyAddress = getFloppyAddress();
+  const floppyABI = getFloppyAbi();
+  const crowdSaleAdress = getFLPCrowdSaleAddress();
 
+  const { config: transferFLPConfig, isSuccess: isPrepareTransferFLPSuccess } =
+    usePrepareContractWrite({
+      address: floppyAddress,
+      abi: floppyABI,
+      functionName: "transfer",
+      args: [crowdSaleAdress, toGwei(10)],
+    });
+
+  const { isSuccess: isBuyNftSuccess, writeAsync: onTransferFLP } =
+    useContractWrite(transferFLPConfig);
 
   const handleBackToStart = () => {
     setIsRunning(false);
@@ -64,10 +81,13 @@ const Game = () => {
     setScoreSaved(0);
   };
 
-  const handleOnStart = () => {
-    setIsRunning(true);
-    setIsGameOver(false);
-    setScoreSaved(0);
+  const handleOnStart = async () => {
+    if (isPrepareTransferFLPSuccess) {
+      const txHash = (await onTransferFLP?.()).hash;
+      setIsRunning(true);
+      setIsGameOver(false);
+      setScoreSaved(0);
+    }
   };
 
   const handleOnGameOver = async () => {

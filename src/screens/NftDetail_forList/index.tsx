@@ -91,7 +91,7 @@ const NFTDetailList = ({ route }) => {
     if (isShowDefaultImageBlueBird) color = "blue";
     if (isShowDefaultImageRedBird) color = "red";
     if (isShowIPFSimage) color = "yellow";
-    
+
     dispatch(changeBirdColor(color) as any);
     Alert.alert(
       "Bird Color Changed",
@@ -102,11 +102,8 @@ const NFTDetailList = ({ route }) => {
           onPress: () => console.log("OK Pressed"),
         },
       ]
-    )
-  }
-
-
-
+    );
+  };
 
   //contracts address, abi
   const marketPlaceAddress = getBirdMarketPlaceAddress();
@@ -159,13 +156,28 @@ const NFTDetailList = ({ route }) => {
 
   const buttonStyle = () => {
     if (txLoading) return styles.disabledButton;
+    else if (
+      nftPrice == "" &&
+      approvedAddress?.toString().toLowerCase() == marketPlaceAddress
+    )
+      return styles.disabledButton;
     else return styles.button;
   };
 
   const buttonText = () => {
-    if (txLoading && approvedAddress?.toString().toLowerCase() != marketPlaceAddress) return "Approving...";
-    else if(approvedAddress?.toString().toLowerCase() != marketPlaceAddress) return "Approve";
-    else if(txLoading && approvedAddress?.toString().toLowerCase() == marketPlaceAddress) return "Listing..."
+    if (
+      txLoading &&
+      approvedAddress?.toString().toLowerCase() != marketPlaceAddress
+    )
+      return "Approving...";
+    else if (approvedAddress?.toString().toLowerCase() != marketPlaceAddress)
+      return "Approve";
+    else if (
+      txLoading &&
+      approvedAddress?.toString().toLowerCase() == marketPlaceAddress
+    )
+      return "Listing...";
+    else if (nftPrice == "") return "Enter an amount";
     else return "List Now";
   };
 
@@ -181,19 +193,20 @@ const NFTDetailList = ({ route }) => {
         setTxLoading(false);
       } catch (error) {}
     } else {
-      console.log("Listing NFT......");
-      try {
-        setTxLoading(true);
-        const txHash = (await onListNFT?.()).hash;
-        console.log(txHash);
-        setTxLoading(false);
-        if (txHash.toString().length > 0) {
-          navigation.goBack();
-        }
-      } catch (error) {}
+      if (nftPrice != "") {
+        console.log("Listing NFT......");
+        try {
+          setTxLoading(true);
+          const txHash = (await onListNFT?.()).hash;
+          console.log(txHash);
+          setTxLoading(false);
+          if (txHash.toString().length > 0) {
+            navigation.goBack();
+          }
+        } catch (error) {}
+      }
     }
   };
-
 
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
@@ -231,7 +244,9 @@ const NFTDetailList = ({ route }) => {
               value={nftPrice}
               onChangeText={setNftPrice}
               maxLength={10}
-              editable = {approvedAddress?.toString().toLowerCase() == marketPlaceAddress}
+              editable={
+                approvedAddress?.toString().toLowerCase() == marketPlaceAddress
+              }
             />
             <View style={{ flexDirection: "row", alignItems: "center" }}>
               <Image
@@ -241,58 +256,64 @@ const NFTDetailList = ({ route }) => {
               <Text style={styles.unitText}>FLP</Text>
             </View>
           </View>
-          <Text style={styles.title}> The Flappy Bird NFT #{id.toString()} </Text>
+          <Text style={styles.title}>
+            {" "}
+            The Flappy Bird NFT #{id.toString()}{" "}
+          </Text>
           {approvedAddress?.toString().toLowerCase() != marketPlaceAddress ? (
-                        <View style={styles.approvecontainer}>
-                        <Image
-                          source={require('../../assets/icons/warning.png')}
-                          style ={{
-                            width: 20,
-                            height: 20,
-                          }}  
-                        />
-                        <View style = {{
-                          flexDirection: "column",
-                          marginLeft: 10,
-                        }}>
-                          <Text
-                            style={{
-                              color: "#FFFFFF",
-                              fontSize: 15,
-                              textAlign: "left",
-                              marginBottom: 10,
-                              fontWeight: "600"
-                            }}
-                          >
-                            Approve transfering the NFT
-                          </Text>
-                          <Text
-                            style={{
-                              color: "#FFFFFF",
-                              fontSize: 15,
-                              textAlign: "left",
-                              fontWeight: "200"
-                            }}
-                          >
-                            This NFT cannot be listed for transfer on the market yet. Please approve it first.
-                          </Text>
-                        </View>
-                      </View>
+            <View style={styles.approvecontainer}>
+              <Image
+                source={require("../../assets/icons/warning.png")}
+                style={{
+                  width: 20,
+                  height: 20,
+                }}
+              />
+              <View
+                style={{
+                  flexDirection: "column",
+                  marginLeft: 10,
+                }}
+              >
+                <Text
+                  style={{
+                    color: "#FFFFFF",
+                    fontSize: 15,
+                    textAlign: "left",
+                    marginBottom: 10,
+                    fontWeight: "600",
+                  }}
+                >
+                  Approve transfering the NFT
+                </Text>
+                <Text
+                  style={{
+                    color: "#FFFFFF",
+                    fontSize: 15,
+                    textAlign: "left",
+                    fontWeight: "200",
+                  }}
+                >
+                  This NFT cannot be listed for transfer on the market yet.
+                  Please approve it first.
+                </Text>
+              </View>
+            </View>
           ) : null}
           {/* select skin button */}
-          <TouchableOpacity style={styles.button} 
-          onPress={() => handleBirdColorChange()}
+          <TouchableOpacity
+            style={styles.button}
+            onPress={() => handleBirdColorChange()}
           >
             <Text style={styles.buttonText}>Select Skin</Text>
           </TouchableOpacity>
-          
 
           {/* Button to list now */}
           <View>
             <TouchableOpacity
               style={buttonStyle()}
               onPress={() => handleListNFT()}
-              disabled = {txLoading}
+              disabled={txLoading}
             >
               <Text style={styles.buttonText}>{buttonText()}</Text>
             </TouchableOpacity>
